@@ -1,0 +1,1872 @@
+{
+  "products": [
+    {
+      "category_slug": "womens-shoes",
+      "name": "Platform Sneakers Neo",
+      "description": "สินค้ารุ่น Platform Sneakers Neo สำหรับ womens shoes ดีไซน์ทันสมัยและใช้งานได้จริง",
+      "price": 1007,
+      "compare_at_price": 1533,
+      "stock_quantity": 27,
+      "images": [
+        "https://placehold.co/600x600/db2777/ffffff?text=Womens+Shoes&v=0"
+      ],
+      "brand": "UrbanEdge",
+      "highlights": [
+        "โปรโมชั่นพิเศษ",
+        "พร้อมส่ง"
+      ],
+      "variants": [
+        {
+          "name": "Size",
+          "value": "40",
+          "price_override": 0,
+          "stock_quantity": 21,
+          "sku": "WOMENSSHOES-1-1",
+          "image_url": "https://placehold.co/600x600/db2777/ffffff?text=Womens+Shoes&v=0"
+        },
+        {
+          "name": "Size",
+          "value": "39",
+          "price_override": 119,
+          "stock_quantity": 6,
+          "sku": "WOMENSSHOES-1-2",
+          "image_url": "https://placehold.co/600x600/db2777/ffffff?text=Womens+Shoes&v=0"
+        }
+      ]
+    },
+    {
+      "category_slug": "mens-shoes",
+      "name": "Street Sneakers Pro",
+      "description": "สินค้ารุ่น Street Sneakers Pro สำหรับ mens shoes ดีไซน์ทันสมัยและใช้งานได้จริง",
+      "price": 1352,
+      "compare_at_price": 1505,
+      "stock_quantity": 67,
+      "images": [
+        "https://placehold.co/600x600/047857/ffffff?text=Mens+Shoes&v=1"
+      ],
+      "brand": "DailyWear",
+      "highlights": [
+        "พร้อมส่ง",
+        "เก็บเงินปลายทาง"
+      ],
+      "variants": [
+        {
+          "name": "Size",
+          "value": "40",
+          "price_override": 0,
+          "stock_quantity": 14,
+          "sku": "MENSSHOES-2-1",
+          "image_url": "https://placehold.co/600x600/047857/ffffff?text=Mens+Shoes&v=1"
+        },
+        {
+          "name": "Size",
+          "value": "41",
+          "price_override": 81,
+          "stock_quantity": 29,
+          "sku": "MENSSHOES-2-2",
+          "image_url": "https://placehold.co/600x600/047857/ffffff?text=Mens+Shoes&v=1"
+        },
+        {
+          "name": "Size",
+          "value": "44",
+          "price_override": 49,
+          "stock_quantity": 24,
+          "sku": "MENSSHOES-2-3",
+          "image_url": "https://placehold.co/600x600/047857/ffffff?text=Mens+Shoes&v=1"
+        }
+      ]
+    },
+    {
+      "category_slug": "womens-clothes",
+      "name": "Linen Blazer X",
+      "description": "สินค้ารุ่น Linen Blazer X สำหรับ womens clothes ดีไซน์ทันสมัยและใช้งานได้จริง",
+      "price": 3185,
+      "compare_at_price": 3472,
+      "stock_quantity": 19,
+      "images": [
+        "https://placehold.co/600x600/7c3aed/ffffff?text=Womens+Clothes&v=2"
+      ],
+      "brand": "ClassicWorks",
+      "highlights": [
+        "สินค้าร้อนแรง",
+        "โปรโมชั่นพิเศษ"
+      ],
+      "variants": [
+        {
+          "name": "Size",
+          "value": "L",
+          "price_override": 0,
+          "stock_quantity": 14,
+          "sku": "WOMENSCLOTHES-3-1",
+          "image_url": "https://placehold.co/600x600/7c3aed/ffffff?text=Womens+Clothes&v=2"
+        },
+        {
+          "name": "Size",
+          "value": "S",
+          "price_override": 31,
+          "stock_quantity": 5,
+          "sku": "WOMENSCLOTHES-3-2",
+          "image_url": "https://placehold.co/600x600/7c3aed/ffffff?text=Womens+Clothes&v=2"
+        }
+      ]
+    },
+    {
+      "category_slug": "watches-glasses",
+      "name": "Sport Watch Deluxe",
+      "description": "สินค้ารุ่น Sport Watch Deluxe สำหรับ watches glasses ดีไซน์ทันสมัยและใช้งานได้จริง",
+      "price": 3446,
+      "compare_at_price": 3814,
+      "stock_quantity": 19,
+      "images": [
+        "https://placehold.co/600x600/0f766e/ffffff?text=Watch+%26+Glasses&v=3"
+      ],
+      "brand": "PixelPlay",
+      "highlights": [
+        "โปรโมชั่นพิเศษ",
+        "สินค้าร้อนแรง"
+      ],
+      "variants": [
+        {
+          "name": "Color",
+          "value": "Black",
+          "price_override": 0,
+          "stock_quantity": 10,
+          "sku": "WATCHESGLASSES-4-1",
+          "image_url": "https://placehold.co/600x600/0f766e/ffffff?text=Watch+%26+Glasses&v=3"
+        },
+        {
+          "name": "Color",
+          "value": "Silver",
+          "price_override": 10,
+          "stock_quantity": 9,
+          "sku": "WATCHESGLASSES-4-2",
+          "image_url": "https://placehold.co/600x600/0f766e/ffffff?text=Watch+%26+Glasses&v=3"
+        }
+      ]
+    },
+    {
+      "category_slug": "gaming-consoles",
+      "name": "Retro Console Series",
+      "description": "สินค้ารุ่น Retro Console Series สำหรับ gaming consoles ดีไซน์ทันสมัยและใช้งานได้จริง",
+      "price": 1800,
+      "compare_at_price": 1902,
+      "stock_quantity": 61,
+      "images": [
+        "https://placehold.co/600x600/f59e0b/ffffff?text=Gaming&v=4"
+      ],
+      "brand": "FutureGear",
+      "highlights": [
+        "ส่งฟรี",
+        "พร้อมส่ง"
+      ],
+      "variants": [
+        {
+          "name": "Edition",
+          "value": "Collector",
+          "price_override": 0,
+          "stock_quantity": 24,
+          "sku": "GAMINGCONSOLES-5-1",
+          "image_url": "https://placehold.co/600x600/f59e0b/ffffff?text=Gaming&v=4"
+        },
+        {
+          "name": "Edition",
+          "value": "Limited",
+          "price_override": 139,
+          "stock_quantity": 23,
+          "sku": "GAMINGCONSOLES-5-2",
+          "image_url": "https://placehold.co/600x600/f59e0b/ffffff?text=Gaming&v=4"
+        },
+        {
+          "name": "Edition",
+          "value": "Standard",
+          "price_override": 97,
+          "stock_quantity": 14,
+          "sku": "GAMINGCONSOLES-5-3",
+          "image_url": "https://placehold.co/600x600/f59e0b/ffffff?text=Gaming&v=4"
+        }
+      ]
+    },
+    {
+      "category_slug": "womens-shoes",
+      "name": "Strappy Sandals Edition",
+      "description": "สินค้ารุ่น Strappy Sandals Edition สำหรับ womens shoes ดีไซน์ทันสมัยและใช้งานได้จริง",
+      "price": 3413,
+      "compare_at_price": 3583,
+      "stock_quantity": 39,
+      "images": [
+        "https://placehold.co/600x600/db2777/ffffff?text=Womens+Shoes&v=5"
+      ],
+      "brand": "PixelPlay",
+      "highlights": [
+        "เก็บเงินปลายทาง",
+        "พร้อมส่ง"
+      ],
+      "variants": [
+        {
+          "name": "Size",
+          "value": "41",
+          "price_override": 0,
+          "stock_quantity": 34,
+          "sku": "WOMENSSHOES-6-1",
+          "image_url": "https://placehold.co/600x600/db2777/ffffff?text=Womens+Shoes&v=5"
+        },
+        {
+          "name": "Size",
+          "value": "41",
+          "price_override": 9,
+          "stock_quantity": 5,
+          "sku": "WOMENSSHOES-6-2",
+          "image_url": "https://placehold.co/600x600/db2777/ffffff?text=Womens+Shoes&v=5"
+        }
+      ]
+    },
+    {
+      "category_slug": "womens-clothes",
+      "name": "Wrap Top Neo",
+      "description": "สินค้ารุ่น Wrap Top Neo สำหรับ womens clothes ดีไซน์ทันสมัยและใช้งานได้จริง",
+      "price": 4030,
+      "compare_at_price": 4225,
+      "stock_quantity": 47,
+      "images": [
+        "https://placehold.co/600x600/7c3aed/ffffff?text=Womens+Clothes&v=6"
+      ],
+      "brand": "DailyWear",
+      "highlights": [
+        "ของแท้",
+        "พร้อมส่ง"
+      ],
+      "variants": [
+        {
+          "name": "Size",
+          "value": "L",
+          "price_override": 0,
+          "stock_quantity": 27,
+          "sku": "WOMENSCLOTHES-7-1",
+          "image_url": "https://placehold.co/600x600/7c3aed/ffffff?text=Womens+Clothes&v=6"
+        },
+        {
+          "name": "Size",
+          "value": "XS",
+          "price_override": 130,
+          "stock_quantity": 20,
+          "sku": "WOMENSCLOTHES-7-2",
+          "image_url": "https://placehold.co/600x600/7c3aed/ffffff?text=Womens+Clothes&v=6"
+        }
+      ]
+    },
+    {
+      "category_slug": "womens-clothes",
+      "name": "Silk Blouse Pro",
+      "description": "สินค้ารุ่น Silk Blouse Pro สำหรับ womens clothes ดีไซน์ทันสมัยและใช้งานได้จริง",
+      "price": 2148,
+      "compare_at_price": 2600,
+      "stock_quantity": 26,
+      "images": [
+        "https://placehold.co/600x600/7c3aed/ffffff?text=Womens+Clothes&v=7"
+      ],
+      "brand": "FutureGear",
+      "highlights": [
+        "โปรโมชั่นพิเศษ",
+        "โปรโมชั่นพิเศษ"
+      ],
+      "variants": [
+        {
+          "name": "Size",
+          "value": "S",
+          "price_override": 0,
+          "stock_quantity": 8,
+          "sku": "WOMENSCLOTHES-8-1",
+          "image_url": "https://placehold.co/600x600/7c3aed/ffffff?text=Womens+Clothes&v=7"
+        },
+        {
+          "name": "Size",
+          "value": "S",
+          "price_override": 112,
+          "stock_quantity": 18,
+          "sku": "WOMENSCLOTHES-8-2",
+          "image_url": "https://placehold.co/600x600/7c3aed/ffffff?text=Womens+Clothes&v=7"
+        }
+      ]
+    },
+    {
+      "category_slug": "womens-shoes",
+      "name": "Ankle Boots X",
+      "description": "สินค้ารุ่น Ankle Boots X สำหรับ womens shoes ดีไซน์ทันสมัยและใช้งานได้จริง",
+      "price": 2492,
+      "compare_at_price": 2946,
+      "stock_quantity": 29,
+      "images": [
+        "https://placehold.co/600x600/db2777/ffffff?text=Womens+Shoes&v=8"
+      ],
+      "brand": "PixelPlay",
+      "highlights": [
+        "พร้อมส่ง",
+        "พร้อมส่ง"
+      ],
+      "variants": [
+        {
+          "name": "Size",
+          "value": "36",
+          "price_override": 0,
+          "stock_quantity": 16,
+          "sku": "WOMENSSHOES-9-1",
+          "image_url": "https://placehold.co/600x600/db2777/ffffff?text=Womens+Shoes&v=8"
+        },
+        {
+          "name": "Size",
+          "value": "39",
+          "price_override": 1,
+          "stock_quantity": 13,
+          "sku": "WOMENSSHOES-9-2",
+          "image_url": "https://placehold.co/600x600/db2777/ffffff?text=Womens+Shoes&v=8"
+        }
+      ]
+    },
+    {
+      "category_slug": "mens-shoes",
+      "name": "Chunky Sneakers Deluxe",
+      "description": "สินค้ารุ่น Chunky Sneakers Deluxe สำหรับ mens shoes ดีไซน์ทันสมัยและใช้งานได้จริง",
+      "price": 1310,
+      "compare_at_price": 1673,
+      "stock_quantity": 19,
+      "images": [
+        "https://placehold.co/600x600/047857/ffffff?text=Mens+Shoes&v=9"
+      ],
+      "brand": "UrbanEdge",
+      "highlights": [
+        "เก็บเงินปลายทาง",
+        "สินค้าร้อนแรง"
+      ],
+      "variants": [
+        {
+          "name": "Size",
+          "value": "41",
+          "price_override": 0,
+          "stock_quantity": 11,
+          "sku": "MENSSHOES-10-1",
+          "image_url": "https://placehold.co/600x600/047857/ffffff?text=Mens+Shoes&v=9"
+        },
+        {
+          "name": "Size",
+          "value": "42",
+          "price_override": 33,
+          "stock_quantity": 8,
+          "sku": "MENSSHOES-10-2",
+          "image_url": "https://placehold.co/600x600/047857/ffffff?text=Mens+Shoes&v=9"
+        }
+      ]
+    },
+    {
+      "category_slug": "gaming-consoles",
+      "name": "Arcade Stick Series",
+      "description": "สินค้ารุ่น Arcade Stick Series สำหรับ gaming consoles ดีไซน์ทันสมัยและใช้งานได้จริง",
+      "price": 2404,
+      "compare_at_price": 2769,
+      "stock_quantity": 68,
+      "images": [
+        "https://placehold.co/600x600/f59e0b/ffffff?text=Gaming&v=10"
+      ],
+      "brand": "PixelPlay",
+      "highlights": [
+        "พร้อมส่ง",
+        "พร้อมส่ง"
+      ],
+      "variants": [
+        {
+          "name": "Edition",
+          "value": "Collector",
+          "price_override": 0,
+          "stock_quantity": 27,
+          "sku": "GAMINGCONSOLES-11-1",
+          "image_url": "https://placehold.co/600x600/f59e0b/ffffff?text=Gaming&v=10"
+        },
+        {
+          "name": "Edition",
+          "value": "Standard",
+          "price_override": 23,
+          "stock_quantity": 18,
+          "sku": "GAMINGCONSOLES-11-2",
+          "image_url": "https://placehold.co/600x600/f59e0b/ffffff?text=Gaming&v=10"
+        },
+        {
+          "name": "Edition",
+          "value": "Limited",
+          "price_override": 82,
+          "stock_quantity": 23,
+          "sku": "GAMINGCONSOLES-11-3",
+          "image_url": "https://placehold.co/600x600/f59e0b/ffffff?text=Gaming&v=10"
+        }
+      ]
+    },
+    {
+      "category_slug": "bags",
+      "name": "Mini Backpack Edition",
+      "description": "สินค้ารุ่น Mini Backpack Edition สำหรับ bags ดีไซน์ทันสมัยและใช้งานได้จริง",
+      "price": 3190,
+      "compare_at_price": 3564,
+      "stock_quantity": 79,
+      "images": [
+        "https://placehold.co/600x600/1d4ed8/ffffff?text=Bags&v=11"
+      ],
+      "brand": "MetroPrime",
+      "highlights": [
+        "เก็บเงินปลายทาง",
+        "ของแท้"
+      ],
+      "variants": [
+        {
+          "name": "Color",
+          "value": "Navy",
+          "price_override": 0,
+          "stock_quantity": 20,
+          "sku": "BAGS-12-1",
+          "image_url": "https://placehold.co/600x600/1d4ed8/ffffff?text=Bags&v=11"
+        },
+        {
+          "name": "Color",
+          "value": "Brown",
+          "price_override": 80,
+          "stock_quantity": 27,
+          "sku": "BAGS-12-2",
+          "image_url": "https://placehold.co/600x600/1d4ed8/ffffff?text=Bags&v=11"
+        },
+        {
+          "name": "Color",
+          "value": "Beige",
+          "price_override": 144,
+          "stock_quantity": 32,
+          "sku": "BAGS-12-3",
+          "image_url": "https://placehold.co/600x600/1d4ed8/ffffff?text=Bags&v=11"
+        }
+      ]
+    },
+    {
+      "category_slug": "gaming-consoles",
+      "name": "Arcade Stick Neo",
+      "description": "สินค้ารุ่น Arcade Stick Neo สำหรับ gaming consoles ดีไซน์ทันสมัยและใช้งานได้จริง",
+      "price": 4787,
+      "compare_at_price": 5129,
+      "stock_quantity": 28,
+      "images": [
+        "https://placehold.co/600x600/f59e0b/ffffff?text=Gaming&v=12"
+      ],
+      "brand": "StudioLine",
+      "highlights": [
+        "ส่งฟรี",
+        "พร้อมส่ง"
+      ],
+      "variants": [
+        {
+          "name": "Edition",
+          "value": "Limited",
+          "price_override": 0,
+          "stock_quantity": 19,
+          "sku": "GAMINGCONSOLES-13-1",
+          "image_url": "https://placehold.co/600x600/f59e0b/ffffff?text=Gaming&v=12"
+        },
+        {
+          "name": "Edition",
+          "value": "Collector",
+          "price_override": 64,
+          "stock_quantity": 9,
+          "sku": "GAMINGCONSOLES-13-2",
+          "image_url": "https://placehold.co/600x600/f59e0b/ffffff?text=Gaming&v=12"
+        }
+      ]
+    },
+    {
+      "category_slug": "mens-shoes",
+      "name": "Casual Slip-Ons Pro",
+      "description": "สินค้ารุ่น Casual Slip-Ons Pro สำหรับ mens shoes ดีไซน์ทันสมัยและใช้งานได้จริง",
+      "price": 2811,
+      "compare_at_price": 3379,
+      "stock_quantity": 68,
+      "images": [
+        "https://placehold.co/600x600/047857/ffffff?text=Mens+Shoes&v=13"
+      ],
+      "brand": "DailyWear",
+      "highlights": [
+        "สินค้าร้อนแรง",
+        "โปรโมชั่นพิเศษ"
+      ],
+      "variants": [
+        {
+          "name": "Size",
+          "value": "43",
+          "price_override": 0,
+          "stock_quantity": 34,
+          "sku": "MENSSHOES-14-1",
+          "image_url": "https://placehold.co/600x600/047857/ffffff?text=Mens+Shoes&v=13"
+        },
+        {
+          "name": "Size",
+          "value": "44",
+          "price_override": 21,
+          "stock_quantity": 34,
+          "sku": "MENSSHOES-14-2",
+          "image_url": "https://placehold.co/600x600/047857/ffffff?text=Mens+Shoes&v=13"
+        }
+      ]
+    },
+    {
+      "category_slug": "womens-shoes",
+      "name": "Wedge Heels X",
+      "description": "สินค้ารุ่น Wedge Heels X สำหรับ womens shoes ดีไซน์ทันสมัยและใช้งานได้จริง",
+      "price": 3545,
+      "compare_at_price": 3783,
+      "stock_quantity": 36,
+      "images": [
+        "https://placehold.co/600x600/db2777/ffffff?text=Womens+Shoes&v=14"
+      ],
+      "brand": "StudioLine",
+      "highlights": [
+        "ของแท้",
+        "ส่งฟรี"
+      ],
+      "variants": [
+        {
+          "name": "Size",
+          "value": "37",
+          "price_override": 0,
+          "stock_quantity": 20,
+          "sku": "WOMENSSHOES-15-1",
+          "image_url": "https://placehold.co/600x600/db2777/ffffff?text=Womens+Shoes&v=14"
+        },
+        {
+          "name": "Size",
+          "value": "37",
+          "price_override": 20,
+          "stock_quantity": 16,
+          "sku": "WOMENSSHOES-15-2",
+          "image_url": "https://placehold.co/600x600/db2777/ffffff?text=Womens+Shoes&v=14"
+        }
+      ]
+    },
+    {
+      "category_slug": "mens-clothes",
+      "name": "Utility Shirt Deluxe",
+      "description": "สินค้ารุ่น Utility Shirt Deluxe สำหรับ mens clothes ดีไซน์ทันสมัยและใช้งานได้จริง",
+      "price": 3048,
+      "compare_at_price": 3249,
+      "stock_quantity": 52,
+      "images": [
+        "https://placehold.co/600x600/111827/ffffff?text=Mens+Clothes&v=15"
+      ],
+      "brand": "FutureGear",
+      "highlights": [
+        "สินค้าร้อนแรง",
+        "ส่งฟรี"
+      ],
+      "variants": [
+        {
+          "name": "Size",
+          "value": "S",
+          "price_override": 0,
+          "stock_quantity": 26,
+          "sku": "MENSCLOTHES-16-1",
+          "image_url": "https://placehold.co/600x600/111827/ffffff?text=Mens+Clothes&v=15"
+        },
+        {
+          "name": "Size",
+          "value": "XL",
+          "price_override": 60,
+          "stock_quantity": 26,
+          "sku": "MENSCLOTHES-16-2",
+          "image_url": "https://placehold.co/600x600/111827/ffffff?text=Mens+Clothes&v=15"
+        }
+      ]
+    },
+    {
+      "category_slug": "mens-clothes",
+      "name": "Denim Jacket Series",
+      "description": "สินค้ารุ่น Denim Jacket Series สำหรับ mens clothes ดีไซน์ทันสมัยและใช้งานได้จริง",
+      "price": 2197,
+      "compare_at_price": 2581,
+      "stock_quantity": 66,
+      "images": [
+        "https://placehold.co/600x600/111827/ffffff?text=Mens+Clothes&v=16"
+      ],
+      "brand": "DailyWear",
+      "highlights": [
+        "ของแท้",
+        "เก็บเงินปลายทาง"
+      ],
+      "variants": [
+        {
+          "name": "Size",
+          "value": "XXL",
+          "price_override": 0,
+          "stock_quantity": 16,
+          "sku": "MENSCLOTHES-17-1",
+          "image_url": "https://placehold.co/600x600/111827/ffffff?text=Mens+Clothes&v=16"
+        },
+        {
+          "name": "Size",
+          "value": "L",
+          "price_override": 21,
+          "stock_quantity": 19,
+          "sku": "MENSCLOTHES-17-2",
+          "image_url": "https://placehold.co/600x600/111827/ffffff?text=Mens+Clothes&v=16"
+        },
+        {
+          "name": "Size",
+          "value": "XXL",
+          "price_override": 29,
+          "stock_quantity": 31,
+          "sku": "MENSCLOTHES-17-3",
+          "image_url": "https://placehold.co/600x600/111827/ffffff?text=Mens+Clothes&v=16"
+        }
+      ]
+    },
+    {
+      "category_slug": "gaming-consoles",
+      "name": "Arcade Stick Edition",
+      "description": "สินค้ารุ่น Arcade Stick Edition สำหรับ gaming consoles ดีไซน์ทันสมัยและใช้งานได้จริง",
+      "price": 1801,
+      "compare_at_price": 2130,
+      "stock_quantity": 58,
+      "images": [
+        "https://placehold.co/600x600/f59e0b/ffffff?text=Gaming&v=17"
+      ],
+      "brand": "PixelPlay",
+      "highlights": [
+        "ส่งฟรี",
+        "โปรโมชั่นพิเศษ"
+      ],
+      "variants": [
+        {
+          "name": "Edition",
+          "value": "Collector",
+          "price_override": 0,
+          "stock_quantity": 23,
+          "sku": "GAMINGCONSOLES-18-1",
+          "image_url": "https://placehold.co/600x600/f59e0b/ffffff?text=Gaming&v=17"
+        },
+        {
+          "name": "Edition",
+          "value": "Collector",
+          "price_override": 71,
+          "stock_quantity": 35,
+          "sku": "GAMINGCONSOLES-18-2",
+          "image_url": "https://placehold.co/600x600/f59e0b/ffffff?text=Gaming&v=17"
+        }
+      ]
+    },
+    {
+      "category_slug": "watches-glasses",
+      "name": "Sport Watch Neo",
+      "description": "สินค้ารุ่น Sport Watch Neo สำหรับ watches glasses ดีไซน์ทันสมัยและใช้งานได้จริง",
+      "price": 4891,
+      "compare_at_price": 5325,
+      "stock_quantity": 64,
+      "images": [
+        "https://placehold.co/600x600/0f766e/ffffff?text=Watch+%26+Glasses&v=18"
+      ],
+      "brand": "StudioLine",
+      "highlights": [
+        "ของแท้",
+        "เก็บเงินปลายทาง"
+      ],
+      "variants": [
+        {
+          "name": "Color",
+          "value": "Black",
+          "price_override": 0,
+          "stock_quantity": 34,
+          "sku": "WATCHESGLASSES-19-1",
+          "image_url": "https://placehold.co/600x600/0f766e/ffffff?text=Watch+%26+Glasses&v=18"
+        },
+        {
+          "name": "Color",
+          "value": "Rose Gold",
+          "price_override": 22,
+          "stock_quantity": 30,
+          "sku": "WATCHESGLASSES-19-2",
+          "image_url": "https://placehold.co/600x600/0f766e/ffffff?text=Watch+%26+Glasses&v=18"
+        }
+      ]
+    },
+    {
+      "category_slug": "womens-clothes",
+      "name": "Wrap Top Pro",
+      "description": "สินค้ารุ่น Wrap Top Pro สำหรับ womens clothes ดีไซน์ทันสมัยและใช้งานได้จริง",
+      "price": 1943,
+      "compare_at_price": 2129,
+      "stock_quantity": 59,
+      "images": [
+        "https://placehold.co/600x600/7c3aed/ffffff?text=Womens+Clothes&v=19"
+      ],
+      "brand": "StudioLine",
+      "highlights": [
+        "สินค้าร้อนแรง",
+        "โปรโมชั่นพิเศษ"
+      ],
+      "variants": [
+        {
+          "name": "Size",
+          "value": "L",
+          "price_override": 0,
+          "stock_quantity": 7,
+          "sku": "WOMENSCLOTHES-20-1",
+          "image_url": "https://placehold.co/600x600/7c3aed/ffffff?text=Womens+Clothes&v=19"
+        },
+        {
+          "name": "Size",
+          "value": "XS",
+          "price_override": 131,
+          "stock_quantity": 27,
+          "sku": "WOMENSCLOTHES-20-2",
+          "image_url": "https://placehold.co/600x600/7c3aed/ffffff?text=Womens+Clothes&v=19"
+        },
+        {
+          "name": "Size",
+          "value": "M",
+          "price_override": 138,
+          "stock_quantity": 25,
+          "sku": "WOMENSCLOTHES-20-3",
+          "image_url": "https://placehold.co/600x600/7c3aed/ffffff?text=Womens+Clothes&v=19"
+        }
+      ]
+    },
+    {
+      "category_slug": "mens-clothes",
+      "name": "Utility Shirt X",
+      "description": "สินค้ารุ่น Utility Shirt X สำหรับ mens clothes ดีไซน์ทันสมัยและใช้งานได้จริง",
+      "price": 3347,
+      "compare_at_price": 3701,
+      "stock_quantity": 63,
+      "images": [
+        "https://placehold.co/600x600/111827/ffffff?text=Mens+Clothes&v=20"
+      ],
+      "brand": "PixelPlay",
+      "highlights": [
+        "ส่งฟรี",
+        "สินค้าร้อนแรง"
+      ],
+      "variants": [
+        {
+          "name": "Size",
+          "value": "S",
+          "price_override": 0,
+          "stock_quantity": 28,
+          "sku": "MENSCLOTHES-21-1",
+          "image_url": "https://placehold.co/600x600/111827/ffffff?text=Mens+Clothes&v=20"
+        },
+        {
+          "name": "Size",
+          "value": "L",
+          "price_override": 121,
+          "stock_quantity": 16,
+          "sku": "MENSCLOTHES-21-2",
+          "image_url": "https://placehold.co/600x600/111827/ffffff?text=Mens+Clothes&v=20"
+        },
+        {
+          "name": "Size",
+          "value": "S",
+          "price_override": 37,
+          "stock_quantity": 19,
+          "sku": "MENSCLOTHES-21-3",
+          "image_url": "https://placehold.co/600x600/111827/ffffff?text=Mens+Clothes&v=20"
+        }
+      ]
+    },
+    {
+      "category_slug": "gaming-consoles",
+      "name": "Limited Edition Console Deluxe",
+      "description": "สินค้ารุ่น Limited Edition Console Deluxe สำหรับ gaming consoles ดีไซน์ทันสมัยและใช้งานได้จริง",
+      "price": 4297,
+      "compare_at_price": 4682,
+      "stock_quantity": 55,
+      "images": [
+        "https://placehold.co/600x600/f59e0b/ffffff?text=Gaming&v=21"
+      ],
+      "brand": "ClassicWorks",
+      "highlights": [
+        "พร้อมส่ง",
+        "เก็บเงินปลายทาง"
+      ],
+      "variants": [
+        {
+          "name": "Edition",
+          "value": "Limited",
+          "price_override": 0,
+          "stock_quantity": 7,
+          "sku": "GAMINGCONSOLES-22-1",
+          "image_url": "https://placehold.co/600x600/f59e0b/ffffff?text=Gaming&v=21"
+        },
+        {
+          "name": "Edition",
+          "value": "Collector",
+          "price_override": 12,
+          "stock_quantity": 33,
+          "sku": "GAMINGCONSOLES-22-2",
+          "image_url": "https://placehold.co/600x600/f59e0b/ffffff?text=Gaming&v=21"
+        },
+        {
+          "name": "Edition",
+          "value": "Collector",
+          "price_override": 87,
+          "stock_quantity": 15,
+          "sku": "GAMINGCONSOLES-22-3",
+          "image_url": "https://placehold.co/600x600/f59e0b/ffffff?text=Gaming&v=21"
+        }
+      ]
+    },
+    {
+      "category_slug": "gaming-consoles",
+      "name": "Wireless Controller Series",
+      "description": "สินค้ารุ่น Wireless Controller Series สำหรับ gaming consoles ดีไซน์ทันสมัยและใช้งานได้จริง",
+      "price": 1036,
+      "compare_at_price": 1505,
+      "stock_quantity": 38,
+      "images": [
+        "https://placehold.co/600x600/f59e0b/ffffff?text=Gaming&v=22"
+      ],
+      "brand": "DailyWear",
+      "highlights": [
+        "ของแท้",
+        "ส่งฟรี"
+      ],
+      "variants": [
+        {
+          "name": "Edition",
+          "value": "Standard",
+          "price_override": 0,
+          "stock_quantity": 13,
+          "sku": "GAMINGCONSOLES-23-1",
+          "image_url": "https://placehold.co/600x600/f59e0b/ffffff?text=Gaming&v=22"
+        },
+        {
+          "name": "Edition",
+          "value": "Limited",
+          "price_override": 76,
+          "stock_quantity": 25,
+          "sku": "GAMINGCONSOLES-23-2",
+          "image_url": "https://placehold.co/600x600/f59e0b/ffffff?text=Gaming&v=22"
+        }
+      ]
+    },
+    {
+      "category_slug": "gaming-consoles",
+      "name": "Handheld Gamepad Edition",
+      "description": "สินค้ารุ่น Handheld Gamepad Edition สำหรับ gaming consoles ดีไซน์ทันสมัยและใช้งานได้จริง",
+      "price": 4428,
+      "compare_at_price": 4949,
+      "stock_quantity": 59,
+      "images": [
+        "https://placehold.co/600x600/f59e0b/ffffff?text=Gaming&v=23"
+      ],
+      "brand": "ClassicWorks",
+      "highlights": [
+        "โปรโมชั่นพิเศษ",
+        "เก็บเงินปลายทาง"
+      ],
+      "variants": [
+        {
+          "name": "Edition",
+          "value": "Limited",
+          "price_override": 0,
+          "stock_quantity": 31,
+          "sku": "GAMINGCONSOLES-24-1",
+          "image_url": "https://placehold.co/600x600/f59e0b/ffffff?text=Gaming&v=23"
+        },
+        {
+          "name": "Edition",
+          "value": "Standard",
+          "price_override": 31,
+          "stock_quantity": 12,
+          "sku": "GAMINGCONSOLES-24-2",
+          "image_url": "https://placehold.co/600x600/f59e0b/ffffff?text=Gaming&v=23"
+        },
+        {
+          "name": "Edition",
+          "value": "Limited",
+          "price_override": 102,
+          "stock_quantity": 16,
+          "sku": "GAMINGCONSOLES-24-3",
+          "image_url": "https://placehold.co/600x600/f59e0b/ffffff?text=Gaming&v=23"
+        }
+      ]
+    },
+    {
+      "category_slug": "bags",
+      "name": "Crossbody Bag Neo",
+      "description": "สินค้ารุ่น Crossbody Bag Neo สำหรับ bags ดีไซน์ทันสมัยและใช้งานได้จริง",
+      "price": 2792,
+      "compare_at_price": 2958,
+      "stock_quantity": 64,
+      "images": [
+        "https://placehold.co/600x600/1d4ed8/ffffff?text=Bags&v=24"
+      ],
+      "brand": "ClassicWorks",
+      "highlights": [
+        "พร้อมส่ง",
+        "โปรโมชั่นพิเศษ"
+      ],
+      "variants": [
+        {
+          "name": "Color",
+          "value": "Black",
+          "price_override": 0,
+          "stock_quantity": 9,
+          "sku": "BAGS-25-1",
+          "image_url": "https://placehold.co/600x600/1d4ed8/ffffff?text=Bags&v=24"
+        },
+        {
+          "name": "Color",
+          "value": "Navy",
+          "price_override": 21,
+          "stock_quantity": 33,
+          "sku": "BAGS-25-2",
+          "image_url": "https://placehold.co/600x600/1d4ed8/ffffff?text=Bags&v=24"
+        },
+        {
+          "name": "Color",
+          "value": "Black",
+          "price_override": 121,
+          "stock_quantity": 22,
+          "sku": "BAGS-25-3",
+          "image_url": "https://placehold.co/600x600/1d4ed8/ffffff?text=Bags&v=24"
+        }
+      ]
+    },
+    {
+      "category_slug": "womens-shoes",
+      "name": "Strappy Sandals Pro",
+      "description": "สินค้ารุ่น Strappy Sandals Pro สำหรับ womens shoes ดีไซน์ทันสมัยและใช้งานได้จริง",
+      "price": 1417,
+      "compare_at_price": 1726,
+      "stock_quantity": 32,
+      "images": [
+        "https://placehold.co/600x600/db2777/ffffff?text=Womens+Shoes&v=25"
+      ],
+      "brand": "MetroPrime",
+      "highlights": [
+        "พร้อมส่ง",
+        "พร้อมส่ง"
+      ],
+      "variants": [
+        {
+          "name": "Size",
+          "value": "37",
+          "price_override": 0,
+          "stock_quantity": 21,
+          "sku": "WOMENSSHOES-26-1",
+          "image_url": "https://placehold.co/600x600/db2777/ffffff?text=Womens+Shoes&v=25"
+        },
+        {
+          "name": "Size",
+          "value": "41",
+          "price_override": 16,
+          "stock_quantity": 11,
+          "sku": "WOMENSSHOES-26-2",
+          "image_url": "https://placehold.co/600x600/db2777/ffffff?text=Womens+Shoes&v=25"
+        }
+      ]
+    },
+    {
+      "category_slug": "gaming-consoles",
+      "name": "Wireless Controller X",
+      "description": "สินค้ารุ่น Wireless Controller X สำหรับ gaming consoles ดีไซน์ทันสมัยและใช้งานได้จริง",
+      "price": 624,
+      "compare_at_price": 1206,
+      "stock_quantity": 68,
+      "images": [
+        "https://placehold.co/600x600/f59e0b/ffffff?text=Gaming&v=26"
+      ],
+      "brand": "ClassicWorks",
+      "highlights": [
+        "เก็บเงินปลายทาง",
+        "ของแท้"
+      ],
+      "variants": [
+        {
+          "name": "Edition",
+          "value": "Limited",
+          "price_override": 0,
+          "stock_quantity": 33,
+          "sku": "GAMINGCONSOLES-27-1",
+          "image_url": "https://placehold.co/600x600/f59e0b/ffffff?text=Gaming&v=26"
+        },
+        {
+          "name": "Edition",
+          "value": "Collector",
+          "price_override": 109,
+          "stock_quantity": 35,
+          "sku": "GAMINGCONSOLES-27-2",
+          "image_url": "https://placehold.co/600x600/f59e0b/ffffff?text=Gaming&v=26"
+        }
+      ]
+    },
+    {
+      "category_slug": "mens-clothes",
+      "name": "Streetwear Hoodie Deluxe",
+      "description": "สินค้ารุ่น Streetwear Hoodie Deluxe สำหรับ mens clothes ดีไซน์ทันสมัยและใช้งานได้จริง",
+      "price": 2633,
+      "compare_at_price": 3180,
+      "stock_quantity": 63,
+      "images": [
+        "https://placehold.co/600x600/111827/ffffff?text=Mens+Clothes&v=27"
+      ],
+      "brand": "StudioLine",
+      "highlights": [
+        "โปรโมชั่นพิเศษ",
+        "ของแท้"
+      ],
+      "variants": [
+        {
+          "name": "Size",
+          "value": "S",
+          "price_override": 0,
+          "stock_quantity": 19,
+          "sku": "MENSCLOTHES-28-1",
+          "image_url": "https://placehold.co/600x600/111827/ffffff?text=Mens+Clothes&v=27"
+        },
+        {
+          "name": "Size",
+          "value": "S",
+          "price_override": 47,
+          "stock_quantity": 17,
+          "sku": "MENSCLOTHES-28-2",
+          "image_url": "https://placehold.co/600x600/111827/ffffff?text=Mens+Clothes&v=27"
+        },
+        {
+          "name": "Size",
+          "value": "L",
+          "price_override": 32,
+          "stock_quantity": 27,
+          "sku": "MENSCLOTHES-28-3",
+          "image_url": "https://placehold.co/600x600/111827/ffffff?text=Mens+Clothes&v=27"
+        }
+      ]
+    },
+    {
+      "category_slug": "watches-glasses",
+      "name": "Sport Watch Series",
+      "description": "สินค้ารุ่น Sport Watch Series สำหรับ watches glasses ดีไซน์ทันสมัยและใช้งานได้จริง",
+      "price": 4770,
+      "compare_at_price": 5010,
+      "stock_quantity": 29,
+      "images": [
+        "https://placehold.co/600x600/0f766e/ffffff?text=Watch+%26+Glasses&v=28"
+      ],
+      "brand": "ClassicWorks",
+      "highlights": [
+        "โปรโมชั่นพิเศษ",
+        "ส่งฟรี"
+      ],
+      "variants": [
+        {
+          "name": "Color",
+          "value": "Rose Gold",
+          "price_override": 0,
+          "stock_quantity": 11,
+          "sku": "WATCHESGLASSES-29-1",
+          "image_url": "https://placehold.co/600x600/0f766e/ffffff?text=Watch+%26+Glasses&v=28"
+        },
+        {
+          "name": "Color",
+          "value": "Gold",
+          "price_override": 12,
+          "stock_quantity": 18,
+          "sku": "WATCHESGLASSES-29-2",
+          "image_url": "https://placehold.co/600x600/0f766e/ffffff?text=Watch+%26+Glasses&v=28"
+        }
+      ]
+    },
+    {
+      "category_slug": "bags",
+      "name": "Leather Messenger Edition",
+      "description": "สินค้ารุ่น Leather Messenger Edition สำหรับ bags ดีไซน์ทันสมัยและใช้งานได้จริง",
+      "price": 3112,
+      "compare_at_price": 3267,
+      "stock_quantity": 41,
+      "images": [
+        "https://placehold.co/600x600/1d4ed8/ffffff?text=Bags&v=29"
+      ],
+      "brand": "MetroPrime",
+      "highlights": [
+        "เก็บเงินปลายทาง",
+        "โปรโมชั่นพิเศษ"
+      ],
+      "variants": [
+        {
+          "name": "Color",
+          "value": "Navy",
+          "price_override": 0,
+          "stock_quantity": 34,
+          "sku": "BAGS-30-1",
+          "image_url": "https://placehold.co/600x600/1d4ed8/ffffff?text=Bags&v=29"
+        },
+        {
+          "name": "Color",
+          "value": "Black",
+          "price_override": 69,
+          "stock_quantity": 7,
+          "sku": "BAGS-30-2",
+          "image_url": "https://placehold.co/600x600/1d4ed8/ffffff?text=Bags&v=29"
+        }
+      ]
+    },
+    {
+      "category_slug": "bags",
+      "name": "Laptop Sleeve Neo",
+      "description": "สินค้ารุ่น Laptop Sleeve Neo สำหรับ bags ดีไซน์ทันสมัยและใช้งานได้จริง",
+      "price": 4704,
+      "compare_at_price": 5063,
+      "stock_quantity": 39,
+      "images": [
+        "https://placehold.co/600x600/1d4ed8/ffffff?text=Bags&v=30"
+      ],
+      "brand": "MetroPrime",
+      "highlights": [
+        "ของแท้",
+        "พร้อมส่ง"
+      ],
+      "variants": [
+        {
+          "name": "Color",
+          "value": "Beige",
+          "price_override": 0,
+          "stock_quantity": 29,
+          "sku": "BAGS-31-1",
+          "image_url": "https://placehold.co/600x600/1d4ed8/ffffff?text=Bags&v=30"
+        },
+        {
+          "name": "Color",
+          "value": "Brown",
+          "price_override": 94,
+          "stock_quantity": 10,
+          "sku": "BAGS-31-2",
+          "image_url": "https://placehold.co/600x600/1d4ed8/ffffff?text=Bags&v=30"
+        }
+      ]
+    },
+    {
+      "category_slug": "watches-glasses",
+      "name": "Minimalist Watch Pro",
+      "description": "สินค้ารุ่น Minimalist Watch Pro สำหรับ watches glasses ดีไซน์ทันสมัยและใช้งานได้จริง",
+      "price": 3710,
+      "compare_at_price": 3831,
+      "stock_quantity": 36,
+      "images": [
+        "https://placehold.co/600x600/0f766e/ffffff?text=Watch+%26+Glasses&v=31"
+      ],
+      "brand": "MetroPrime",
+      "highlights": [
+        "ส่งฟรี",
+        "ส่งฟรี"
+      ],
+      "variants": [
+        {
+          "name": "Color",
+          "value": "Gold",
+          "price_override": 0,
+          "stock_quantity": 12,
+          "sku": "WATCHESGLASSES-32-1",
+          "image_url": "https://placehold.co/600x600/0f766e/ffffff?text=Watch+%26+Glasses&v=31"
+        },
+        {
+          "name": "Color",
+          "value": "Rose Gold",
+          "price_override": 109,
+          "stock_quantity": 12,
+          "sku": "WATCHESGLASSES-32-2",
+          "image_url": "https://placehold.co/600x600/0f766e/ffffff?text=Watch+%26+Glasses&v=31"
+        },
+        {
+          "name": "Color",
+          "value": "Silver",
+          "price_override": 121,
+          "stock_quantity": 12,
+          "sku": "WATCHESGLASSES-32-3",
+          "image_url": "https://placehold.co/600x600/0f766e/ffffff?text=Watch+%26+Glasses&v=31"
+        }
+      ]
+    },
+    {
+      "category_slug": "mens-clothes",
+      "name": "Cargo Pants X",
+      "description": "สินค้ารุ่น Cargo Pants X สำหรับ mens clothes ดีไซน์ทันสมัยและใช้งานได้จริง",
+      "price": 4880,
+      "compare_at_price": 5127,
+      "stock_quantity": 45,
+      "images": [
+        "https://placehold.co/600x600/111827/ffffff?text=Mens+Clothes&v=32"
+      ],
+      "brand": "StudioLine",
+      "highlights": [
+        "พร้อมส่ง",
+        "เก็บเงินปลายทาง"
+      ],
+      "variants": [
+        {
+          "name": "Size",
+          "value": "M",
+          "price_override": 0,
+          "stock_quantity": 6,
+          "sku": "MENSCLOTHES-33-1",
+          "image_url": "https://placehold.co/600x600/111827/ffffff?text=Mens+Clothes&v=32"
+        },
+        {
+          "name": "Size",
+          "value": "XXL",
+          "price_override": 54,
+          "stock_quantity": 32,
+          "sku": "MENSCLOTHES-33-2",
+          "image_url": "https://placehold.co/600x600/111827/ffffff?text=Mens+Clothes&v=32"
+        },
+        {
+          "name": "Size",
+          "value": "XXL",
+          "price_override": 72,
+          "stock_quantity": 7,
+          "sku": "MENSCLOTHES-33-3",
+          "image_url": "https://placehold.co/600x600/111827/ffffff?text=Mens+Clothes&v=32"
+        }
+      ]
+    },
+    {
+      "category_slug": "gaming-consoles",
+      "name": "Limited Edition Console Deluxe",
+      "description": "สินค้ารุ่น Limited Edition Console Deluxe สำหรับ gaming consoles ดีไซน์ทันสมัยและใช้งานได้จริง",
+      "price": 4985,
+      "compare_at_price": 5356,
+      "stock_quantity": 26,
+      "images": [
+        "https://placehold.co/600x600/f59e0b/ffffff?text=Gaming&v=33"
+      ],
+      "brand": "FutureGear",
+      "highlights": [
+        "สินค้าร้อนแรง",
+        "เก็บเงินปลายทาง"
+      ],
+      "variants": [
+        {
+          "name": "Edition",
+          "value": "Collector",
+          "price_override": 0,
+          "stock_quantity": 5,
+          "sku": "GAMINGCONSOLES-34-1",
+          "image_url": "https://placehold.co/600x600/f59e0b/ffffff?text=Gaming&v=33"
+        },
+        {
+          "name": "Edition",
+          "value": "Limited",
+          "price_override": 62,
+          "stock_quantity": 13,
+          "sku": "GAMINGCONSOLES-34-2",
+          "image_url": "https://placehold.co/600x600/f59e0b/ffffff?text=Gaming&v=33"
+        },
+        {
+          "name": "Edition",
+          "value": "Limited",
+          "price_override": 54,
+          "stock_quantity": 8,
+          "sku": "GAMINGCONSOLES-34-3",
+          "image_url": "https://placehold.co/600x600/f59e0b/ffffff?text=Gaming&v=33"
+        }
+      ]
+    },
+    {
+      "category_slug": "bags",
+      "name": "Laptop Sleeve Series",
+      "description": "สินค้ารุ่น Laptop Sleeve Series สำหรับ bags ดีไซน์ทันสมัยและใช้งานได้จริง",
+      "price": 4017,
+      "compare_at_price": 4203,
+      "stock_quantity": 56,
+      "images": [
+        "https://placehold.co/600x600/1d4ed8/ffffff?text=Bags&v=34"
+      ],
+      "brand": "ClassicWorks",
+      "highlights": [
+        "เก็บเงินปลายทาง",
+        "ของแท้"
+      ],
+      "variants": [
+        {
+          "name": "Color",
+          "value": "Navy",
+          "price_override": 0,
+          "stock_quantity": 24,
+          "sku": "BAGS-35-1",
+          "image_url": "https://placehold.co/600x600/1d4ed8/ffffff?text=Bags&v=34"
+        },
+        {
+          "name": "Color",
+          "value": "Black",
+          "price_override": 137,
+          "stock_quantity": 14,
+          "sku": "BAGS-35-2",
+          "image_url": "https://placehold.co/600x600/1d4ed8/ffffff?text=Bags&v=34"
+        },
+        {
+          "name": "Color",
+          "value": "Beige",
+          "price_override": 113,
+          "stock_quantity": 18,
+          "sku": "BAGS-35-3",
+          "image_url": "https://placehold.co/600x600/1d4ed8/ffffff?text=Bags&v=34"
+        }
+      ]
+    },
+    {
+      "category_slug": "womens-shoes",
+      "name": "Ankle Boots Edition",
+      "description": "สินค้ารุ่น Ankle Boots Edition สำหรับ womens shoes ดีไซน์ทันสมัยและใช้งานได้จริง",
+      "price": 4463,
+      "compare_at_price": 4808,
+      "stock_quantity": 54,
+      "images": [
+        "https://placehold.co/600x600/db2777/ffffff?text=Womens+Shoes&v=35"
+      ],
+      "brand": "FutureGear",
+      "highlights": [
+        "สินค้าร้อนแรง",
+        "สินค้าร้อนแรง"
+      ],
+      "variants": [
+        {
+          "name": "Size",
+          "value": "36",
+          "price_override": 0,
+          "stock_quantity": 32,
+          "sku": "WOMENSSHOES-36-1",
+          "image_url": "https://placehold.co/600x600/db2777/ffffff?text=Womens+Shoes&v=35"
+        },
+        {
+          "name": "Size",
+          "value": "39",
+          "price_override": 42,
+          "stock_quantity": 22,
+          "sku": "WOMENSSHOES-36-2",
+          "image_url": "https://placehold.co/600x600/db2777/ffffff?text=Womens+Shoes&v=35"
+        }
+      ]
+    },
+    {
+      "category_slug": "watches-glasses",
+      "name": "Square Frame Glasses Neo",
+      "description": "สินค้ารุ่น Square Frame Glasses Neo สำหรับ watches glasses ดีไซน์ทันสมัยและใช้งานได้จริง",
+      "price": 3825,
+      "compare_at_price": 4384,
+      "stock_quantity": 75,
+      "images": [
+        "https://placehold.co/600x600/0f766e/ffffff?text=Watch+%26+Glasses&v=36"
+      ],
+      "brand": "FutureGear",
+      "highlights": [
+        "โปรโมชั่นพิเศษ",
+        "โปรโมชั่นพิเศษ"
+      ],
+      "variants": [
+        {
+          "name": "Color",
+          "value": "Silver",
+          "price_override": 0,
+          "stock_quantity": 29,
+          "sku": "WATCHESGLASSES-37-1",
+          "image_url": "https://placehold.co/600x600/0f766e/ffffff?text=Watch+%26+Glasses&v=36"
+        },
+        {
+          "name": "Color",
+          "value": "Black",
+          "price_override": 34,
+          "stock_quantity": 12,
+          "sku": "WATCHESGLASSES-37-2",
+          "image_url": "https://placehold.co/600x600/0f766e/ffffff?text=Watch+%26+Glasses&v=36"
+        },
+        {
+          "name": "Color",
+          "value": "Black",
+          "price_override": 124,
+          "stock_quantity": 34,
+          "sku": "WATCHESGLASSES-37-3",
+          "image_url": "https://placehold.co/600x600/0f766e/ffffff?text=Watch+%26+Glasses&v=36"
+        }
+      ]
+    },
+    {
+      "category_slug": "gaming-consoles",
+      "name": "Limited Edition Console Pro",
+      "description": "สินค้ารุ่น Limited Edition Console Pro สำหรับ gaming consoles ดีไซน์ทันสมัยและใช้งานได้จริง",
+      "price": 1146,
+      "compare_at_price": 1565,
+      "stock_quantity": 37,
+      "images": [
+        "https://placehold.co/600x600/f59e0b/ffffff?text=Gaming&v=37"
+      ],
+      "brand": "UrbanEdge",
+      "highlights": [
+        "สินค้าร้อนแรง",
+        "โปรโมชั่นพิเศษ"
+      ],
+      "variants": [
+        {
+          "name": "Edition",
+          "value": "Standard",
+          "price_override": 0,
+          "stock_quantity": 32,
+          "sku": "GAMINGCONSOLES-38-1",
+          "image_url": "https://placehold.co/600x600/f59e0b/ffffff?text=Gaming&v=37"
+        },
+        {
+          "name": "Edition",
+          "value": "Collector",
+          "price_override": 25,
+          "stock_quantity": 5,
+          "sku": "GAMINGCONSOLES-38-2",
+          "image_url": "https://placehold.co/600x600/f59e0b/ffffff?text=Gaming&v=37"
+        }
+      ]
+    },
+    {
+      "category_slug": "womens-shoes",
+      "name": "Mules X",
+      "description": "สินค้ารุ่น Mules X สำหรับ womens shoes ดีไซน์ทันสมัยและใช้งานได้จริง",
+      "price": 4139,
+      "compare_at_price": 4320,
+      "stock_quantity": 50,
+      "images": [
+        "https://placehold.co/600x600/db2777/ffffff?text=Womens+Shoes&v=38"
+      ],
+      "brand": "StudioLine",
+      "highlights": [
+        "ของแท้",
+        "ส่งฟรี"
+      ],
+      "variants": [
+        {
+          "name": "Size",
+          "value": "41",
+          "price_override": 0,
+          "stock_quantity": 9,
+          "sku": "WOMENSSHOES-39-1",
+          "image_url": "https://placehold.co/600x600/db2777/ffffff?text=Womens+Shoes&v=38"
+        },
+        {
+          "name": "Size",
+          "value": "36",
+          "price_override": 112,
+          "stock_quantity": 13,
+          "sku": "WOMENSSHOES-39-2",
+          "image_url": "https://placehold.co/600x600/db2777/ffffff?text=Womens+Shoes&v=38"
+        },
+        {
+          "name": "Size",
+          "value": "40",
+          "price_override": 28,
+          "stock_quantity": 28,
+          "sku": "WOMENSSHOES-39-3",
+          "image_url": "https://placehold.co/600x600/db2777/ffffff?text=Womens+Shoes&v=38"
+        }
+      ]
+    },
+    {
+      "category_slug": "womens-clothes",
+      "name": "Floral Dress Deluxe",
+      "description": "สินค้ารุ่น Floral Dress Deluxe สำหรับ womens clothes ดีไซน์ทันสมัยและใช้งานได้จริง",
+      "price": 1921,
+      "compare_at_price": 2164,
+      "stock_quantity": 24,
+      "images": [
+        "https://placehold.co/600x600/7c3aed/ffffff?text=Womens+Clothes&v=39"
+      ],
+      "brand": "ClassicWorks",
+      "highlights": [
+        "สินค้าร้อนแรง",
+        "เก็บเงินปลายทาง"
+      ],
+      "variants": [
+        {
+          "name": "Size",
+          "value": "XS",
+          "price_override": 0,
+          "stock_quantity": 8,
+          "sku": "WOMENSCLOTHES-40-1",
+          "image_url": "https://placehold.co/600x600/7c3aed/ffffff?text=Womens+Clothes&v=39"
+        },
+        {
+          "name": "Size",
+          "value": "M",
+          "price_override": 50,
+          "stock_quantity": 16,
+          "sku": "WOMENSCLOTHES-40-2",
+          "image_url": "https://placehold.co/600x600/7c3aed/ffffff?text=Womens+Clothes&v=39"
+        }
+      ]
+    },
+    {
+      "category_slug": "watches-glasses",
+      "name": "Aviator Glasses Series",
+      "description": "สินค้ารุ่น Aviator Glasses Series สำหรับ watches glasses ดีไซน์ทันสมัยและใช้งานได้จริง",
+      "price": 1677,
+      "compare_at_price": 2213,
+      "stock_quantity": 19,
+      "images": [
+        "https://placehold.co/600x600/0f766e/ffffff?text=Watch+%26+Glasses&v=40"
+      ],
+      "brand": "ClassicWorks",
+      "highlights": [
+        "เก็บเงินปลายทาง",
+        "พร้อมส่ง"
+      ],
+      "variants": [
+        {
+          "name": "Color",
+          "value": "Gold",
+          "price_override": 0,
+          "stock_quantity": 6,
+          "sku": "WATCHESGLASSES-41-1",
+          "image_url": "https://placehold.co/600x600/0f766e/ffffff?text=Watch+%26+Glasses&v=40"
+        },
+        {
+          "name": "Color",
+          "value": "Rose Gold",
+          "price_override": 83,
+          "stock_quantity": 13,
+          "sku": "WATCHESGLASSES-41-2",
+          "image_url": "https://placehold.co/600x600/0f766e/ffffff?text=Watch+%26+Glasses&v=40"
+        }
+      ]
+    },
+    {
+      "category_slug": "womens-clothes",
+      "name": "Wide Leg Pants Edition",
+      "description": "สินค้ารุ่น Wide Leg Pants Edition สำหรับ womens clothes ดีไซน์ทันสมัยและใช้งานได้จริง",
+      "price": 3326,
+      "compare_at_price": 3865,
+      "stock_quantity": 33,
+      "images": [
+        "https://placehold.co/600x600/7c3aed/ffffff?text=Womens+Clothes&v=41"
+      ],
+      "brand": "PixelPlay",
+      "highlights": [
+        "เก็บเงินปลายทาง",
+        "เก็บเงินปลายทาง"
+      ],
+      "variants": [
+        {
+          "name": "Size",
+          "value": "L",
+          "price_override": 0,
+          "stock_quantity": 5,
+          "sku": "WOMENSCLOTHES-42-1",
+          "image_url": "https://placehold.co/600x600/7c3aed/ffffff?text=Womens+Clothes&v=41"
+        },
+        {
+          "name": "Size",
+          "value": "L",
+          "price_override": 81,
+          "stock_quantity": 28,
+          "sku": "WOMENSCLOTHES-42-2",
+          "image_url": "https://placehold.co/600x600/7c3aed/ffffff?text=Womens+Clothes&v=41"
+        }
+      ]
+    },
+    {
+      "category_slug": "womens-shoes",
+      "name": "Platform Sneakers Neo",
+      "description": "สินค้ารุ่น Platform Sneakers Neo สำหรับ womens shoes ดีไซน์ทันสมัยและใช้งานได้จริง",
+      "price": 4466,
+      "compare_at_price": 4885,
+      "stock_quantity": 42,
+      "images": [
+        "https://placehold.co/600x600/db2777/ffffff?text=Womens+Shoes&v=42"
+      ],
+      "brand": "DailyWear",
+      "highlights": [
+        "ส่งฟรี",
+        "สินค้าร้อนแรง"
+      ],
+      "variants": [
+        {
+          "name": "Size",
+          "value": "38",
+          "price_override": 0,
+          "stock_quantity": 15,
+          "sku": "WOMENSSHOES-43-1",
+          "image_url": "https://placehold.co/600x600/db2777/ffffff?text=Womens+Shoes&v=42"
+        },
+        {
+          "name": "Size",
+          "value": "37",
+          "price_override": 112,
+          "stock_quantity": 27,
+          "sku": "WOMENSSHOES-43-2",
+          "image_url": "https://placehold.co/600x600/db2777/ffffff?text=Womens+Shoes&v=42"
+        }
+      ]
+    },
+    {
+      "category_slug": "mens-shoes",
+      "name": "Leather Loafers Pro",
+      "description": "สินค้ารุ่น Leather Loafers Pro สำหรับ mens shoes ดีไซน์ทันสมัยและใช้งานได้จริง",
+      "price": 2440,
+      "compare_at_price": 2709,
+      "stock_quantity": 20,
+      "images": [
+        "https://placehold.co/600x600/047857/ffffff?text=Mens+Shoes&v=43"
+      ],
+      "brand": "UrbanEdge",
+      "highlights": [
+        "ของแท้",
+        "ส่งฟรี"
+      ],
+      "variants": [
+        {
+          "name": "Size",
+          "value": "41",
+          "price_override": 0,
+          "stock_quantity": 6,
+          "sku": "MENSSHOES-44-1",
+          "image_url": "https://placehold.co/600x600/047857/ffffff?text=Mens+Shoes&v=43"
+        },
+        {
+          "name": "Size",
+          "value": "39",
+          "price_override": 65,
+          "stock_quantity": 14,
+          "sku": "MENSSHOES-44-2",
+          "image_url": "https://placehold.co/600x600/047857/ffffff?text=Mens+Shoes&v=43"
+        }
+      ]
+    },
+    {
+      "category_slug": "watches-glasses",
+      "name": "Aviator Glasses X",
+      "description": "สินค้ารุ่น Aviator Glasses X สำหรับ watches glasses ดีไซน์ทันสมัยและใช้งานได้จริง",
+      "price": 3276,
+      "compare_at_price": 3452,
+      "stock_quantity": 35,
+      "images": [
+        "https://placehold.co/600x600/0f766e/ffffff?text=Watch+%26+Glasses&v=44"
+      ],
+      "brand": "UrbanEdge",
+      "highlights": [
+        "พร้อมส่ง",
+        "เก็บเงินปลายทาง"
+      ],
+      "variants": [
+        {
+          "name": "Color",
+          "value": "Gold",
+          "price_override": 0,
+          "stock_quantity": 13,
+          "sku": "WATCHESGLASSES-45-1",
+          "image_url": "https://placehold.co/600x600/0f766e/ffffff?text=Watch+%26+Glasses&v=44"
+        },
+        {
+          "name": "Color",
+          "value": "Black",
+          "price_override": 83,
+          "stock_quantity": 22,
+          "sku": "WATCHESGLASSES-45-2",
+          "image_url": "https://placehold.co/600x600/0f766e/ffffff?text=Watch+%26+Glasses&v=44"
+        }
+      ]
+    },
+    {
+      "category_slug": "mens-clothes",
+      "name": "Denim Jacket Deluxe",
+      "description": "สินค้ารุ่น Denim Jacket Deluxe สำหรับ mens clothes ดีไซน์ทันสมัยและใช้งานได้จริง",
+      "price": 3140,
+      "compare_at_price": 3730,
+      "stock_quantity": 25,
+      "images": [
+        "https://placehold.co/600x600/111827/ffffff?text=Mens+Clothes&v=45"
+      ],
+      "brand": "DailyWear",
+      "highlights": [
+        "ส่งฟรี",
+        "พร้อมส่ง"
+      ],
+      "variants": [
+        {
+          "name": "Size",
+          "value": "M",
+          "price_override": 0,
+          "stock_quantity": 16,
+          "sku": "MENSCLOTHES-46-1",
+          "image_url": "https://placehold.co/600x600/111827/ffffff?text=Mens+Clothes&v=45"
+        },
+        {
+          "name": "Size",
+          "value": "L",
+          "price_override": 127,
+          "stock_quantity": 9,
+          "sku": "MENSCLOTHES-46-2",
+          "image_url": "https://placehold.co/600x600/111827/ffffff?text=Mens+Clothes&v=45"
+        }
+      ]
+    },
+    {
+      "category_slug": "gaming-consoles",
+      "name": "Wireless Controller Series",
+      "description": "สินค้ารุ่น Wireless Controller Series สำหรับ gaming consoles ดีไซน์ทันสมัยและใช้งานได้จริง",
+      "price": 4872,
+      "compare_at_price": 5437,
+      "stock_quantity": 72,
+      "images": [
+        "https://placehold.co/600x600/f59e0b/ffffff?text=Gaming&v=46"
+      ],
+      "brand": "MetroPrime",
+      "highlights": [
+        "เก็บเงินปลายทาง",
+        "ส่งฟรี"
+      ],
+      "variants": [
+        {
+          "name": "Edition",
+          "value": "Standard",
+          "price_override": 0,
+          "stock_quantity": 30,
+          "sku": "GAMINGCONSOLES-47-1",
+          "image_url": "https://placehold.co/600x600/f59e0b/ffffff?text=Gaming&v=46"
+        },
+        {
+          "name": "Edition",
+          "value": "Limited",
+          "price_override": 43,
+          "stock_quantity": 14,
+          "sku": "GAMINGCONSOLES-47-2",
+          "image_url": "https://placehold.co/600x600/f59e0b/ffffff?text=Gaming&v=46"
+        },
+        {
+          "name": "Edition",
+          "value": "Limited",
+          "price_override": 41,
+          "stock_quantity": 28,
+          "sku": "GAMINGCONSOLES-47-3",
+          "image_url": "https://placehold.co/600x600/f59e0b/ffffff?text=Gaming&v=46"
+        }
+      ]
+    },
+    {
+      "category_slug": "gaming-consoles",
+      "name": "Retro Console Edition",
+      "description": "สินค้ารุ่น Retro Console Edition สำหรับ gaming consoles ดีไซน์ทันสมัยและใช้งานได้จริง",
+      "price": 3806,
+      "compare_at_price": 4035,
+      "stock_quantity": 61,
+      "images": [
+        "https://placehold.co/600x600/f59e0b/ffffff?text=Gaming&v=47"
+      ],
+      "brand": "ClassicWorks",
+      "highlights": [
+        "พร้อมส่ง",
+        "สินค้าร้อนแรง"
+      ],
+      "variants": [
+        {
+          "name": "Edition",
+          "value": "Collector",
+          "price_override": 0,
+          "stock_quantity": 11,
+          "sku": "GAMINGCONSOLES-48-1",
+          "image_url": "https://placehold.co/600x600/f59e0b/ffffff?text=Gaming&v=47"
+        },
+        {
+          "name": "Edition",
+          "value": "Collector",
+          "price_override": 28,
+          "stock_quantity": 23,
+          "sku": "GAMINGCONSOLES-48-2",
+          "image_url": "https://placehold.co/600x600/f59e0b/ffffff?text=Gaming&v=47"
+        },
+        {
+          "name": "Edition",
+          "value": "Collector",
+          "price_override": 51,
+          "stock_quantity": 27,
+          "sku": "GAMINGCONSOLES-48-3",
+          "image_url": "https://placehold.co/600x600/f59e0b/ffffff?text=Gaming&v=47"
+        }
+      ]
+    },
+    {
+      "category_slug": "womens-shoes",
+      "name": "Strappy Sandals Neo",
+      "description": "สินค้ารุ่น Strappy Sandals Neo สำหรับ womens shoes ดีไซน์ทันสมัยและใช้งานได้จริง",
+      "price": 1866,
+      "compare_at_price": 2174,
+      "stock_quantity": 51,
+      "images": [
+        "https://placehold.co/600x600/db2777/ffffff?text=Womens+Shoes&v=48"
+      ],
+      "brand": "StudioLine",
+      "highlights": [
+        "ของแท้",
+        "พร้อมส่ง"
+      ],
+      "variants": [
+        {
+          "name": "Size",
+          "value": "38",
+          "price_override": 0,
+          "stock_quantity": 6,
+          "sku": "WOMENSSHOES-49-1",
+          "image_url": "https://placehold.co/600x600/db2777/ffffff?text=Womens+Shoes&v=48"
+        },
+        {
+          "name": "Size",
+          "value": "36",
+          "price_override": 45,
+          "stock_quantity": 33,
+          "sku": "WOMENSSHOES-49-2",
+          "image_url": "https://placehold.co/600x600/db2777/ffffff?text=Womens+Shoes&v=48"
+        },
+        {
+          "name": "Size",
+          "value": "41",
+          "price_override": 117,
+          "stock_quantity": 12,
+          "sku": "WOMENSSHOES-49-3",
+          "image_url": "https://placehold.co/600x600/db2777/ffffff?text=Womens+Shoes&v=48"
+        }
+      ]
+    },
+    {
+      "category_slug": "womens-clothes",
+      "name": "Silk Blouse Pro",
+      "description": "สินค้ารุ่น Silk Blouse Pro สำหรับ womens clothes ดีไซน์ทันสมัยและใช้งานได้จริง",
+      "price": 2455,
+      "compare_at_price": 2719,
+      "stock_quantity": 68,
+      "images": [
+        "https://placehold.co/600x600/7c3aed/ffffff?text=Womens+Clothes&v=49"
+      ],
+      "brand": "MetroPrime",
+      "highlights": [
+        "โปรโมชั่นพิเศษ",
+        "พร้อมส่ง"
+      ],
+      "variants": [
+        {
+          "name": "Size",
+          "value": "XS",
+          "price_override": 0,
+          "stock_quantity": 24,
+          "sku": "WOMENSCLOTHES-50-1",
+          "image_url": "https://placehold.co/600x600/7c3aed/ffffff?text=Womens+Clothes&v=49"
+        },
+        {
+          "name": "Size",
+          "value": "XS",
+          "price_override": 141,
+          "stock_quantity": 22,
+          "sku": "WOMENSCLOTHES-50-2",
+          "image_url": "https://placehold.co/600x600/7c3aed/ffffff?text=Womens+Clothes&v=49"
+        },
+        {
+          "name": "Size",
+          "value": "L",
+          "price_override": 69,
+          "stock_quantity": 22,
+          "sku": "WOMENSCLOTHES-50-3",
+          "image_url": "https://placehold.co/600x600/7c3aed/ffffff?text=Womens+Clothes&v=49"
+        }
+      ]
+    }
+  ]
+}

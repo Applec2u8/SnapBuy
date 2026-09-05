@@ -1,0 +1,69 @@
+{
+  "products": [
+    {
+      "shop_id": "your-shop-uuid-1",
+      "category_slug": "mens-clothes",
+      "name": "Streetwear Oversized Jacket",
+      "description": "แจ็กเก็ตสตรีทสไตล์ Oversized พร้อมซับในหนาเบา",
+      "price": 1290.00,
+      "compare_at_price": 1590.00,
+      "stock_quantity": 50,
+      "images": [
+        "https://example.com/products/jacket-black.jpg",
+        "https://example.com/products/jacket-back.jpg"
+      ],
+      "brand": "UrbanEdge",
+      "highlights": ["พร้อมส่ง", "ลงร้านแล้ว", "เก็บเงินปลายทาง"],
+      "variants": [
+        {
+          "name": "Size",
+          "value": "M",
+          "price_override": 0,
+          "stock_quantity": 20,
+          "sku": "UE-JKT-001-M",
+          "image_url": "https://example.com/products/jacket-black.jpg"
+        },
+        {
+          "name": "Size",
+          "value": "L",
+          "price_override": 0,
+          "stock_quantity": 15,
+          "sku": "UE-JKT-001-L",
+          "image_url": "https://example.com/products/jacket-black.jpg"
+        }
+      ]
+    },
+    {
+      "shop_id": "your-shop-uuid-1",
+      "category_slug": "mens-clothes",
+      "name": "Casual Cotton Shirt",
+      "description": "เชิ้ตคอตตอน ระบายอากาศดี ใส่สบายทุกวัน",
+      "price": 690.00,
+      "compare_at_price": 890.00,
+      "stock_quantity": 40,
+      "images": [
+        "https://example.com/products/shirt-white.jpg"
+      ],
+      "brand": "DailyWear",
+      "highlights": ["สีขาวคลีน", "ซักง่าย", "งานตัดเย็บคม"],
+      "variants": [
+        {
+          "name": "Color",
+          "value": "White",
+          "price_override": 0,
+          "stock_quantity": 20,
+          "sku": "DW-SHRT-002-WH",
+          "image_url": "https://example.com/products/shirt-white.jpg"
+        },
+        {
+          "name": "Color",
+          "value": "Black",
+          "price_override": 0,
+          "stock_quantity": 20,
+          "sku": "DW-SHRT-002-BK",
+          "image_url": "https://example.com/products/shirt-black.jpg"
+        }
+      ]
+    }
+  ]
+}

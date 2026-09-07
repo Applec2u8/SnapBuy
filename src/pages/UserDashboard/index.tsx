@@ -440,17 +440,6 @@ const UserDashboard = () => {
           </section>
         )}
 
-        {/* ─── Account Info ─── */}
-        <section>
-          <h2 className="text-xs font-black uppercase tracking-widest text-slate-500 mb-3 flex items-center gap-2">
-            <Shield size={14} className="text-primary-500" /> {t('user_dashboard_account_info')}
-          </h2>
-          <div className="grid sm:grid-cols-2 grid-cols-1 gap-3">
-            <StatCard icon={<Store size={18} />} label={t('user_dashboard_shops')} value={shops?.length || 0} sub={t('user_dashboard_owned_stores')} color="blue" />
-            <StatCard icon={<ShoppingBag size={18} />} label={t('user_dashboard_wallet')} value={<Money amount={profile?.wallet_balance || 0} compact />} color="green" />
-          </div>
-        </section>
-
         {/* ─── Quota Section (only if has shop) ─── */}
         {shop && (
           <section>

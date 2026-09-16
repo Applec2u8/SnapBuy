@@ -15,6 +15,8 @@ interface AutoBoostCardProps {
   onSave: () => void;
   onDiscard: () => void;
   onOpenBoostModal: () => void;
+  onToggleViewBoost?: (enabled: boolean) => void;
+  onToggleLikeBoost?: (enabled: boolean) => void;
 }
 
 export const AutoBoostCard: React.FC<AutoBoostCardProps> = ({
@@ -28,8 +30,22 @@ export const AutoBoostCard: React.FC<AutoBoostCardProps> = ({
   onSave,
   onDiscard,
   onOpenBoostModal,
+  onToggleViewBoost,
+  onToggleLikeBoost,
 }) => {
   const { t } = useTranslation();
+
+  const handleToggleView = () => {
+    const nextVal = !pendingBoostConfig.isEnabled;
+    setPendingBoostConfig({ ...pendingBoostConfig, isEnabled: nextVal });
+    onToggleViewBoost?.(nextVal);
+  };
+
+  const handleToggleLike = () => {
+    const nextVal = !pendingLikeBoostConfig.isEnabled;
+    setPendingLikeBoostConfig({ ...pendingLikeBoostConfig, isEnabled: nextVal });
+    onToggleLikeBoost?.(nextVal);
+  };
 
   const FrequencySelect = ({
     value,
@@ -81,7 +97,7 @@ export const AutoBoostCard: React.FC<AutoBoostCardProps> = ({
               </div>
             </div>
             <button
-              onClick={() => setPendingBoostConfig({ ...pendingBoostConfig, isEnabled: !pendingBoostConfig.isEnabled })}
+              onClick={handleToggleView}
               className={`w-12 h-6 rounded-full transition-all relative ${pendingBoostConfig.isEnabled ? 'bg-primary-500' : 'bg-slate-300 dark:bg-slate-700'}`}
             >
               <div className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-all ${pendingBoostConfig.isEnabled ? 'left-7' : 'left-1'}`} />
@@ -134,7 +150,7 @@ export const AutoBoostCard: React.FC<AutoBoostCardProps> = ({
               </div>
             </div>
             <button
-              onClick={() => setPendingLikeBoostConfig({ ...pendingLikeBoostConfig, isEnabled: !pendingLikeBoostConfig.isEnabled })}
+              onClick={handleToggleLike}
               className={`w-12 h-6 rounded-full transition-all relative ${pendingLikeBoostConfig.isEnabled ? 'bg-primary-500' : 'bg-slate-300 dark:bg-slate-700'}`}
             >
               <div className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-all ${pendingLikeBoostConfig.isEnabled ? 'left-7' : 'left-1'}`} />

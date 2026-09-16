@@ -124,6 +124,22 @@ export const UserDetail: React.FC<UserDetailProps> = ({
     if (area) area.scrollTo({ top: 0, behavior: 'smooth' });
   }, [currentPage]);
 
+  // Background auto-boost when viewing a user profile
+  useEffect(() => {
+    if (!userId) return;
+    const triggerBackgroundBoost = async () => {
+      try {
+        await supabase.rpc('process_auto_boosts', { p_user_id: userId });
+        // Wait a short moment to ensure DB changes commit, then refresh products
+        setTimeout(fetchUserProducts, 1000);
+      } catch (err) {
+        console.error('Error in background auto boost:', err);
+      }
+    };
+    triggerBackgroundBoost();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userId]);
+
   // ── Memoised categories ───────────────────────────────────────────────────
   const allCategories = useMemo(() => categories.map((c) => c.name).filter(Boolean) as string[], [categories]);
   const filteredCategories = useMemo(
@@ -200,6 +216,10 @@ export const UserDetail: React.FC<UserDetailProps> = ({
       });
       setSavedBoostConfig({ ...pendingBoostConfig });
       setSavedLikeBoostConfig({ ...pendingLikeBoostConfig });
+      
+      // Trigger the background boost immediately after saving
+      await supabase.rpc('process_auto_boosts', { p_user_id: userId });
+      fetchUserProducts();
     } catch (err) {
       console.warn('Failed to save boost settings:', err);
     } finally {
@@ -210,6 +230,36 @@ export const UserDetail: React.FC<UserDetailProps> = ({
   const handleRevertBoostSettings = () => {
     setPendingBoostConfig({ ...savedBoostConfig });
     setPendingLikeBoostConfig({ ...savedLikeBoostConfig });
+  };
+
+  const handleToggleViewBoost = async (enabled: boolean) => {
+    const newConfig = { ...pendingBoostConfig, isEnabled: enabled };
+    setPendingBoostConfig(newConfig);
+    setSavedBoostConfig(newConfig);
+    try {
+      await onUpdateUserRef.current?.(userId, { auto_boost_enabled: enabled });
+      if (enabled) {
+        await supabase.rpc('process_auto_boosts', { p_user_id: userId });
+        fetchUserProducts();
+      }
+    } catch (err) {
+      console.error('Error toggling view boost:', err);
+    }
+  };
+
+  const handleToggleLikeBoost = async (enabled: boolean) => {
+    const newConfig = { ...pendingLikeBoostConfig, isEnabled: enabled };
+    setPendingLikeBoostConfig(newConfig);
+    setSavedLikeBoostConfig(newConfig);
+    try {
+      await onUpdateUserRef.current?.(userId, { auto_like_boost_enabled: enabled });
+      if (enabled) {
+        await supabase.rpc('process_auto_boosts', { p_user_id: userId });
+        fetchUserProducts();
+      }
+    } catch (err) {
+      console.error('Error toggling like boost:', err);
+    }
   };
 
   const executeBoost = async () => {
@@ -410,6 +460,8 @@ export const UserDetail: React.FC<UserDetailProps> = ({
             onSave={handleSaveBoostSettings}
             onDiscard={handleRevertBoostSettings}
             onOpenBoostModal={() => setIsBoostModalOpen(true)}
+            onToggleViewBoost={handleToggleViewBoost}
+            onToggleLikeBoost={handleToggleLikeBoost}
           />
         </div>
 

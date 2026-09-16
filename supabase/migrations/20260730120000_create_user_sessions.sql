@@ -27,24 +27,28 @@ CREATE INDEX IF NOT EXISTS idx_user_sessions_logged_in ON "public"."user_session
 ALTER TABLE "public"."user_sessions" ENABLE ROW LEVEL SECURITY;
 
 -- Policy: Users can read only their own sessions
+DROP POLICY IF EXISTS "Users can view own sessions" ON "public"."user_sessions";
 CREATE POLICY "Users can view own sessions"
   ON "public"."user_sessions"
   FOR SELECT
   USING (auth.uid() = user_id);
 
 -- Policy: Users can insert their own sessions
+DROP POLICY IF EXISTS "Users can insert own sessions" ON "public"."user_sessions";
 CREATE POLICY "Users can insert own sessions"
   ON "public"."user_sessions"
   FOR INSERT
   WITH CHECK (auth.uid() = user_id);
 
 -- Policy: Users can update their own sessions (for logout timestamp, last_active)
+DROP POLICY IF EXISTS "Users can update own sessions" ON "public"."user_sessions";
 CREATE POLICY "Users can update own sessions"
   ON "public"."user_sessions"
   FOR UPDATE
   USING (auth.uid() = user_id);
 
 -- Policy: Users can delete their own sessions (for cleanup)
+DROP POLICY IF EXISTS "Users can delete own sessions" ON "public"."user_sessions";
 CREATE POLICY "Users can delete own sessions"
   ON "public"."user_sessions"
   FOR DELETE

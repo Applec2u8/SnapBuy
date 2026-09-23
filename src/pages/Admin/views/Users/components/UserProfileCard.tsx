@@ -12,8 +12,8 @@ interface UserProfileCardProps {
   setIsShopDropdownOpen?: (open: boolean) => void;
 }
 
-export const UserProfileCard: React.FC<UserProfileCardProps> = ({ 
-  user, 
+export const UserProfileCard: React.FC<UserProfileCardProps> = ({
+  user,
   userShops,
   selectedShopId = 'all',
   onSelectShop,
@@ -44,11 +44,10 @@ export const UserProfileCard: React.FC<UserProfileCardProps> = ({
 
         {/* Role badges */}
         <div className="flex items-center gap-2 mt-2">
-          <span className={`px-3 py-1 rounded-lg text-[8px] font-black uppercase tracking-widest ${
-            user.role === 'admin'
-              ? 'bg-purple-500/10 text-purple-500'
-              : 'bg-slate-100 dark:bg-slate-800 text-slate-500'
-          }`}>
+          <span className={`px-3 py-1 rounded-lg text-[8px] font-black uppercase tracking-widest ${user.role === 'admin'
+            ? 'bg-purple-500/10 text-purple-500'
+            : 'bg-slate-100 dark:bg-slate-800 text-slate-500'
+            }`}>
             {user.role || 'user'}
           </span>
           {(user.role === 'vendor' || userShops.length > 0) && (
@@ -145,33 +144,33 @@ export const UserProfileCard: React.FC<UserProfileCardProps> = ({
                 </div>
                 <ChevronDown size={16} className={`text-slate-400 transition-transform ${isShopDropdownOpen ? 'rotate-180' : ''}`} />
               </button>
-              
-              
-                {isShopDropdownOpen && (
-                  <div className="absolute top-full left-0 right-0 mt-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-xl z-[60] overflow-hidden max-h-60 overflow-y-auto no-scrollbar">
+
+
+              {isShopDropdownOpen && (
+                <div className="absolute top-full left-0 right-0 mt-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-xl z-[60] overflow-hidden max-h-60 overflow-y-auto no-scrollbar">
+                  <button
+                    onClick={() => { onSelectShop?.('all'); setIsShopDropdownOpen?.(false); }}
+                    className={`w-full px-4 py-3 flex items-center gap-3 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors ${selectedShopId === 'all' ? 'bg-primary-500/5 text-primary-500' : 'text-slate-700 dark:text-slate-300'}`}
+                  >
+                    <LayoutGrid size={16} className={selectedShopId === 'all' ? 'text-primary-500' : 'text-slate-400'} />
+                    <span className="text-[10px] font-black uppercase tracking-widest">{t('admin_all_shops')}</span>
+                  </button>
+                  {userShops.map((shop) => (
                     <button
-                      onClick={() => { onSelectShop?.('all'); setIsShopDropdownOpen?.(false); }}
-                      className={`w-full px-4 py-3 flex items-center gap-3 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors ${selectedShopId === 'all' ? 'bg-primary-500/5 text-primary-500' : 'text-slate-700 dark:text-slate-300'}`}
+                      key={shop.id}
+                      onClick={() => { onSelectShop?.(shop.id); setIsShopDropdownOpen?.(false); }}
+                      className={`w-full px-4 py-3 flex items-center gap-3 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors border-t border-slate-50 dark:border-slate-800/50 ${selectedShopId === shop.id ? 'bg-primary-500/5 text-primary-500' : 'text-slate-700 dark:text-slate-300'}`}
                     >
-                      <LayoutGrid size={16} className={selectedShopId === 'all' ? 'text-primary-500' : 'text-slate-400'} />
-                      <span className="text-[10px] font-black uppercase tracking-widest">{t('admin_all_shops')}</span>
+                      {shop.logo_url || shop.image_url ? (
+                        <img src={shop.logo_url || shop.image_url} alt="" className="w-6 h-6 rounded-lg object-cover bg-white" />
+                      ) : (
+                        <Store size={16} className={selectedShopId === shop.id ? 'text-primary-500' : 'text-slate-400'} />
+                      )}
+                      <span className="text-[10px] font-black uppercase tracking-widest truncate">{shop.name || 'Unnamed Shop'}</span>
                     </button>
-                    {userShops.map((shop) => (
-                      <button
-                        key={shop.id}
-                        onClick={() => { onSelectShop?.(shop.id); setIsShopDropdownOpen?.(false); }}
-                        className={`w-full px-4 py-3 flex items-center gap-3 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors border-t border-slate-50 dark:border-slate-800/50 ${selectedShopId === shop.id ? 'bg-primary-500/5 text-primary-500' : 'text-slate-700 dark:text-slate-300'}`}
-                      >
-                        {shop.logo_url || shop.image_url ? (
-                          <img src={shop.logo_url || shop.image_url} alt="" className="w-6 h-6 rounded-lg object-cover bg-white" />
-                        ) : (
-                          <Store size={16} className={selectedShopId === shop.id ? 'text-primary-500' : 'text-slate-400'} />
-                        )}
-                        <span className="text-[10px] font-black uppercase tracking-widest truncate">{shop.name || 'Unnamed Shop'}</span>
-                      </button>
-                    ))}
-                  </div>
-                )}
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         )}

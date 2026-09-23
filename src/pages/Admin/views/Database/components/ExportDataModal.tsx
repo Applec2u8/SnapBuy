@@ -36,9 +36,6 @@ export const ExportDataModal: React.FC<ExportDataModalProps> = ({ show, setShow 
   const [shopSearch, setShopSearch] = useState('');
   
   const [exportProducts, setExportProducts] = useState<boolean>(true);
-  const [exportAuditLog, setExportAuditLog] = useState<boolean>(false);
-  const [auditLogCount, setAuditLogCount] = useState<number>(0);
-  const [auditLogCountLoaded, setAuditLogCountLoaded] = useState<boolean>(false);
   const [purgeAfterExport, setPurgeAfterExport] = useState<boolean>(false);
   const [loadingShops, setLoadingShops] = useState(false);
 
@@ -67,20 +64,6 @@ export const ExportDataModal: React.FC<ExportDataModalProps> = ({ show, setShow 
     try {
       const { data: shopsData, error: shopsError } = await supabase.from('shops').select('id, name');
       if (shopsError) throw shopsError;
-      
-      // Fetch audit log count
-      const { data: approxCount, error: rpcErr } = await supabase.rpc('get_audit_log_count_approx');
-      if (!rpcErr && approxCount !== null && approxCount > 0) {
-        setAuditLogCount(Number(approxCount));
-        setAuditLogCountLoaded(true);
-      } else {
-        // Fall back to exact count
-        const { count: exactAuditCount } = await supabase
-          .from('system_audit_log')
-          .select('*', { count: 'exact', head: true });
-        setAuditLogCount(exactAuditCount || 0);
-        setAuditLogCountLoaded(true);
-      }
       
       // Fetch product counts for all shops in parallel
       const formattedShops = await Promise.all((shopsData || []).map(async (s) => {
@@ -120,7 +103,7 @@ export const ExportDataModal: React.FC<ExportDataModalProps> = ({ show, setShow 
         return;
       }
 
-      if (!exportProducts && !exportAuditLog) {
+      if (!exportProducts) {
         setError('Please select at least one data type to export.');
         return;
       }
@@ -147,11 +130,8 @@ export const ExportDataModal: React.FC<ExportDataModalProps> = ({ show, setShow 
       setShow(false);
 
       const productTarget = Math.max(1, Math.floor(totalSelectedCount * (percentage / 100)));
-      const auditTarget = (exportAuditLog && auditLogCountLoaded && auditLogCount > 0)
-        ? Math.max(1, Math.floor(auditLogCount * (percentage / 100)))
-        : 0;
       
-      const initialTotalTarget = (exportProducts ? productTarget : 0) + auditTarget;
+      const initialTotalTarget = exportProducts ? productTarget : 0;
 
       const exportState = {
         jobId,
@@ -163,8 +143,6 @@ export const ExportDataModal: React.FC<ExportDataModalProps> = ({ show, setShow 
         currentShopIndex: 0,
         currentOffset: 0,
         exportProducts,
-        exportAuditLog,
-        auditLogTotalCount: auditLogCountLoaded ? auditLogCount : 0,
         purgeAfterExport,
         startedAt: Date.now(),
         status: 'running'
@@ -197,7 +175,7 @@ export const ExportDataModal: React.FC<ExportDataModalProps> = ({ show, setShow 
       if (isNaN(perc) || perc < 1) perc = 1;
       if (perc > 100) perc = 100;
       return sum + (s.productCount > 0 ? Math.max(1, Math.floor(s.productCount * (perc / 100))) : 0);
-    }, 0) + (exportAuditLog && auditLogCount > 0 ? Math.max(1, Math.floor(auditLogCount * ((Number(exportPercentage) || 50) / 100))) : 0);
+    }, 0);
 
   if (!show || !isBrowser) return null;
 
@@ -247,38 +225,6 @@ export const ExportDataModal: React.FC<ExportDataModalProps> = ({ show, setShow 
                   <p className="text-xs text-slate-500 mt-1">
                     ระบบจะทำการ Export ข้อมูล products พร้อมกับ product_variants ที่เกี่ยวข้องเสมอ เพื่อป้องกันปัญหาข้อมูลไม่สมบูรณ์
                   </p>
-                </div>
-              </label>
-              
-              <label className="flex items-start gap-3 p-3 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl cursor-pointer hover:border-primary-300 transition-colors">
-                <input
-                  type="checkbox"
-                  checked={exportAuditLog}
-                  onChange={() => setExportAuditLog(!exportAuditLog)}
-                  className="h-4 w-4 mt-0.5 rounded border-slate-300 text-primary-500 focus:ring-primary-500"
-                />
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2">
-                    <span className="text-sm font-bold text-slate-700 dark:text-slate-300">System Audit Log</span>
-                    {auditLogCountLoaded && auditLogCount > 0 && (
-                      <span className="text-[10px] font-bold text-slate-500 bg-slate-200/50 dark:bg-slate-700/50 px-2 py-0.5 rounded-md">
-                        {auditLogCount.toLocaleString()} items
-                      </span>
-                    )}
-                    {!auditLogCountLoaded && (
-                      <span className="text-[10px] font-bold text-amber-500 bg-amber-50 dark:bg-amber-500/10 border border-amber-200 dark:border-amber-500/30 px-2 py-0.5 rounded-md">
-                        ⚠ ไม่ทราบจำนวน
-                      </span>
-                    )}
-                  </div>
-                  <p className="text-xs text-slate-500 mt-1">
-                    ประวัติการทำรายการ (INSERT, UPDATE, DELETE) ทั้งหมดของระบบ
-                  </p>
-                  {!auditLogCountLoaded && exportAuditLog && (
-                    <p className="text-[10px] text-amber-600 dark:text-amber-400 mt-1 font-medium">
-                      ไม่สามารถนับจำนวนได้ — ตารางอาจมีข้อมูลจำนวนมาก ระบบจะดึงข้อมูลจนครบโดยอัตโนมัติ
-                    </p>
-                  )}
                 </div>
               </label>
             </div>
@@ -380,16 +326,11 @@ export const ExportDataModal: React.FC<ExportDataModalProps> = ({ show, setShow 
               <span className="text-sm text-slate-500">% of oldest data</span>
             </div>
 
-            {(selectedShopIds.length > 0 || exportAuditLog) && (
+            {selectedShopIds.length > 0 && (
               <div className="p-3 bg-primary-50 dark:bg-primary-500/10 border border-primary-100 dark:border-primary-900/30 rounded-xl flex flex-col gap-1">
                 {exportProducts && selectedShopIds.length > 0 && (
                   <p className="text-xs text-primary-700 dark:text-primary-400 font-medium">
                     เลือกร้านค้าทั้งหมด: <strong className="font-black">{selectedShopIds.length} ร้าน</strong> (สินค้าทั้งหมด {totalSelectedProducts} รายการ)
-                  </p>
-                )}
-                {exportAuditLog && (
-                  <p className="text-xs text-primary-700 dark:text-primary-400 font-medium">
-                    System Audit Log: <strong className="font-black">{auditLogCountLoaded ? `${auditLogCount.toLocaleString()} รายการ` : 'ไม่ทราบจำนวน (จะดึงจนครบ)'}</strong>
                   </p>
                 )}
                 {projectedExportCount > 0 && (

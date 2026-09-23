@@ -107,12 +107,19 @@ export function useJobRunners(onRefreshExports: () => void) {
           if (!chunk || chunk.length === 0) break;
 
           const chunkIds = chunk.map((p: any) => p.id);
-          const { data: variants, error: varError } = await supabase
-            .from('product_variants')
-            .select('*')
-            .in('product_id', chunkIds);
+          
+          let variants: any[] = [];
+          const VAR_BATCH = 100;
+          for (let i = 0; i < chunkIds.length; i += VAR_BATCH) {
+            const batchIds = chunkIds.slice(i, i + VAR_BATCH);
+            const { data: varBatch, error: varError } = await supabase
+              .from('product_variants')
+              .select('*')
+              .in('product_id', batchIds);
 
-          if (varError) throw varError;
+            if (varError) throw varError;
+            if (varBatch) variants.push(...varBatch);
+          }
 
           await saveExportChunk(state.jobId, [{ products: chunk, variants: variants || [] }]);
 

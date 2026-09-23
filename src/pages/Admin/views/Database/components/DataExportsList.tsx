@@ -39,6 +39,47 @@ const timeAgo = (iso: string) => {
   return `${Math.floor(diff / 86400)} วันที่แล้ว`;
 };
 
+// ── Micro-component: isolated upload progress bar ──────────────────────────
+// Keeps the 500ms setInterval re-renders scoped to this tiny element,
+// preventing the entire DataExportsList from re-rendering on every tick.
+const UploadProgressBar = React.memo(({ currentUploadPart }: { currentUploadPart: number | undefined }) => {
+  const [progress, setProgress] = useState(0);
+
+  useEffect(() => {
+    setProgress(0);
+    const interval = setInterval(() => {
+      setProgress(prev => {
+        if (prev < 85) return prev + Math.floor(Math.random() * 15) + 5;
+        if (prev < 95) return prev + 1;
+        return prev;
+      });
+    }, 500);
+    return () => clearInterval(interval);
+  }, [currentUploadPart]);
+
+  return (
+    <div className="pl-3 border-l-2 border-slate-200 dark:border-slate-700">
+      <div className="flex justify-between text-[10px] mb-1 font-bold text-slate-500 dark:text-slate-400">
+        <span>
+          {currentUploadPart ? (
+            <>3. กำลังอัปโหลดไฟล์ที่ <span className="text-sky-500">{currentUploadPart}</span></>
+          ) : 'กำลังเตรียมไฟล์...'}
+        </span>
+        <span>{progress}%</span>
+      </div>
+      <div className="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-1.5 overflow-hidden">
+        <div
+          className="h-full bg-sky-400 rounded-full transition-all duration-300"
+          style={{ width: `${progress}%` }}
+        />
+      </div>
+    </div>
+  );
+});
+UploadProgressBar.displayName = 'UploadProgressBar';
+
+
+
 const getETA = (startedAt?: number, processed: number = 0, total: number = 0) => {
   if (!startedAt || processed === 0 || total === 0) return 'กำลังคำนวณ...';
   const elapsed = (Date.now() - startedAt) / 1000;
@@ -54,6 +95,8 @@ const getETA = (startedAt?: number, processed: number = 0, total: number = 0) =>
   return `ประมาณ ${Math.ceil(etaSeconds / 3600)} ชั่วโมง`;
 };
 
+
+
 export const DataExportsList: React.FC<Props> = () => {
   const [exports, setExports] = useState<DataExport[]>([]);
   const [loading, setLoading] = useState(true);
@@ -62,9 +105,6 @@ export const DataExportsList: React.FC<Props> = () => {
   const [downloadingId, setDownloadingId] = useState<string | null>(null);
   
   const { requirePin, pinModal } = useAdminPin();
-  
-  // Fake progress for the current file being uploaded
-  const [currentFileProgress, setCurrentFileProgress] = useState(0);
 
   const groupedExports = useMemo(() => {
     const groups: Record<string, DataExport[]> = {};
@@ -122,26 +162,8 @@ export const DataExportsList: React.FC<Props> = () => {
     }
   }, [exportJob?.status, fetchExports]);
 
-  // Simulate progress for the "current file" upload
-  useEffect(() => {
-    let interval: ReturnType<typeof setInterval>;
-    if (exportJob?.status === 'uploading' && exportJob.currentUploadPart !== undefined) {
-      setCurrentFileProgress(0); // reset when part changes or begins
-      interval = setInterval(() => {
-        setCurrentFileProgress(prev => {
-          // Quickly fill up to 85%, then slowly creep to 95%
-          if (prev < 85) return prev + Math.floor(Math.random() * 15) + 5;
-          if (prev < 95) return prev + 1;
-          return prev;
-        });
-      }, 500);
-    } else {
-      setCurrentFileProgress(0);
-    }
-    return () => {
-      if (interval) clearInterval(interval);
-    };
-  }, [exportJob?.status, exportJob?.currentUploadPart]);
+  // NOTE: Upload progress animation has been moved to <UploadProgressBar />
+  // to prevent the 500ms setInterval from re-rendering the entire component.
 
   const handleImport = async (group: typeof groupedExports[0]) => {
     requirePin(async () => {
@@ -494,24 +516,9 @@ export const DataExportsList: React.FC<Props> = () => {
                           </div>
                         </div>
 
-                        {/* Current File Upload */}
+                        {/* Current File Upload — rendered by isolated micro-component to limit re-renders */}
                         {exportJob.status === 'uploading' && (
-                          <div className="pl-3 border-l-2 border-slate-200 dark:border-slate-700">
-                            <div className="flex justify-between text-[10px] mb-1 font-bold text-slate-500 dark:text-slate-400">
-                              <span>
-                                {exportJob.currentUploadPart ? (
-                                  <>3. กำลังอัปโหลดไฟล์ที่ <span className="text-sky-500">{exportJob.currentUploadPart}</span></>
-                                ) : 'กำลังเตรียมไฟล์...'}
-                              </span>
-                              <span>{currentFileProgress}%</span>
-                            </div>
-                            <div className="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-1.5 overflow-hidden">
-                              <div
-                                className="h-full bg-sky-400 rounded-full transition-all duration-300"
-                                style={{ width: `${currentFileProgress}%` }}
-                              />
-                            </div>
-                          </div>
+                          <UploadProgressBar currentUploadPart={exportJob.currentUploadPart} />
                         )}
                         
                         {/* 4. Purge Bar (Red) */}

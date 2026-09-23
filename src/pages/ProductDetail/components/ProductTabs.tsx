@@ -29,10 +29,10 @@ export const ProductTabs = ({
 
   return (
     <div className="mt-6 sm:mt-16 space-y-8 sm:space-y-10">
-      <div className="flex border-b border-slate-200 dark:border-slate-800 sticky top-0 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl z-40">
+      <div className="flex border-b border-slate-200 dark:border-slate-800 sticky top-0 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl z-40 will-change-transform">
         <button
           onClick={() => setActiveTab('description')}
-          className={`flex-1 py-4 text-[10px] font-black uppercase tracking-[0.2em] transition-all relative ${activeTab === 'description' ? 'text-primary-500' : 'text-slate-400 hover:text-slate-600 dark:hover:text-slate-200'}`}
+          className={`flex-1 py-4 text-[10px] font-black uppercase tracking-[0.2em] transition-colors relative ${activeTab === 'description' ? 'text-primary-500' : 'text-slate-400 hover:text-slate-600 dark:hover:text-slate-200'}`}
         >
           {t('product_description')}
           {activeTab === 'description' && (
@@ -44,7 +44,7 @@ export const ProductTabs = ({
         </button>
         <button
           onClick={() => setActiveTab('reviews')}
-          className={`flex-1 py-4 text-[10px] font-black uppercase tracking-[0.2em] transition-all relative ${activeTab === 'reviews' ? 'text-primary-500' : 'text-slate-400 hover:text-slate-600 dark:hover:text-slate-200'}`}
+          className={`flex-1 py-4 text-[10px] font-black uppercase tracking-[0.2em] transition-colors relative ${activeTab === 'reviews' ? 'text-primary-500' : 'text-slate-400 hover:text-slate-600 dark:hover:text-slate-200'}`}
         >
           {t('reviews')} ({reviews.length})
           {activeTab === 'reviews' && (
@@ -155,7 +155,7 @@ export const ProductTabs = ({
                     <motion.div 
                       layout
                       key={review.id} 
-                      className="p-6 sm:p-8 bg-white dark:bg-slate-900/40 backdrop-blur-sm rounded-2xl border border-slate-200 dark:border-slate-800 space-y-6 shadow-lg hover:shadow-xl transition-all"
+                      className="p-6 sm:p-8 bg-white dark:bg-slate-900/40 backdrop-blur-sm rounded-2xl border border-slate-200 dark:border-slate-800 space-y-6 shadow-lg hover:shadow-xl transition-shadow"
                     >
                       <div className="flex justify-between items-start">
                         <div className="flex items-center gap-4">

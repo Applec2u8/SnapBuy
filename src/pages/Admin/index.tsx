@@ -401,7 +401,7 @@ const Admin = () => {
       {/* Main Content */}
       <main className="flex-1 min-w-0 flex flex-col h-screen">
         {/* Header */}
-        <header className="h-20 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 px-6 sm:px-8 flex items-center justify-between sticky top-0 z-50 flex-shrink-0">
+        <header className="h-20 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 px-6 sm:px-8 flex items-center justify-between sticky top-0 z-50 flex-shrink-0 will-change-transform">
           <div className="flex items-center gap-4">
             <button
               onClick={() => setIsSidebarOpen(true)}

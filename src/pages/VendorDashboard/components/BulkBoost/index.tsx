@@ -108,7 +108,7 @@ const BulkBoost = () => {
       </div>
 
       {/* Summary + Confirm */}
-      <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-5 space-y-4 sticky top-4">
+      <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-5 space-y-4 sticky top-4 will-change-transform">
         <h3 className="text-xs font-black uppercase tracking-widest text-slate-900 dark:text-white flex items-center gap-2">
           <TrendingUp size={13} className="text-primary-500" /> {t('vendor_boost_summary')}
         </h3>

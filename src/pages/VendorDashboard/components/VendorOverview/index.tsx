@@ -282,7 +282,7 @@ const VendorOverview = () => {
           <motion.div
             key={idx}
             variants={itemVariants}
-            className={`bg-white dark:bg-slate-900 p-4 sm:p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all group relative overflow-hidden text-left ${idx === 0 || idx === 1 ? 'col-span-2 sm:col-span-1' : ''}`}
+            className={`bg-white dark:bg-slate-900 p-4 sm:p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-[box-shadow,transform] group relative overflow-hidden text-left ${idx === 0 || idx === 1 ? 'col-span-2 sm:col-span-1' : ''}`}
           >
             <div className={`absolute top-0 right-0 w-24 h-24 ${card.color} opacity-[0.03] rounded-full -mr-12 -mt-12 group-hover:scale-150 transition-transform duration-700`}></div>
             <div className="flex justify-between items-start mb-3 sm:mb-4 relative z-10">

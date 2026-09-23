@@ -44,7 +44,7 @@ export const FilterSidebar = ({
   resetFilters
 }: FilterSidebarProps) => {
   return (
-    <aside className="lg:col-span-1 h-fit space-y-2 text-left lg:sticky lg:top-40 z-10">
+    <aside className="lg:col-span-1 h-fit space-y-2 text-left lg:sticky lg:top-40 z-10 will-change-transform">
       <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-md overflow-hidden flex flex-col">
         <button
           onClick={() => setIsFilterExpanded(!isFilterExpanded)}

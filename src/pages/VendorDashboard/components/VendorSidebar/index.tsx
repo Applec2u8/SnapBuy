@@ -173,7 +173,7 @@ const VendorSidebar = ({
         style={{ paddingBottom: 'env(safe-area-inset-bottom, 16px)' }}
         className={`
           fixed inset-y-0 left-0 z-[100] w-72 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 
-          transform transition-transform duration-300 ease-in-out lg:sticky lg:top-0 lg:h-screen lg:translate-x-0 flex-shrink-0 print:hidden pb-8
+          transform transition-transform duration-300 ease-in-out lg:sticky lg:top-0 lg:h-screen lg:translate-x-0 flex-shrink-0 print:hidden pb-8 will-change-transform
           ${isOpen ? 'translate-x-0' : '-translate-x-full'}
         `}
       >
@@ -271,7 +271,7 @@ const VendorSidebar = ({
                   setIsOpen(false); 
                 }}
                 className={`
-                  w-full flex items-center gap-3 px-4 py-3 rounded-2xl font-bold text-sm transition-all relative
+                  w-full flex items-center gap-3 px-4 py-3 rounded-2xl font-bold text-sm transition-colors relative
                   ${activeTab === item.id 
                     ? 'bg-primary-500 text-white shadow-lg shadow-primary-500/20' 
                     : 'text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white'}

@@ -89,8 +89,14 @@ export const DatabaseDashboard: React.FC = () => {
       setIsJobRunning(e?.status === 'running' || r?.status === 'running');
     };
     checkJobs();
-    const interval = setInterval(checkJobs, 1000);
-    return () => clearInterval(interval);
+    // storage event fires when localStorage changes in the same tab (via the job runners)
+    // We also keep a 5-second fallback poll — much cheaper than the original 1-second interval
+    window.addEventListener('storage', checkJobs);
+    const fallback = setInterval(checkJobs, 5000);
+    return () => {
+      window.removeEventListener('storage', checkJobs);
+      clearInterval(fallback);
+    };
   }, []);
 
   const diskMB = dbStats ? dbStats.database_size_bytes / (1024 * 1024) : 0;

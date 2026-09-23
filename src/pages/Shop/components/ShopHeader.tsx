@@ -14,7 +14,7 @@ export const ShopHeader = ({
   setViewMode
 }: ShopHeaderProps) => {
   return (
-    <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-3 mb-4 text-left sticky lg:top-20 z-20 bg-background dark:bg-slate-950 py-2 border-b border-transparent transition-all">
+    <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-3 mb-4 text-left sticky lg:top-20 z-20 bg-background dark:bg-slate-950 py-2 border-b border-transparent will-change-transform">
       <div className="space-y-0.5">
         <div className="flex items-center gap-1.5 text-primary-500">
           <Sparkles size={12} />
@@ -31,14 +31,14 @@ export const ShopHeader = ({
           <input
             type="text"
             placeholder="Search..."
-            className="w-full md:w-56 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl py-2 pl-9 pr-3 text-[10px] font-bold outline-none focus:border-primary-500 transition-all shadow-sm"
+            className="w-full md:w-56 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl py-2 pl-9 pr-3 text-[10px] font-bold outline-none focus:border-primary-500 transition-colors shadow-sm"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
         <div className="flex items-center gap-1 bg-white dark:bg-slate-900 p-0.5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
-          <button onClick={() => setViewMode('grid')} className={`p-1.5 rounded-lg transition-all ${viewMode === 'grid' ? 'bg-primary-500/10 text-primary-500' : 'text-slate-400'}`}><LayoutGrid size={14} /></button>
-          <button onClick={() => setViewMode('list')} className={`p-1.5 rounded-lg transition-all ${viewMode === 'list' ? 'bg-primary-500/10 text-primary-500' : 'text-slate-400'}`}><List size={14} /></button>
+          <button onClick={() => setViewMode('grid')} className={`p-1.5 rounded-lg transition-colors ${viewMode === 'grid' ? 'bg-primary-500/10 text-primary-500' : 'text-slate-400'}`}><LayoutGrid size={14} /></button>
+          <button onClick={() => setViewMode('list')} className={`p-1.5 rounded-lg transition-colors ${viewMode === 'list' ? 'bg-primary-500/10 text-primary-500' : 'text-slate-400'}`}><List size={14} /></button>
         </div>
       </div>
     </div>

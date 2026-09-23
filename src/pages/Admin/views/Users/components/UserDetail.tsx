@@ -37,6 +37,7 @@ export const UserDetail: React.FC<UserDetailProps> = ({
 
   // ── Data ─────────────────────────────────────────────────────────────────
   const [userShops, setUserShops] = useState<ShopRecord[]>([]);
+  const userShopsRef = useRef<ShopRecord[]>([]); // always up-to-date, safe for stale closures
   const [userProducts, setUserProducts] = useState<ProductRecord[]>([]);
   const [totalUserProductsCount, setTotalUserProductsCount] = useState(0);
   const [publishedCount, setPublishedCount] = useState(0);
@@ -108,7 +109,12 @@ export const UserDetail: React.FC<UserDetailProps> = ({
 
   useEffect(() => {
     supabase.from('shops').select('*').eq('owner_id', userId)
-      .then(({ data }) => { if (data) setUserShops(data); });
+      .then(({ data }) => {
+        if (data) {
+          setUserShops(data);
+          userShopsRef.current = data; // keep ref in sync immediately
+        }
+      });
     supabase.from('categories').select('*').order('name')
       .then(({ data }) => { if (data) setCategories(data); });
   }, [userId]);
@@ -149,10 +155,12 @@ export const UserDetail: React.FC<UserDetailProps> = ({
 
   // ── Data fetching ─────────────────────────────────────────────────────────
   async function fetchUserProducts() {
-    if (userShops.length === 0) { setUserProducts([]); setTotalUserProductsCount(0); return; }
+    // Always read from ref so stale closures (e.g. from setTimeout) get current shops
+    const shops = userShopsRef.current;
+    if (shops.length === 0) { setUserProducts([]); setTotalUserProductsCount(0); return; }
     setLoadingUserProducts(true);
     try {
-      const shopIds = selectedShopId === 'all' ? userShops.map((s) => s.id) : [selectedShopId];
+      const shopIds = selectedShopId === 'all' ? shops.map((s) => s.id) : [selectedShopId];
       const isCategoryFilter = filterCategory !== 'all';
       let query = supabase
         .from('products')
@@ -185,7 +193,7 @@ export const UserDetail: React.FC<UserDetailProps> = ({
       setTotalUserProductsCount(count || 0);
 
       // Fetch published/unpublished counts for this shop selection (all pages)
-      const shopIds2 = selectedShopId === 'all' ? userShops.map((s) => s.id) : [selectedShopId];
+      const shopIds2 = selectedShopId === 'all' ? shops.map((s) => s.id) : [selectedShopId];
       const { data: countData } = await supabase
         .from('products')
         .select('is_published')

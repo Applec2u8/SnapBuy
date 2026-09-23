@@ -21,7 +21,9 @@ interface BotJob {
   bot_count_max: number;
   items_per_order_min: number;
   items_per_order_max: number;
-  price_preference: 'random' | 'cheap' | 'expensive' | 'all';
+  price_preference: 'random' | 'cheap' | 'expensive' | 'all' | 'custom';
+  price_min?: number | null;
+  price_max?: number | null;
   max_runs?: number | null;
   interval_minutes: number;
   status: 'active' | 'paused';
@@ -32,9 +34,9 @@ interface BotJob {
 
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
 
-export function BotSimulations() {
+export function BotSimulations({ initialTab }: { initialTab?: 'generate' | 'jobs' } = {}) {
   const { user } = useAuthStore();
-  const [activeTab, setActiveTab] = useState<'generate' | 'jobs'>('generate');
+  const [activeTab, setActiveTab] = useState<'generate' | 'jobs'>(initialTab ?? 'generate');
 
   // Generate Bots state
   const [botCount, setBotCount] = useState(10);
@@ -62,10 +64,65 @@ export function BotSimulations() {
     bot_count: 5,
     items_per_order_max: 3,
     interval_minutes: 60,
-    price_preference: 'random' as 'random' | 'cheap' | 'expensive' | 'all',
+    price_preference: 'random' as 'random' | 'cheap' | 'expensive' | 'all' | 'custom',
     max_runs: 1,
+    price_min: null as number | null,
+    price_max: null as number | null,
   });
   const [creatingJob, setCreatingJob] = useState(false);
+
+  // Live price-range match info (for custom mode)
+  const [priceRangeInfo, setPriceRangeInfo] = useState<{
+    matchCount: number | null;
+    shopMinPrice: number | null;
+    shopMaxPrice: number | null;
+    checking: boolean;
+  }>({ matchCount: null, shopMinPrice: null, shopMaxPrice: null, checking: false });
+
+  // Debounce ref for price range check
+  const priceCheckTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Re-check whenever shop, price_preference, price_min, or price_max changes
+  useEffect(() => {
+    if (newJob.price_preference !== 'custom' || !newJob.shop_id) {
+      setPriceRangeInfo({ matchCount: null, shopMinPrice: null, shopMaxPrice: null, checking: false });
+      return;
+    }
+    if (priceCheckTimer.current) clearTimeout(priceCheckTimer.current);
+    setPriceRangeInfo(p => ({ ...p, checking: true }));
+    priceCheckTimer.current = setTimeout(async () => {
+      try {
+        // Count products matching the price range
+        let q = supabase
+          .from('products')
+          .select('id', { count: 'exact', head: true })
+          .eq('shop_id', newJob.shop_id)
+          .eq('is_published', true)
+          .gt('stock_quantity', 0);
+        if (newJob.price_min != null) q = q.gte('price', newJob.price_min);
+        if (newJob.price_max != null) q = q.lte('price', newJob.price_max);
+        const { count: matchCount } = await q;
+
+        // Get shop's overall min and max price
+        const { data: priceData } = await supabase
+          .from('products')
+          .select('price')
+          .eq('shop_id', newJob.shop_id)
+          .eq('is_published', true)
+          .gt('stock_quantity', 0)
+          .order('price', { ascending: true });
+
+        const prices = (priceData || []).map((p: any) => Number(p.price));
+        const shopMinPrice = prices.length > 0 ? Math.min(...prices) : null;
+        const shopMaxPrice = prices.length > 0 ? Math.max(...prices) : null;
+
+        setPriceRangeInfo({ matchCount: matchCount ?? 0, shopMinPrice, shopMaxPrice, checking: false });
+      } catch {
+        setPriceRangeInfo(p => ({ ...p, checking: false }));
+      }
+    }, 600);
+    return () => { if (priceCheckTimer.current) clearTimeout(priceCheckTimer.current); };
+  }, [newJob.shop_id, newJob.price_preference, newJob.price_min, newJob.price_max]);
 
   // Shop picker state
   const [shopSearch, setShopSearch] = useState('');
@@ -140,8 +197,30 @@ export function BotSimulations() {
   };
 
   const fetchShops = async () => {
-    const { data } = await supabase.from('shops').select('id, name, logo_url, products(id)').order('name');
-    setShops(data || []);
+    // ดึงเฉพาะ id, name, logo_url — ไม่ join products เพื่อลด payload
+    const { data: shopData } = await supabase
+      .from('shops')
+      .select('id, name, logo_url')
+      .order('name');
+
+    if (!shopData) { setShops([]); return; }
+
+    // ดึง count สินค้าต่อร้านด้วย query เดียว (aggregate)
+    const { data: countData } = await supabase
+      .from('products')
+      .select('shop_id')
+      .in('shop_id', shopData.map(s => s.id))
+      .eq('is_published', true);
+
+    const countMap: Record<string, number> = {};
+    (countData || []).forEach((p: any) => {
+      countMap[p.shop_id] = (countMap[p.shop_id] || 0) + 1;
+    });
+
+    setShops(shopData.map(s => ({
+      ...s,
+      products: Array(countMap[s.id] || 0).fill({ id: '' }),
+    })));
   };
 
   const fetchJobs = async () => {
@@ -231,6 +310,58 @@ export function BotSimulations() {
     }
     setCreatingJob(true);
     try {
+      // Validate custom price range
+      if (newJob.price_preference === 'custom') {
+        if (newJob.price_min != null && newJob.price_max != null && newJob.price_min > newJob.price_max) {
+          toast.error('ราคาขั้นต่ำต้องไม่มากกว่าราคาสูงสุด');
+          setCreatingJob(false);
+          return;
+        }
+
+        // ── Pre-submit: ตรวจว่ามีสินค้าในช่วงราคานี้ไหม ──
+        let checkQ = supabase
+          .from('products')
+          .select('id', { count: 'exact', head: true })
+          .eq('shop_id', newJob.shop_id)
+          .eq('is_published', true)
+          .gt('stock_quantity', 0);
+        if (newJob.price_min != null) checkQ = checkQ.gte('price', newJob.price_min);
+        if (newJob.price_max != null) checkQ = checkQ.lte('price', newJob.price_max);
+        const { count: matchCount } = await checkQ;
+
+        if (!matchCount || matchCount === 0) {
+          // ดึงราคาจริงในร้าน
+          const { data: priceData } = await supabase
+            .from('products')
+            .select('price')
+            .eq('shop_id', newJob.shop_id)
+            .eq('is_published', true)
+            .gt('stock_quantity', 0)
+            .order('price', { ascending: true });
+
+          const prices = (priceData || []).map((p: any) => Number(p.price));
+          const actualMin = prices.length > 0 ? Math.min(...prices) : null;
+          const actualMax = prices.length > 0 ? Math.max(...prices) : null;
+
+          const rangeText = [
+            newJob.price_min != null ? `ตั้งแต่ $${newJob.price_min}` : '',
+            newJob.price_max != null ? `ถึง $${newJob.price_max}` : '',
+          ].filter(Boolean).join(' ');
+
+          toast.error(
+            `❌ ไม่พบสินค้าในช่วงราคา ${rangeText || 'ที่กำหนด'}`,
+            {
+              description: actualMin != null
+                ? `ราคาของสินค้าในร้านนี้อยู่ระหว่าง $${actualMin.toFixed(2)} – $${actualMax?.toFixed(2)} — กรุณาปรับช่วงราคาใหม่`
+                : 'ไม่มีสินค้าในร้านนี้เลย',
+              duration: 6000,
+            }
+          );
+          setCreatingJob(false);
+          return;
+        }
+      }
+
       const payload = {
         shop_id: newJob.shop_id,
         bot_count_min: newJob.bot_count,
@@ -238,7 +369,10 @@ export function BotSimulations() {
         items_per_order_min: 1,
         items_per_order_max: newJob.items_per_order_max,
         interval_minutes: newJob.interval_minutes,
-        price_preference: newJob.price_preference,
+        // Map 'custom' -> 'all' for the DB column (backend will use price_min/price_max for filtering)
+        price_preference: newJob.price_preference === 'custom' ? 'all' : newJob.price_preference,
+        price_min: newJob.price_preference === 'custom' ? newJob.price_min : null,
+        price_max: newJob.price_preference === 'custom' ? newJob.price_max : null,
         max_runs: newJob.max_runs === 0 ? null : newJob.max_runs,
         status: 'active'
       };
@@ -270,7 +404,7 @@ export function BotSimulations() {
       }
 
       setShowNewJobForm(false);
-      setNewJob({ shop_id: '', bot_count: 5, items_per_order_max: 3, interval_minutes: 60, price_preference: 'random', max_runs: 1 });
+      setNewJob({ shop_id: '', bot_count: 5, items_per_order_max: 3, interval_minutes: 60, price_preference: 'random', max_runs: 1, price_min: null, price_max: null });
       fetchJobs();
     } catch (err: any) {
       toast.error(err.message);
@@ -413,6 +547,7 @@ export function BotSimulations() {
           shopPickerRef={shopPickerRef}
           totalBots={totalBots}
           fetchJobs={fetchJobs}
+          priceRangeInfo={priceRangeInfo}
         />
       )}
     </div>

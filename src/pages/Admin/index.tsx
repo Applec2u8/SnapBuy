@@ -39,11 +39,11 @@ import { StoreQuotas } from './views/StoreQuotas/StoreQuotas.tsx';
 import { DatabaseDashboard } from './views/Database/DatabaseDashboard.tsx';
 import { BotSimulations } from './views/BotSimulations/BotSimulations.tsx';
 import { ManualManagement } from './views/Manuals/ManualManagement.tsx';
-import { Activity, Wallet, SlidersHorizontal, MessageCircle, Database, Book } from 'lucide-react';
+import { Activity, Wallet, SlidersHorizontal, MessageCircle, Database, Book, Zap } from 'lucide-react';
 import { useAdminSupportNotification } from './hooks/useAdminSupportNotification';
 
 const ADMIN_DASHBOARD_STORAGE_PREFIX = 'admin-dashboard-state';
-const adminTabKeys = ['dashboard', 'users', 'op_users', 'shops', 'products', 'payments', 'database', 'logs', 'support', 'admin_messages', 'wallets', 'site_config', 'store_quotas', 'bot_traffic', 'manuals'] as const;
+const adminTabKeys = ['dashboard', 'users', 'op_users', 'shops', 'products', 'payments', 'database', 'logs', 'support', 'admin_messages', 'wallets', 'site_config', 'store_quotas', 'simulation_jobs', 'manuals'] as const;
 
 type AdminTab = (typeof adminTabKeys)[number];
 
@@ -170,13 +170,13 @@ const Admin = () => {
     admin_messages: { id: 'admin_messages', label: 'Support Messages', icon: MessageCircle },
     site_config: { id: 'site_config', label: 'Site Config', icon: SlidersHorizontal },
     database: { id: 'database', label: 'Database', icon: Database },
-    bot_traffic: { id: 'bot_traffic', label: 'A/G Bots', icon: Bot },
+    simulation_jobs: { id: 'simulation_jobs', label: 'BUY JOBS', icon: Zap },
     manuals: { id: 'manuals', label: 'User Manual', icon: Book },
   } as const;
 
   const groups = [
-    { id: 'grp_users', label: 'Users', items: ['users', 'op_users', 'bot_traffic'], icon: Users },
-    { id: 'grp_shops', label: 'Shops', items: ['shops', 'products'], icon: Store },
+    { id: 'grp_users', label: 'Users', items: ['users', 'op_users'], icon: Users },
+    { id: 'grp_shops', label: 'Shops', items: ['shops', 'products', 'simulation_jobs'], icon: Store },
     { id: 'grp_payments', label: 'Payments', items: ['payments', 'wallets', 'store_quotas'], icon: CreditCard },
     { id: 'grp_support', label: 'Support', items: ['logs', 'support', 'site_config', 'manuals'], icon: Activity },
   ];
@@ -606,7 +606,7 @@ const Admin = () => {
                       />
                     )}
                     {activeTab === 'site_config' && <SiteSettings />}
-                    {activeTab === 'bot_traffic' && <BotSimulations />}
+                    {activeTab === 'simulation_jobs' && <BotSimulations initialTab="jobs" />}
                     {activeTab === 'manuals' && <ManualManagement />}
                   </>
                 )}

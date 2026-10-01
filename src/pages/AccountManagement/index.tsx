@@ -3,21 +3,74 @@ import { useAuthStore } from '../../store/useAuthStore';
 import { Mail, Phone, CreditCard, ShieldCheck, ArrowLeft, Plus } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { LinkedAccountItem } from './components/LinkedAccountItem';
+import OTPEmailModal from './components/OTPEmailModal';
 import { toast } from 'sonner';
+import { supabase } from '../../lib/supabase';
+import { useEffect } from 'react';
+import { Loader2 } from 'lucide-react';
 
 const AccountManagement = () => {
-  const { user, profile } = useAuthStore();
+  const { user, profile, fetchProfile } = useAuthStore();
   const navigate = useNavigate();
 
-  const [phoneNumber] = useState(profile?.phone || '');
-  const [hasMastercard, setHasMastercard] = useState(true);
+  const phoneNumber = profile?.phone || '';
+  const [showEmailModal, setShowEmailModal] = useState(false);
+  const [cards, setCards] = useState<any[]>([]);
+  const [loadingCards, setLoadingCards] = useState(true);
 
-  const handleEditPhone = () => {
-    toast.info('Phone number editing will be available soon.');
+  useEffect(() => {
+    if (user) {
+      const fetchCards = async () => {
+        try {
+          const { data, error } = await supabase
+            .from('user_payment_methods')
+            .select('*')
+            .eq('user_id', user.id)
+            .order('created_at', { ascending: false });
+
+          if (error) throw error;
+          if (data) {
+            setCards(data);
+          }
+        } catch (err) {
+          console.error('Error fetching cards:', err);
+        } finally {
+          setLoadingCards(false);
+        }
+      };
+      fetchCards();
+    }
+  }, [user]);
+
+  const handleEditPhone = async () => {
+    const newPhone = window.prompt('Enter your new phone number:', phoneNumber);
+    if (newPhone !== null && newPhone.trim() !== phoneNumber) {
+      try {
+        const { error } = await supabase.from('profiles').update({ phone: newPhone.trim() }).eq('id', user?.id);
+        if (error) throw error;
+        toast.success('Phone number updated successfully');
+        if (user) await fetchProfile(user.id);
+      } catch (err: any) {
+        toast.error(err.message || 'Failed to update phone number');
+      }
+    }
   };
 
-  const handleAddCard = () => {
-    toast.info('Adding new payment methods will be available soon.');
+  const handleDeleteCard = async (cardId: string) => {
+    try {
+      const { error } = await supabase
+        .from('user_payment_methods')
+        .delete()
+        .eq('id', cardId)
+        .eq('user_id', user?.id);
+
+      if (error) throw error;
+
+      setCards(prev => prev.filter(c => c.id !== cardId));
+      toast.success('Card removed successfully');
+    } catch (err: any) {
+      toast.error(err.message || 'Failed to remove card');
+    }
   };
 
   return (
@@ -56,7 +109,7 @@ const AccountManagement = () => {
               value={user?.email || 'No email attached'}
               status={user?.email ? 'verified' : 'unverified'}
               actionLabel="Change"
-              onAction={() => toast.info('Email changing is restricted.')}
+              onAction={() => setShowEmailModal(true)}
               isPrimary={true}
             />
 
@@ -83,27 +136,25 @@ const AccountManagement = () => {
                 <p className="text-[9px] sm:text-[10px] text-slate-400 font-bold uppercase tracking-widest truncate">Cards & Wallets</p>
               </div>
             </div>
-            <button
-              onClick={handleAddCard}
-              className="flex items-center gap-2 text-xs sm:text-sm font-bold text-primary-500 hover:text-primary-600 bg-primary-500/10 px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl transition-colors shrink-0"
-            >
-              <Plus size={16} /> Add New
-            </button>
           </div>
 
           <div className="space-y-4">
-            <div className="p-4 mb-4 text-sm text-amber-800 rounded-lg bg-amber-50 dark:bg-amber-900/30 dark:text-amber-400" role="alert">
-              <span className="font-medium">Notice:</span> The system is not yet ready to link credit cards. The card below is just a sample format.
-            </div>
-            {hasMastercard ? (
-              <LinkedAccountItem
-                icon={<CreditCard size={20} />}
-                title="Sample Mastercard"
-                value="Ending in •••• 0000"
-                status="unverified"
-                actionLabel="Remove"
-                onAction={() => setHasMastercard(false)}
-              />
+            {loadingCards ? (
+              <div className="flex items-center justify-center py-8">
+                <Loader2 className="animate-spin text-primary-500" size={24} />
+              </div>
+            ) : cards.length > 0 ? (
+              cards.map((card) => (
+                <LinkedAccountItem
+                  key={card.id}
+                  icon={<CreditCard size={20} />}
+                  title={`${card.brand} Card`}
+                  value={`Ending in •••• ${card.last4}`}
+                  status="verified"
+                  actionLabel="Remove"
+                  onAction={() => handleDeleteCard(card.id)}
+                />
+              ))
             ) : (
               <div className="py-8 text-center bg-slate-50 dark:bg-slate-800/50 rounded-2xl border border-dashed border-slate-300 dark:border-slate-700">
                 <p className="text-sm text-slate-500 dark:text-slate-400 font-medium">No payment methods linked.</p>
@@ -112,6 +163,14 @@ const AccountManagement = () => {
           </div>
         </section>
       </div>
+
+      {showEmailModal && user?.email && (
+        <OTPEmailModal
+          email={user.email}
+          userName={profile?.full_name || profile?.username}
+          onClose={() => setShowEmailModal(false)}
+        />
+      )}
     </div>
   );
 };

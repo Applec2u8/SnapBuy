@@ -1,13 +1,78 @@
-import { ArrowLeft, Smartphone, LogOut, Loader2, Globe, Clock, Trash2, ShieldCheck, Wifi } from 'lucide-react';
+import { useState, useMemo } from 'react';
+import { ArrowLeft, Smartphone, LogOut, Loader2, Globe, Clock, Trash2, ShieldCheck, Wifi, ChevronDown, ChevronUp } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useSecurity } from '../Security/hooks/useSecurity';
 import { useTranslation } from 'react-i18next';
 import { formatRelativeTime } from '../../lib/sessionService';
 
+const SessionItem = ({ session, handleRevokeSingle, t, isSubItem = false }: any) => (
+  <div
+    className={`flex items-center justify-between p-4 sm:p-5 rounded-2xl sm:rounded-[24px] border transition-all ${
+      session.current
+        ? 'bg-primary-500/5 border-primary-500/20'
+        : isSubItem 
+          ? 'bg-white dark:bg-slate-800/10 border-slate-100 dark:border-slate-800/50' 
+          : 'bg-slate-50 dark:bg-slate-800/30 border-slate-200 dark:border-slate-800'
+    }`}
+  >
+    <div className="flex items-center gap-3 sm:gap-5 flex-1 min-w-0">
+      <div className={`p-2 sm:p-3 rounded-2xl shrink-0 ${session.current ? 'bg-primary-500 text-white' : 'bg-slate-100 dark:bg-slate-800 text-slate-400 shadow-sm'}`}>
+        {session.device_name.toLowerCase().includes('iphone') || session.device_name.toLowerCase().includes('android')
+          ? <Smartphone size={20} />
+          : <Globe size={20} />
+        }
+      </div>
+      <div className="flex-1 min-w-0">
+        <div className="flex items-center gap-2 flex-wrap">
+          <p className="text-sm font-black text-slate-900 dark:text-white tracking-tight truncate">{session.device_name}</p>
+          {session.current && (
+            <span className="px-2 py-0.5 bg-green-500 text-white text-[7px] font-black uppercase tracking-widest rounded-full">
+              {t('login_history_current')}
+            </span>
+          )}
+        </div>
+        <div className="flex items-center gap-3 mt-1 flex-wrap">
+          <span className="text-[9px] text-slate-400 font-bold uppercase tracking-widest flex items-center gap-1">
+            <Globe size={10} /> {session.browser}
+          </span>
+          <span className="text-slate-200 dark:text-slate-700">•</span>
+          <span className="text-[9px] text-slate-400 font-bold uppercase tracking-widest flex items-center gap-1">
+            <Clock size={10} /> {session.lastActiveLabel}
+          </span>
+          {session.ip_address && (
+            <>
+              <span className="text-slate-200 dark:text-slate-700">•</span>
+              <span className="text-[9px] text-slate-400 font-bold uppercase tracking-widest flex items-center gap-1">
+                <Wifi size={10} /> {session.ip_address}
+              </span>
+            </>
+          )}
+        </div>
+        <p className="text-[8px] text-slate-300 dark:text-slate-600 mt-0.5 uppercase tracking-widest">
+          Logged in: {new Date(session.logged_in_at).toLocaleString('en-US', {
+            month: 'short', day: 'numeric', year: 'numeric',
+            hour: '2-digit', minute: '2-digit',
+          })}
+        </p>
+      </div>
+    </div>
+    {!session.current && (
+      <button
+        onClick={() => handleRevokeSingle(session.id)}
+        className="p-3 text-slate-300 hover:text-red-500 hover:bg-red-500/10 rounded-xl transition-all flex-shrink-0"
+        title="Revoke Access"
+      >
+        <Trash2 size={18} />
+      </button>
+    )}
+  </div>
+);
+
 const LoginHistory = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { sessions, revoking, loadingSessions, handleRevokeOthers, handleRevokeSingle } = useSecurity();
+  const [expandedGroups, setExpandedGroups] = useState<string[]>([]);
 
   // Format last security check from current session login time (first session = most recent)
   const lastSecurityCheck = sessions.length > 0
@@ -15,6 +80,23 @@ const LoginHistory = () => {
         month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit',
       })
     : null;
+
+  // Group sessions by device name
+  const groupedSessions = useMemo(() => {
+    const groups: Record<string, typeof sessions> = {};
+    sessions.forEach(session => {
+      const key = session.device_name || 'Unknown Device';
+      if (!groups[key]) groups[key] = [];
+      groups[key].push(session);
+    });
+    return groups;
+  }, [sessions]);
+
+  const toggleGroup = (deviceName: string) => {
+    setExpandedGroups(prev => 
+      prev.includes(deviceName) ? prev.filter(name => name !== deviceName) : [...prev, deviceName]
+    );
+  };
 
   return (
     <div className="w-full max-w-4xl mx-auto px-4 py-8 animate-fade-in text-left min-h-screen overflow-x-hidden sm:overflow-x-visible">
@@ -85,69 +167,77 @@ const LoginHistory = () => {
             </div>
           )}
 
-          {/* Real sessions */}
-          {!loadingSessions && sessions.map((session) => (
-            <div
-              key={session.id}
-              className={`flex items-center justify-between p-4 sm:p-5 rounded-2xl sm:rounded-[24px] border transition-all ${
-                session.current
-                  ? 'bg-primary-500/5 border-primary-500/20'
-                  : 'bg-slate-50 dark:bg-slate-800/30 border-slate-200 dark:border-slate-800'
-              }`}
-            >
-              <div className="flex items-center gap-3 sm:gap-5 flex-1 min-w-0">
-                <div className={`p-2 sm:p-3 rounded-2xl shrink-0 ${session.current ? 'bg-primary-500 text-white' : 'bg-white dark:bg-slate-800 text-slate-400 shadow-sm'}`}>
-                  {session.device_name.toLowerCase().includes('iphone') || session.device_name.toLowerCase().includes('android')
-                    ? <Smartphone size={20} />
-                    : <Globe size={20} />
-                  }
-                </div>
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2 flex-wrap">
-                    <p className="text-sm font-black text-slate-900 dark:text-white tracking-tight truncate">{session.device_name}</p>
-                    {session.current && (
-                      <span className="px-2 py-0.5 bg-green-500 text-white text-[7px] font-black uppercase tracking-widest rounded-full">
-                        {t('login_history_current')}
-                      </span>
-                    )}
-                  </div>
-                  <div className="flex items-center gap-3 mt-1 flex-wrap">
-                    <span className="text-[9px] text-slate-400 font-bold uppercase tracking-widest flex items-center gap-1">
-                      <Globe size={10} /> {session.browser}
-                    </span>
-                    <span className="text-slate-200 dark:text-slate-700">•</span>
-                    <span className="text-[9px] text-slate-400 font-bold uppercase tracking-widest flex items-center gap-1">
-                      <Clock size={10} /> {session.lastActiveLabel}
-                    </span>
-                    {session.ip_address && (
-                      <>
-                        <span className="text-slate-200 dark:text-slate-700">•</span>
-                        <span className="text-[9px] text-slate-400 font-bold uppercase tracking-widest flex items-center gap-1">
-                          <Wifi size={10} /> {session.ip_address}
-                        </span>
-                      </>
-                    )}
-                  </div>
-                  {/* Login timestamp */}
-                  <p className="text-[8px] text-slate-300 dark:text-slate-600 mt-0.5 uppercase tracking-widest">
-                    Logged in: {new Date(session.logged_in_at).toLocaleString('en-US', {
-                      month: 'short', day: 'numeric', year: 'numeric',
-                      hour: '2-digit', minute: '2-digit',
-                    })}
-                  </p>
-                </div>
-              </div>
-              {!session.current && (
-                <button
-                  onClick={() => handleRevokeSingle(session.id)}
-                  className="p-3 text-slate-300 hover:text-red-500 hover:bg-red-500/10 rounded-xl transition-all flex-shrink-0"
-                  title="Revoke Access"
+          {/* Real sessions grouped */}
+          {!loadingSessions && Object.entries(groupedSessions).map(([deviceName, deviceSessions]) => {
+            const hasMultiple = deviceSessions.length > 1;
+            const isExpanded = expandedGroups.includes(deviceName);
+            const currentSession = deviceSessions.find(s => s.current);
+            const mostRecent = deviceSessions[0];
+
+            if (!hasMultiple) {
+              return (
+                <SessionItem 
+                  key={deviceSessions[0].id} 
+                  session={deviceSessions[0]} 
+                  handleRevokeSingle={handleRevokeSingle} 
+                  t={t} 
+                />
+              );
+            }
+
+            return (
+              <div key={deviceName} className="rounded-2xl sm:rounded-[24px] border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/30 overflow-hidden transition-all">
+                {/* Group Header */}
+                <div 
+                  className={`flex items-center justify-between p-4 sm:p-5 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800/50 transition-colors ${currentSession ? 'bg-primary-500/5' : ''}`}
+                  onClick={() => toggleGroup(deviceName)}
                 >
-                  <Trash2 size={18} />
-                </button>
-              )}
-            </div>
-          ))}
+                  <div className="flex items-center gap-3 sm:gap-5 flex-1 min-w-0">
+                    <div className={`p-2 sm:p-3 rounded-2xl shrink-0 ${currentSession ? 'bg-primary-500 text-white' : 'bg-white dark:bg-slate-800 text-slate-400 shadow-sm'}`}>
+                      {deviceName.toLowerCase().includes('iphone') || deviceName.toLowerCase().includes('android')
+                        ? <Smartphone size={20} />
+                        : <Globe size={20} />
+                      }
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <p className="text-sm font-black text-slate-900 dark:text-white tracking-tight truncate">{deviceName}</p>
+                        <span className="px-2 py-0.5 bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300 text-[8px] font-black uppercase tracking-widest rounded-full">
+                          {deviceSessions.length} Sessions
+                        </span>
+                        {currentSession && (
+                          <span className="px-2 py-0.5 bg-green-500 text-white text-[7px] font-black uppercase tracking-widest rounded-full">
+                            {t('login_history_current')} Included
+                          </span>
+                        )}
+                      </div>
+                      <p className="text-[9px] text-slate-400 font-bold uppercase tracking-widest mt-1">
+                        Most recent: {mostRecent.lastActiveLabel}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="p-2 text-slate-400">
+                    {isExpanded ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
+                  </div>
+                </div>
+
+                {/* Group Content */}
+                {isExpanded && (
+                  <div className="border-t border-slate-200 dark:border-slate-700/50 p-3 sm:p-4 space-y-3 bg-white dark:bg-slate-900/50">
+                    {deviceSessions.map(session => (
+                      <SessionItem 
+                        key={session.id} 
+                        session={session} 
+                        handleRevokeSingle={handleRevokeSingle} 
+                        t={t}
+                        isSubItem={true}
+                      />
+                    ))}
+                  </div>
+                )}
+              </div>
+            );
+          })}
         </div>
 
         {/* Footer */}

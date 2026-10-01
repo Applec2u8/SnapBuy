@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+﻿import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { supabase } from '../../../../lib/supabase';
 import { useAuthStore } from '../../../../store/useAuthStore';
 import { toast } from 'sonner';
@@ -298,30 +298,36 @@ const BuyQuotaModal = ({
         onClick={e => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between p-6 border-b border-slate-100 dark:border-slate-800 flex-shrink-0 gap-4">
-          <div className="flex items-center gap-3">
-            <div className="p-2 bg-amber-100 dark:bg-amber-500/20 rounded-xl">
-              <Sparkles size={20} className="text-amber-500" />
+        <div className="p-4 sm:p-6 border-b border-slate-100 dark:border-slate-800 flex-shrink-0">
+          {/* Row 1: Icon + Title */}
+          <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center gap-3">
+              <div className="p-2 bg-amber-100 dark:bg-amber-500/20 rounded-xl">
+                <Sparkles size={20} className="text-amber-500" />
+              </div>
+              <div>
+                <h3 className="text-lg font-black text-slate-900 dark:text-white uppercase tracking-tight">Buy Quota</h3>
+                <p className="text-xs text-slate-500">Upgrade your store limit and unlock categories</p>
+              </div>
             </div>
-            <div>
-              <h3 className="text-lg font-black text-slate-900 dark:text-white uppercase tracking-tight">Buy Quota</h3>
-              <p className="text-xs text-slate-500">Upgrade your store limit and unlock categories</p>
-            </div>
-          </div>
-
-          <div className="flex items-center justify-between sm:justify-end gap-3 w-full sm:w-auto">
-            {/* Tabs */}
-            <div className="flex bg-slate-100 dark:bg-slate-800 p-1 rounded-xl">
-              <button onClick={() => setTab('packages')} className={`px-4 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all ${tab === 'packages' ? 'bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-sm' : 'text-slate-500'}`}>Packages</button>
-              <button onClick={() => setTab('custom')} className={`px-4 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all ${tab === 'custom' ? 'bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-sm' : 'text-slate-500'}`}>Custom</button>
-            </div>
-            <div className="flex items-center gap-2 px-3 py-1.5 bg-slate-100 dark:bg-slate-800 rounded-xl shrink-0">
-              <Wallet size={14} className="text-primary-500" />
-              <span className="text-xs font-black text-slate-700 dark:text-slate-300">${walletBalance.toFixed(2)}</span>
-            </div>
-            <button onClick={onClose} className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-colors text-slate-500 shrink-0">
+            <button onClick={onClose} className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-colors text-slate-500">
               <X size={18} />
             </button>
+          </div>
+
+          {/* Row 2: Tabs + Wallet */}
+          <div className="flex items-center gap-2 flex-wrap">
+            {/* Tabs */}
+            <div className="flex bg-slate-100 dark:bg-slate-800 p-1 rounded-xl flex-1 min-w-0">
+              <button onClick={() => setTab('packages')} className={`flex-1 px-3 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all ${tab === 'packages' ? 'bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-sm' : 'text-slate-500'}`}>Packages</button>
+              <button onClick={() => setTab('custom')} className={`flex-1 px-3 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all ${tab === 'custom' ? 'bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-sm' : 'text-slate-500'}`}>Custom</button>
+            </div>
+            <div className="flex items-center gap-2 px-2.5 py-1.5 bg-slate-100 dark:bg-slate-800 rounded-xl shrink-0 max-w-[100px]">
+              <Wallet size={14} className="text-primary-500 flex-shrink-0" />
+              <span className="text-xs font-black text-slate-700 dark:text-slate-300 truncate">
+                ${walletBalance >= 1000 ? (walletBalance / 1000).toFixed(1) + 'K' : walletBalance.toFixed(0)}
+              </span>
+            </div>
           </div>
         </div>
 
@@ -452,7 +458,7 @@ const BuyQuotaModal = ({
                       placeholder="Search categories..."
                       value={categorySearch}
                       onChange={(e) => setCategorySearch(e.target.value)}
-                      className="flex-1 bg-slate-100 dark:bg-slate-800 border border-transparent focus:border-blue-500 rounded-lg py-1.5 px-3 text-xs font-bold text-slate-900 dark:text-white outline-none"
+                      className="w-full bg-slate-100 dark:bg-slate-800 border border-transparent focus:border-blue-500 rounded-lg py-1.5 px-3 text-xs font-bold text-slate-900 dark:text-white outline-none"
                     />
                     <button
                       onClick={toggleAllCategories}
@@ -501,67 +507,60 @@ const BuyQuotaModal = ({
           )}
         </div>
 
-        {/* Footer */}
-        <div className="border-t border-slate-100 dark:border-slate-800 flex-shrink-0 bg-white dark:bg-slate-900">
-          {/* Free Code Collapse */}
-          {showRedeemInput && (
-            <div className="px-6 pt-4 pb-0">
-              <form onSubmit={handleRedeemCode} className="flex gap-2 items-center">
-                <div className="flex items-center gap-1.5 text-[10px] font-black text-red-500 uppercase tracking-widest shrink-0 hidden md:flex">
-                  <KeyRound size={12} /> Free Code
-                </div>
-                <input
-                  autoFocus
-                  type="text"
-                  value={redeemCode}
-                  onChange={(e) => setRedeemCode(e.target.value.toUpperCase())}
-                  placeholder="Q-XXXX-XXXX"
-                  className="flex-1 bg-slate-100 dark:bg-slate-800 border border-transparent focus:border-red-400 rounded-xl py-2 px-3 text-xs font-black text-slate-900 dark:text-white outline-none uppercase tracking-wider placeholder:font-normal placeholder:text-slate-400 transition-colors"
-                />
-                <button
-                  type="submit"
-                  disabled={redeeming || !redeemCode.trim()}
-                  className="flex items-center gap-1.5 px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-xl font-black text-[10px] uppercase tracking-widest transition-colors disabled:opacity-50 shrink-0"
-                >
-                  {redeeming ? <Loader2 size={12} className="animate-spin" /> : <><Gift size={12} /> Redeem</>}
-                </button>
-                <button type="button" onClick={() => { setShowRedeemInput(false); setRedeemCode(''); }} className="p-2 text-slate-400 hover:text-slate-600 transition-colors">
-                  <X size={14} />
-                </button>
-              </form>
+        {/* Footer — inside motion.div, below the scrollable content */}
+        <div className="border-t border-slate-100 dark:border-slate-800 flex-shrink-0 p-4 sm:p-5 flex flex-col gap-3 bg-white dark:bg-slate-900">
+          {/* Total + Free Code row */}
+          <div className="flex items-center gap-2">
+            <div className="flex-1 min-w-0">
+              <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1 mb-0.5">
+                <Calculator size={10} /> Total Cost
+              </p>
+              <p className="text-2xl font-black text-slate-900 dark:text-white truncate">${currentCost.toFixed(2)}</p>
+              {!hasEnough && currentCost > 0 && (
+                <p className="text-xs font-bold text-red-500 mt-0.5">⚠ Need ${(currentCost - walletBalance).toFixed(2)} more</p>
+              )}
             </div>
-          )}
-          <div className="p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div className="flex items-center gap-3 w-full sm:w-auto">
-              {/* Total Cost */}
-              <div className="text-center sm:text-left">
-                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1">
-                  <Calculator size={10} /> Total Cost
-                </p>
-                <p className="text-2xl font-black text-slate-900 dark:text-white">${currentCost.toFixed(2)}</p>
-                {!hasEnough && currentCost > 0 && (
-                  <p className="text-xs font-bold text-red-500 mt-1">⚠ Need ${(currentCost - walletBalance).toFixed(2)} more</p>
-                )}
-              </div>
-            </div>
-            <div className="flex items-center gap-3 w-full sm:w-auto justify-end">
-              {/* Have a free code? */}
-              <button
-                type="button"
-                onClick={() => setShowRedeemInput(v => !v)}
-                className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-colors shrink-0 ${redeemCode.trim() ? 'bg-red-500 text-white border border-red-500 hover:bg-red-600 dark:border-red-500/80 dark:hover:bg-red-600' : 'text-red-500 border border-red-200 dark:border-red-500/30 hover:bg-red-50 dark:hover:bg-red-500/10'}`}
-              >
-                <KeyRound size={11} /> {redeemCode.trim() ? 'มันมากเลย กระเป๋าฟรี' : 'Free Code?'}
-              </button>
-              <button
-                onClick={tab === 'packages' ? handleBuyPackage : handleBuyCustom}
-                disabled={buying || !hasEnough || currentCost === 0 || (tab === 'packages' && !selectedPkg)}
-                className="w-full sm:w-auto px-8 py-3.5 bg-primary-500 text-white rounded-xl font-black uppercase tracking-widest text-sm hover:bg-primary-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-lg shadow-primary-500/20"
-              >
-                {buying ? <Loader2 className="animate-spin" size={16} /> : <><ShoppingCart size={16} /> Pay ${currentCost.toFixed(2)}</>}
-              </button>
-            </div>
+            <button
+              type="button"
+              onClick={() => setShowRedeemInput(v => !v)}
+              className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-colors shrink-0 ${redeemCode.trim() ? 'bg-red-500 text-white border border-red-500 hover:bg-red-600' : 'text-red-500 border border-red-200 dark:border-red-500/30 hover:bg-red-50 dark:hover:bg-red-500/10'}`}
+            >
+              <KeyRound size={11} /> {redeemCode.trim() ? 'Applied' : 'Free Code?'}
+            </button>
           </div>
+
+          {/* Inline redeem input */}
+          {showRedeemInput && (
+            <form onSubmit={handleRedeemCode} className="flex gap-2 items-center">
+              <input
+                autoFocus
+                type="text"
+                value={redeemCode}
+                onChange={(e) => setRedeemCode(e.target.value.toUpperCase())}
+                placeholder="Q-XXXX-XXXX"
+                className="flex-1 min-w-0 bg-slate-100 dark:bg-slate-800 border border-transparent focus:border-red-400 rounded-xl py-2 px-3 text-xs font-black text-slate-900 dark:text-white outline-none uppercase tracking-wider placeholder:font-normal placeholder:text-slate-400 transition-colors"
+              />
+              <button
+                type="submit"
+                disabled={redeeming || !redeemCode.trim()}
+                className="flex items-center gap-1.5 px-3 py-2 bg-red-500 hover:bg-red-600 text-white rounded-xl font-black text-[10px] uppercase tracking-widest transition-colors disabled:opacity-50 shrink-0"
+              >
+                {redeeming ? <Loader2 size={12} className="animate-spin" /> : <><Gift size={12} /> Redeem</>}
+              </button>
+              <button type="button" onClick={() => { setShowRedeemInput(false); setRedeemCode(''); }} className="p-2 text-slate-400 hover:text-slate-600 transition-colors shrink-0">
+                <X size={14} />
+              </button>
+            </form>
+          )}
+
+          {/* Pay button */}
+          <button
+            onClick={tab === 'packages' ? handleBuyPackage : handleBuyCustom}
+            disabled={buying || !hasEnough || currentCost === 0 || (tab === 'packages' && !selectedPkg)}
+            className="w-full py-3.5 bg-primary-500 text-white rounded-xl font-black uppercase tracking-widest text-sm hover:bg-primary-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-lg shadow-primary-500/20"
+          >
+            {buying ? <Loader2 className="animate-spin" size={16} /> : <><ShoppingCart size={16} /> Pay ${currentCost.toFixed(2)}</>}
+          </button>
         </div>
       </motion.div>
     </div>

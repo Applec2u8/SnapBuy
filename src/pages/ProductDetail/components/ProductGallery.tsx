@@ -23,9 +23,9 @@ export const ProductGallery = ({
   const [imgError, setImgError] = useState(false);
 
   return (
-    <div className="space-y-4">
-      <div className="relative group">
-        <div className="absolute -inset-1 bg-gradient-to-r from-primary-500 to-purple-600 rounded-2xl blur opacity-10 group-hover:opacity-30 transition duration-1000 group-hover:duration-200"></div>
+    <div className="space-y-4 min-w-0">
+      <div className="relative group overflow-hidden rounded-2xl">
+        <div className="absolute inset-0 bg-gradient-to-r from-primary-500 to-purple-600 rounded-2xl blur-sm opacity-10 group-hover:opacity-30 transition duration-1000 group-hover:duration-200"></div>
         <div
           onClick={() => {
             setSelectedReviewImages(images);
@@ -99,12 +99,12 @@ export const ProductGallery = ({
         </div>
       </div>
 
-      <div className="grid grid-cols-5 gap-2.5">
+      <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
         {images.map((img: string, i: number) => (
           <button
             key={i}
             onClick={() => { setActiveImage(img); setImgError(false); }}
-            className={`relative aspect-square rounded-xl overflow-hidden transition-all duration-300 ${activeImage === img ? 'ring-2 ring-primary-500 ring-offset-1 dark:ring-offset-slate-950 scale-95 shadow-lg' : 'opacity-40 hover:opacity-100 hover:scale-105 border border-slate-200 dark:border-slate-800'}`}
+            className={`relative flex-shrink-0 w-16 h-16 sm:w-20 sm:h-20 rounded-xl overflow-hidden transition-all duration-300 ${activeImage === img ? 'ring-2 ring-primary-500 ring-offset-1 dark:ring-offset-slate-950 scale-95 shadow-lg' : 'opacity-40 hover:opacity-100 hover:scale-105 border border-slate-200 dark:border-slate-800'}`}
           >
             <ImageWithFallback src={img} className="w-full h-full object-cover" containerClassName="w-full h-full" alt={`${productName} thumbnail ${i}`} />
             {activeImage === img && (
@@ -115,6 +115,7 @@ export const ProductGallery = ({
           </button>
         ))}
       </div>
+
     </div>
   );
 };

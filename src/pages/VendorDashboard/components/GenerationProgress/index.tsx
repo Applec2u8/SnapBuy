@@ -71,15 +71,25 @@ async function triggerResume(jobId: string) {
 // ---------------------------------------------------------------------------
 export const GenerationProgress: React.FC<{ runningJobs: any[] }> = ({ runningJobs }) => {
   const [isMinimized, setIsMinimized] = useState(false);
+  const [cancelledIds, setCancelledIds] = useState<Set<string>>(new Set());
   const constraintsRef = useRef<HTMLDivElement>(null);
   const isMobile = useIsMobile();
 
-  if (!runningJobs || runningJobs.length === 0) return null;
+  // Immediately remove a job from the widget when cancel completes (before next poll)
+  const handleJobCancelled = (jobId: string) => {
+    setCancelledIds(prev => new Set([...prev, jobId]));
+  };
 
-  const totalCompleted = runningJobs.reduce((acc, j) => acc + (j.completed_count || 0), 0);
-  const totalTarget = runningJobs.reduce((acc, j) => acc + (j.target_count || 0), 0);
-  const hasQuotaError = runningJobs.some(j => j.pause_reason === 'quota_exceeded');
-  const hasPaused = runningJobs.some(j => j.status === 'paused');
+  // Filter out locally-cancelled jobs for immediate UI response
+  const visibleJobs = (runningJobs || []).filter(j => !cancelledIds.has(j.id));
+
+  if (visibleJobs.length === 0) return null;
+
+  const totalCompleted = visibleJobs.reduce((acc, j) => acc + (j.completed_count || 0), 0);
+  const totalTarget    = visibleJobs.reduce((acc, j) => acc + (j.target_count || 0), 0);
+  const hasQuotaError  = visibleJobs.some(j => j.pause_reason === 'quota_exceeded');
+  const hasPaused      = visibleJobs.some(j => j.status === 'paused');
+
 
   const headerBg = hasQuotaError
     ? 'bg-rose-500/10 border-rose-200 dark:border-rose-500/30'
@@ -128,8 +138,8 @@ export const GenerationProgress: React.FC<{ runningJobs: any[] }> = ({ runningJo
                 className="overflow-hidden"
               >
                 <div className="max-h-[45vh] overflow-y-auto divide-y divide-slate-800">
-                  {runningJobs.map(job => (
-                    <JobItem key={job.id} job={job} />
+                  {visibleJobs.map(job => (
+                    <JobItem key={job.id} job={job} onCancelled={() => handleJobCancelled(job.id)} />
                   ))}
                 </div>
               </motion.div>
@@ -189,8 +199,8 @@ export const GenerationProgress: React.FC<{ runningJobs: any[] }> = ({ runningJo
                   className="overflow-hidden pointer-events-auto"
                 >
                   <div className="max-h-[300px] overflow-y-auto">
-                    {runningJobs.map(job => (
-                      <JobItem key={job.id} job={job} />
+                    {visibleJobs.map(job => (
+                      <JobItem key={job.id} job={job} onCancelled={() => handleJobCancelled(job.id)} />
                     ))}
                   </div>
                 </motion.div>

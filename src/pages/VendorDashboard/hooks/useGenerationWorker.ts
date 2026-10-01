@@ -55,6 +55,8 @@ export const useGenerationWorker = (onJobComplete?: () => void) => {
                   description: `Generate สำเร็จ: สร้างสินค้า ${prevJob.target_count.toLocaleString()} รายการ`,
                 });
                 if (onJobCompleteRef.current) onJobCompleteRef.current();
+              } else if (checkData && checkData.status === 'cancelled') {
+                toast.info(`🚫 Import cancelled — ${prevJob.completed_count || 0} products already imported are kept.`);
               } else if (checkData && checkData.status === 'failed') {
                 toast.error(`❌ Job failed to complete.`);
               }

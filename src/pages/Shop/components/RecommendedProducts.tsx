@@ -59,10 +59,7 @@ export const RecommendedProducts = ({ products }: RecommendedProductsProps) => {
                     <Star size={8} className={product.average_rating > 0 ? "fill-yellow-400" : ""} />
                     <span className="text-[8px] font-black">{product.average_rating?.toFixed(1) || '0.0'}</span>
                   </div>
-                  <div className="flex items-center gap-1 text-slate-400">
-                    <Eye size={8} />
-                    <span className="text-[8px] font-black">{product.view_count || 0}</span>
-                  </div>
+
                 </div>
               </div>
             </div>

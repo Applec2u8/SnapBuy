@@ -62,7 +62,7 @@ const ProductDetail = () => {
   if (!product) return null;
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-4 sm:py-8 animate-fade-in text-left">
+    <div className="max-w-7xl mx-auto px-4 py-4 sm:py-8 animate-fade-in text-left overflow-x-hidden">
       <button
         onClick={() => navigate(-1)}
         className="flex items-center gap-2 text-slate-500 hover:text-primary-500 transition-colors font-bold uppercase text-[10px] sm:text-xs tracking-widest mb-6"

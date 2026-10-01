@@ -271,7 +271,7 @@ const Navbar = () => {
                           key={page.path}
                           to={page.path}
                           onClick={() => { setIsSearchFocused(false); setSearchQuery(''); }}
-                          className="flex items-center gap-3 px-3 py-2 text-sm hover:bg-secondary/50 dark:hover:bg-slate-800 rounded-xl transition-colors"
+                          className="flex items-center gap-3 px-3 py-2 text-sm hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-colors"
                         >
                           <span className="text-primary-500">{page.icon}</span>
                           <span>{page.name}</span>
@@ -298,7 +298,7 @@ const Navbar = () => {
                               key={product.id}
                               to={`/product/${product.id}`}
                               onClick={() => { addRecentSearch(searchQuery); setIsSearchFocused(false); setSearchQuery(''); }}
-                              className="flex items-center gap-3 px-3 py-2 hover:bg-secondary/50 dark:hover:bg-slate-800 rounded-xl transition-colors"
+                              className="flex items-center gap-3 px-3 py-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-colors"
                             >
                               <img
                                 src={product.images?.[0] || 'https://placehold.co/40x40/e2e8f0/94a3b8?text=?'}
@@ -370,7 +370,7 @@ const Navbar = () => {
                         {[
                           { label: t('Dashboard'), icon: <LayoutDashboard size={16} />, to: '/dashboard' }
                         ].map((link) => (
-                          <Link key={link.to} to={link.to} className="flex items-center gap-3 px-4 py-2.5 text-sm hover:bg-primary-500/5 hover:text-primary-500 transition-colors">
+                          <Link key={link.to} to={link.to} className="flex items-center gap-3 px-4 py-2.5 text-sm hover:bg-primary-50 dark:hover:bg-primary-500/10 hover:text-primary-500 transition-colors">
                             {link.icon} {link.label}
                           </Link>
                         ))}
@@ -378,7 +378,7 @@ const Navbar = () => {
                         <div className="flex flex-col">
                           <button
                             onClick={(e) => { e.preventDefault(); setIsAccountExpanded(!isAccountExpanded); }}
-                            className="w-full flex items-center justify-between px-4 py-2.5 text-sm hover:bg-primary-500/5 hover:text-primary-500 transition-colors"
+                            className="w-full flex items-center justify-between px-4 py-2.5 text-sm hover:bg-primary-50 dark:hover:bg-primary-500/10 hover:text-primary-500 transition-colors"
                           >
                             <div className="flex items-center gap-3">
                               <UserCog size={16} /> Account
@@ -408,7 +408,7 @@ const Navbar = () => {
                           { label: t('address_book'), icon: <MapPin size={16} />, to: '/address-book' },
                           { label: t('payment_methods'), icon: <CreditCard size={16} />, to: '/payment-methods' },
                         ].map((link) => (
-                          <Link key={link.to} to={link.to} className="flex items-center gap-3 px-4 py-2.5 text-sm hover:bg-primary-500/5 hover:text-primary-500 transition-colors">
+                          <Link key={link.to} to={link.to} className="flex items-center gap-3 px-4 py-2.5 text-sm hover:bg-primary-50 dark:hover:bg-primary-500/10 hover:text-primary-500 transition-colors">
                             {link.icon} {link.label}
                           </Link>
                         ))}

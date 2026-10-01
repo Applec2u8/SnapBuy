@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { ArrowRight, Star, ShoppingBag } from 'lucide-react';
+import { ArrowRight, Star, ShoppingBag, Eye } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import ImageWithFallback from '../../../components/ui/ImageWithFallback';
 import { motion } from 'framer-motion';
@@ -17,7 +17,7 @@ export const FeaturedProducts = ({ products }: FeaturedProductsProps) => {
       <div className="flex justify-between items-end">
         <div className="space-y-0.5">
           <div className="text-[8px] font-black text-primary-500 uppercase tracking-widest flex items-center gap-1.5">
-            <div className="w-4 h-px bg-primary-500" /> Hot This Week
+            <div className="w-4 h-px bg-primary-500" /> สินค้าน่าสนใจ
           </div>
           <h2 className="text-xl sm:text-3xl font-black uppercase tracking-tighter text-slate-900 dark:text-white">
             {t('featured_products')}
@@ -94,14 +94,19 @@ export const FeaturedProducts = ({ products }: FeaturedProductsProps) => {
                 <h3 className="font-bold text-slate-900 dark:text-white truncate text-[11px] sm:text-sm uppercase tracking-tight flex-1">
                   {product.name}
                 </h3>
-                <div className="flex justify-between items-center pt-0.5">
+                <div className="flex justify-between items-center pt-0.5 gap-1">
                   <p className="text-sm sm:text-base font-black text-primary-500">
                     ${product.price.toLocaleString()}
                   </p>
-                  <div className="flex items-center gap-1 bg-yellow-400/10 px-1.5 py-0.5 rounded-md">
-                    <Star size={9} className={product.average_rating > 0 ? 'fill-yellow-400 text-yellow-400' : 'text-slate-200'} />
-                    <span className="text-[8px] font-black text-yellow-500">{product.average_rating?.toFixed(1) || '0.0'}</span>
-                    <span className="text-[7px] text-slate-400">({product.ratings_count || 0})</span>
+                  <div className="flex items-center gap-1.5">
+                    <div className="flex items-center gap-1 bg-yellow-400/10 px-1.5 py-0.5 rounded-md">
+                      <Star size={9} className={product.average_rating > 0 ? 'fill-yellow-400 text-yellow-400' : 'text-slate-200'} />
+                      <span className="text-[8px] font-black text-yellow-500">{product.average_rating?.toFixed(1) || '0.0'}</span>
+                    </div>
+                    <div className="flex items-center gap-1 bg-slate-400/10 text-slate-400 px-1.5 py-0.5 rounded-md">
+                      <Eye size={9} />
+                      <span className="text-[8px] font-black">{(product.view_count || 0).toLocaleString()}</span>
+                    </div>
                   </div>
                 </div>
               </div>

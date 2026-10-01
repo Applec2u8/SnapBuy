@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { supabase } from '../../../../lib/supabase';
-import { Settings2, Save, Loader2, CheckCircle2, RefreshCcw, Key, Plus, Trash2, Power, Search, Mail } from 'lucide-react';
+import { Settings2, Save, Loader2, CheckCircle2, RefreshCcw, Key, Plus, Trash2, Power, Search, Mail, Database, Image, Zap, Layers } from 'lucide-react';
 import { logAdminAction } from '../../../../lib/auditLog';
 import { motion, AnimatePresence } from 'framer-motion';
 import { toast } from 'sonner';
 import { useTranslation } from 'react-i18next';
+import { getImportProvider, setImportProvider, type ImportProvider } from '../../../../lib/importProviderService';
 
 interface Setting {
   key: string;
@@ -191,6 +192,295 @@ const EmailJsManager: React.FC = () => {
     </>
   );
 };
+
+// ─── Provider Switcher Card ──────────────────────────────────────────────────
+const ProviderSwitcherCard: React.FC = () => {
+  const [provider, setProvider] = useState<ImportProvider>('unsplash');
+  const [saving, setSaving] = useState(false);
+  const [loading, setLoading] = useState(true);
+  // Hybrid ratio: % of items that use DummyJSON images (rest use Unsplash)
+  const [hybridDummyRatio, setHybridDummyRatio] = useState(80);
+  const [ratioSaving, setRatioSaving] = useState(false);
+  const { requirePin, pinModal } = useAdminPin();
+
+
+  const fetchProvider = useCallback(async () => {
+    setLoading(true);
+    try {
+      const current = await getImportProvider();
+      setProvider(current);
+      // Also fetch hybrid ratio
+      const { data: ratioData } = await supabase
+        .from('site_settings')
+        .select('value')
+        .eq('key', 'hybrid_dummy_ratio')
+        .maybeSingle();
+      if (ratioData?.value) setHybridDummyRatio(Number(ratioData.value));
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => { fetchProvider(); }, [fetchProvider]);
+
+  const handleSwitch = async (next: ImportProvider) => {
+    if (next === provider || saving) return;
+    setSaving(true);
+    try {
+      await setImportProvider(next);
+      setProvider(next);
+      toast.success(`Import provider switched to ${ next === 'dummyjson' ? 'DummyJSON' : next === 'hybrid' ? 'Hybrid (DummyJSON + Unsplash)' : 'Unsplash' }!`);
+      await logAdminAction('update_site_settings', 'settings', undefined, `Import provider set to: ${next}`);
+    } catch (err: any) {
+      toast.error('Failed to switch provider: ' + err.message);
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const saveHybridRatio = async (ratio: number) => {
+    setRatioSaving(true);
+    try {
+      await supabase.from('site_settings').upsert(
+        { key: 'hybrid_dummy_ratio', value: String(ratio), updated_at: new Date().toISOString() },
+        { onConflict: 'key' }
+      );
+      toast.success(`Hybrid ratio saved: ${ratio}% DummyJSON / ${100 - ratio}% Unsplash`);
+    } catch (err: any) {
+      toast.error('Failed to save ratio: ' + err.message);
+    } finally {
+      setRatioSaving(false);
+    }
+  };
+
+  const providers: { id: ImportProvider; label: string; description: string; badge: string; badgeColor: string; iconBg: string; icon: React.ReactNode }[] = [
+    {
+      id: 'unsplash',
+      label: 'Unsplash',
+      description: 'Fetch placeholder images from Unsplash using stored API keys. Subject to rate limits (50 req/hr per key).',
+      badge: 'Requires API Keys',
+      badgeColor: 'bg-amber-100 text-amber-700 dark:bg-amber-500/20 dark:text-amber-400',
+      iconBg: 'bg-amber-50 dark:bg-amber-500/10',
+      icon: <Image size={18} className="text-amber-500" />,
+    },
+    {
+      id: 'dummyjson',
+      label: 'DummyJSON',
+      description: 'Import real e-commerce product data (title, description, images) from DummyJSON. No API keys needed, no rate limits.',
+      badge: 'No Keys Required',
+      badgeColor: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-500/20 dark:text-emerald-400',
+      iconBg: 'bg-emerald-50 dark:bg-emerald-500/10',
+      icon: <Zap size={18} className="text-emerald-500" />,
+    },
+    {
+      id: 'hybrid',
+      label: 'Hybrid',
+      description: 'Blend DummyJSON real product data (titles, prices, descriptions) with Unsplash images for maximum visual variety.',
+      badge: 'Best of Both',
+      badgeColor: 'bg-violet-100 text-violet-700 dark:bg-violet-500/20 dark:text-violet-400',
+      iconBg: 'bg-violet-50 dark:bg-violet-500/10',
+      icon: <Layers size={18} className="text-violet-500" />,
+    },
+  ] as const;
+
+  return (
+    <>
+      <AnimatePresence>
+        {pinModal}
+      </AnimatePresence>
+    <motion.div
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden"
+    >
+      {/* Header */}
+      <div className="px-5 py-4 border-b border-slate-100 dark:border-slate-800 flex items-center gap-3">
+        <div className="w-8 h-8 rounded-xl bg-primary-50 dark:bg-primary-500/10 flex items-center justify-center flex-shrink-0">
+          <Database size={15} className="text-primary-500" />
+        </div>
+        <div>
+          <p className="font-black text-xs text-slate-900 dark:text-white uppercase tracking-tight">
+            Product Import · Image Provider
+          </p>
+          <p className="text-[10px] text-slate-400">
+            Choose the global data source used when vendors auto-import products
+          </p>
+        </div>
+        {loading && <Loader2 size={14} className="animate-spin text-slate-400 ml-auto" />}
+      </div>
+
+      {/* Provider Options */}
+      <div className="p-4 grid sm:grid-cols-3 gap-3">
+        {providers.map((p) => {
+          const isActive = provider === p.id;
+          return (
+            <button
+              key={p.id}
+              onClick={() => requirePin(() => handleSwitch(p.id as ImportProvider))}
+              disabled={saving || loading}
+              className={`relative text-left p-4 rounded-xl border-2 transition-all duration-200 ${
+                isActive
+                  ? 'border-primary-500 bg-primary-50/60 dark:bg-primary-500/10'
+                  : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800/50 hover:border-slate-300 dark:hover:border-slate-600'
+              } disabled:opacity-60 disabled:cursor-not-allowed`}
+            >
+              {/* Active dot */}
+              {isActive && (
+                <span className="absolute top-3 right-3 w-2 h-2 rounded-full bg-primary-500 shadow-sm shadow-primary-500/50" />
+              )}
+              <div className="flex items-center gap-2 mb-2">
+                <div className={`w-7 h-7 rounded-lg flex items-center justify-center ${p.iconBg}`}>
+                  {p.icon}
+                </div>
+                <p className="text-sm font-black text-slate-900 dark:text-white">{p.label}</p>
+              </div>
+              <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed mb-2.5">{p.description}</p>
+              <span className={`text-[9px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full ${p.badgeColor}`}>
+                {p.badge}
+              </span>
+            </button>
+          );
+        })}
+      </div>
+
+      {/* ── Hybrid Ratio Slider (visible only when Hybrid is active) ── */}
+      <AnimatePresence>
+        {provider === 'hybrid' && (
+          <motion.div
+            key="hybrid-ratio"
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            className="overflow-hidden"
+          >
+            <div className="px-5 py-5 border-t border-violet-200 dark:border-violet-500/20 bg-violet-50/50 dark:bg-violet-500/5 space-y-4">
+
+              {/* Title + live numbers */}
+              <div className="flex items-start justify-between gap-3">
+                <div>
+                  <p className="text-xs font-black text-slate-800 dark:text-white uppercase tracking-tight">Hybrid Image Ratio</p>
+                  <p className="text-[10px] text-slate-400 mt-0.5">ลากหรือพิมพ์ % ที่ต้องการ → กด Save Ratio</p>
+                </div>
+                {/* Direct numeric input */}
+                <div className="flex items-center gap-1 flex-shrink-0">
+                  <div className="flex flex-col items-center">
+                    <input
+                      type="number"
+                      min={0}
+                      max={100}
+                      step={5}
+                      value={hybridDummyRatio}
+                      onChange={(e) => {
+                        const v = Math.max(0, Math.min(100, Number(e.target.value)));
+                        setHybridDummyRatio(v);
+                      }}
+                      className="w-14 text-center text-sm font-black text-emerald-600 dark:text-emerald-400 bg-white dark:bg-slate-800 border-2 border-emerald-300 dark:border-emerald-500/40 rounded-lg py-1 focus:outline-none focus:border-violet-500"
+                    />
+                    <span className="text-[9px] text-emerald-500 font-bold mt-0.5">DummyJSON %</span>
+                  </div>
+                  <span className="text-slate-400 font-bold text-xs mb-4">/</span>
+                  <div className="flex flex-col items-center">
+                    <div className="w-14 text-center text-sm font-black text-amber-500 bg-white dark:bg-slate-800 border-2 border-amber-300 dark:border-amber-500/40 rounded-lg py-1">
+                      {100 - hybridDummyRatio}
+                    </div>
+                    <span className="text-[9px] text-amber-500 font-bold mt-0.5">Unsplash %</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Visual segmented bar */}
+              <div className="h-4 rounded-full overflow-hidden bg-slate-200 dark:bg-slate-700 flex shadow-inner">
+                <div
+                  className="h-full bg-gradient-to-r from-emerald-500 to-emerald-400 transition-all duration-300 flex items-center justify-center"
+                  style={{ width: `${hybridDummyRatio}%` }}
+                >
+                  {hybridDummyRatio >= 15 && (
+                    <span className="text-[9px] font-black text-white drop-shadow">{hybridDummyRatio}%</span>
+                  )}
+                </div>
+                <div
+                  className="h-full bg-gradient-to-r from-amber-400 to-amber-300 transition-all duration-300 flex items-center justify-center"
+                  style={{ width: `${100 - hybridDummyRatio}%` }}
+                >
+                  {(100 - hybridDummyRatio) >= 15 && (
+                    <span className="text-[9px] font-black text-white drop-shadow">{100 - hybridDummyRatio}%</span>
+                  )}
+                </div>
+              </div>
+
+              {/* Slider — thicker track for easier interaction */}
+              <div className="px-1">
+                <input
+                  type="range"
+                  min={0}
+                  max={100}
+                  step={5}
+                  value={hybridDummyRatio}
+                  onChange={(e) => setHybridDummyRatio(Number(e.target.value))}
+                  style={{ accentColor: '#7c3aed' }}
+                  className="w-full cursor-pointer"
+                />
+                <div className="flex items-center justify-between text-[9px] text-slate-400 mt-1">
+                  <span>← Unsplash only</span>
+                  <span className="font-bold">50 / 50</span>
+                  <span>DummyJSON only →</span>
+                </div>
+              </div>
+
+              {/* Preset quick-pick buttons */}
+              <div className="flex gap-2 flex-wrap">
+                {[
+                  { label: '100% Dummy', value: 100, color: 'emerald' },
+                  { label: '80 / 20', value: 80, color: 'violet' },
+                  { label: '60 / 40', value: 60, color: 'violet' },
+                  { label: '50 / 50', value: 50, color: 'slate' },
+                  { label: '20 / 80', value: 20, color: 'amber' },
+                  { label: '100% Unsplash', value: 0, color: 'amber' },
+                ].map(preset => (
+                  <button
+                    key={preset.value}
+                    onClick={() => setHybridDummyRatio(preset.value)}
+                    className={`text-[9px] font-black uppercase tracking-wider px-2 py-1 rounded-lg border transition-all ${
+                      hybridDummyRatio === preset.value
+                        ? 'bg-violet-600 text-white border-violet-600'
+                        : 'bg-white dark:bg-slate-800 text-slate-500 dark:text-slate-400 border-slate-200 dark:border-slate-700 hover:border-violet-400 hover:text-violet-500'
+                    }`}
+                  >
+                    {preset.label}
+                  </button>
+                ))}
+              </div>
+
+              {/* Save button */}
+              <button
+                onClick={() => requirePin(() => saveHybridRatio(hybridDummyRatio))}
+                disabled={ratioSaving}
+                className="w-full py-2.5 px-4 rounded-xl bg-violet-600 hover:bg-violet-700 active:scale-[0.98] text-white text-xs font-black uppercase tracking-widest transition-all disabled:opacity-60 flex items-center justify-center gap-2 shadow-lg shadow-violet-500/20"
+              >
+                {ratioSaving ? <Loader2 size={13} className="animate-spin" /> : <Save size={13} />}
+                Save Ratio — {hybridDummyRatio}% DummyJSON / {100 - hybridDummyRatio}% Unsplash
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+
+      {/* Status bar */}
+      <div className="px-5 py-3 bg-slate-50 dark:bg-slate-800/50 border-t border-slate-100 dark:border-slate-800 flex items-center gap-2">
+        <span className="w-2 h-2 rounded-full bg-emerald-400 flex-shrink-0" />
+        <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest">
+          Active provider:
+          <span className="ml-1 text-primary-500">
+            {provider === 'dummyjson' ? 'DummyJSON (API-free, real product data)' : provider === 'hybrid' ? `Hybrid — ${hybridDummyRatio}% DummyJSON / ${100 - hybridDummyRatio}% Unsplash` : 'Unsplash (category image search)'}
+          </span>
+        </p>
+      </div>
+    </motion.div>
+    </>
+  );
+};
+
 
 const ApiKeysManager: React.FC = () => {
   const { t } = useTranslation();
@@ -454,6 +744,7 @@ export const SiteSettings: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState<string | null>(null);
   const [localValues, setLocalValues] = useState<Record<string, string>>({});
+  const { requirePin, pinModal } = useAdminPin();
 
   const fetchSettings = async () => {
     setLoading(true);
@@ -464,8 +755,12 @@ export const SiteSettings: React.FC = () => {
         .order('key');
       if (error) throw error;
       
-      // Filter out sensitive settings like the PIN so they can't be changed from the UI
-      const visibleSettings = (data || []).filter((s: Setting) => s.key !== 'admin_api_pin');
+      // Filter out sensitive/managed settings that have their own dedicated UI controls
+      const visibleSettings = (data || []).filter((s: Setting) =>
+        s.key !== 'admin_api_pin' &&
+        s.key !== 'import_image_provider' &&
+        s.key !== 'hybrid_dummy_ratio'
+      );
       
       const defaultSettings: Setting[] = [
         { key: 'gen_price_cheap_min', value: '50', description: 'ราคาขั้นต่ำของกลุ่มสินค้าราคาถูก', updated_at: new Date().toISOString() },
@@ -528,6 +823,9 @@ export const SiteSettings: React.FC = () => {
 
   return (
     <div className="space-y-6">
+      <AnimatePresence>
+        {pinModal}
+      </AnimatePresence>
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
@@ -592,7 +890,7 @@ export const SiteSettings: React.FC = () => {
                           {meta?.suffix && <span className="text-xs font-bold text-slate-400">{meta.suffix}</span>}
                         </div>
                         <button
-                          onClick={() => handleSave(setting.key)}
+                          onClick={() => requirePin(() => handleSave(setting.key))}
                           disabled={saving === setting.key || !isDirty}
                           className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-black uppercase tracking-widest transition-all whitespace-nowrap ${isDirty ? 'bg-primary-500 text-white hover:bg-primary-600 shadow-md shadow-primary-500/20' : 'bg-slate-100 dark:bg-slate-800 text-slate-400 cursor-not-allowed'}`}
                         >
@@ -633,7 +931,7 @@ export const SiteSettings: React.FC = () => {
                           <input type="number" min="0.01" step="0.01" value={localValues[setting.key] ?? setting.value} onChange={(e) => setLocalValues(prev => ({ ...prev, [setting.key]: e.target.value }))} className="bg-transparent border-none outline-none text-lg font-black text-slate-900 dark:text-white w-24 text-center" />
                           {meta?.suffix && <span className="text-xs font-black text-slate-400 whitespace-nowrap">{meta.suffix}</span>}
                         </div>
-                        <button onClick={() => handleSave(setting.key)} disabled={saving === setting.key || !isDirty} className={`flex items-center gap-2 px-5 py-3 rounded-xl text-xs font-black uppercase tracking-widest transition-all whitespace-nowrap ${isDirty ? 'bg-primary-500 text-white hover:bg-primary-600 shadow-lg shadow-primary-500/20' : 'bg-slate-100 dark:bg-slate-800 text-slate-400 cursor-not-allowed'}`}>
+                        <button onClick={() => requirePin(() => handleSave(setting.key))} disabled={saving === setting.key || !isDirty} className={`flex items-center gap-2 px-5 py-3 rounded-xl text-xs font-black uppercase tracking-widest transition-all whitespace-nowrap ${isDirty ? 'bg-primary-500 text-white hover:bg-primary-600 shadow-lg shadow-primary-500/20' : 'bg-slate-100 dark:bg-slate-800 text-slate-400 cursor-not-allowed'}`}>
                           {saving === setting.key ? <Loader2 size={14} className="animate-spin" /> : isDirty ? <Save size={14} /> : <CheckCircle2 size={14} />}
                           {saving === setting.key ? 'Saving...' : isDirty ? 'Save' : 'Saved'}
                         </button>
@@ -656,6 +954,7 @@ export const SiteSettings: React.FC = () => {
             </div>
           )}
 
+          <ProviderSwitcherCard />
           <ApiKeysManager />
           <EmailJsManager />
         </div>

@@ -4,30 +4,48 @@
 
 @layer base {
   :root {
-    --background: 210 40% 96%;
-    /* Deeper Slate-100 for maximum separation */
-    --foreground: 222.2 84% 4.9%;
+    /* ── Page & surface background hierarchy ── */
+    --background: 220 14% 96%;         /* slate-100 equivalent — page bg */
+    --foreground: 222.2 84% 4.9%;      /* near-black text */
+
+    /* Cards: pure white — clearly above page background */
     --card: 0 0% 100%;
     --card-foreground: 222.2 84% 4.9%;
+
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
+
+    /* Brand */
     --primary: 262.1 83.3% 57.8%;
     --primary-foreground: 210 40% 98%;
-    --secondary: 210 40% 95%;
-    /* More distinct secondary */
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+
+    /* ── secondary: used for hover states and subtle backgrounds ──
+       Was 95% lightness (nearly identical to background).
+       Now 87% — clearly distinct on white cards / 96% page bg.  */
+    --secondary: 214 32% 87%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+
+    /* ── muted: mid-level surface (input bg, inactive tabs, etc.) ── */
+    --muted: 214 32% 91%;
+    --muted-foreground: 215.4 16.3% 38%; /* darkened so text stays legible */
+
+    /* ── accent: used for primary-tinted highlight areas ──
+       Using primary-50 equivalent so bg-accent is visible, not invisible. */
+    --accent: 262 100% 95%;
+    --accent-foreground: 262 83% 30%;
+
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
-    --border: 214.3 31.8% 90%;
-    /* Darker border for better separation */
-    --input: 214.3 31.8% 91.4%;
+
+    /* ── border: was 90% lightness (barely visible).
+       Now 80% — clearly visible borders on white surfaces.        */
+    --border: 214.3 31.8% 80%;
+    --input: 214.3 31.8% 86%;
     --ring: 262.1 83.3% 57.8%;
     --radius: 1rem;
-    --scrollbar-thumb: rgba(148, 163, 184, 0.4);
-    --scrollbar-thumb-hover: rgba(100, 116, 139, 0.6);
+
+    --scrollbar-thumb: rgba(148, 163, 184, 0.45);
+    --scrollbar-thumb-hover: rgba(100, 116, 139, 0.7);
     --scrollbar-track: transparent;
   }
 
@@ -56,6 +74,7 @@
     --scrollbar-track: transparent;
   }
 }
+
 
 @layer base {
   * {
@@ -117,9 +136,149 @@
   @apply bg-clip-text text-transparent bg-gradient-to-r from-primary-600 to-indigo-600;
 }
 
+/* ─────────────────────────────────────────────────────────────────────────────
+   GLOBAL LIGHT-MODE CONTRAST FIXES
+   Target: Tailwind utility patterns that are invisible in light mode.
+   ───────────────────────────────────────────────────────────────────────────── */
+
+/*
+ * hover:bg-primary-500/5  →  5% opacity of purple on white = nearly invisible.
+ * In light mode, boost to primary-50 equivalent (~12% opacity).
+ * This selector overrides ONLY when dark class is NOT present on html.
+ */
+html:not(.dark) .hover\:bg-primary-500\/5:hover {
+  background-color: hsl(262 100% 95%) !important; /* primary-50 */
+}
+html:not(.dark) .hover\:bg-primary-500\/10:hover {
+  background-color: hsl(262 100% 93%) !important; /* primary-100 */
+}
+
+/*
+ * bg-primary-500/5, bg-primary-500/10  —  static accent containers.
+ * In light mode boost to primary-50/primary-100.
+ */
+html:not(.dark) .bg-primary-500\/5 {
+  background-color: hsl(262 100% 95%) !important;
+}
+html:not(.dark) .bg-primary-500\/10 {
+  background-color: hsl(262 100% 93%) !important;
+}
+
+/*
+ * hover:bg-white/5, hover:bg-white/10  —  dark-mode-only hover patterns
+ * (used inside dark components, invisible on light).
+ * In light mode, map to slate-100.
+ */
+html:not(.dark) .hover\:bg-white\/5:hover,
+html:not(.dark) .hover\:bg-white\/10:hover {
+  background-color: hsl(214 32% 91%) !important; /* muted */
+}
+
+/*
+ * bg-white/5, bg-white/10  —  static dark-only surfaces.
+ * In light mode map to a clearly visible surface.
+ */
+html:not(.dark) .bg-white\/5 {
+  background-color: hsl(214 32% 93%) !important;
+}
+html:not(.dark) .bg-white\/10 {
+  background-color: hsl(214 32% 91%) !important;
+}
+
+/* ── Card elevation helpers ──────────────────────────────────────────────── */
+/* Use these on card wrappers to ensure correct surface/background separation */
+.surface-card {
+  @apply bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm;
+}
+.surface-panel {
+  @apply bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800;
+}
+
+/* ── Interactive hover — visible in BOTH modes ───────────────────────────── */
+.hover-row {
+  @apply hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors;
+}
+.hover-card {
+  @apply hover:bg-slate-50 dark:hover:bg-slate-800/60 hover:shadow-md transition-all;
+}
+
+/*
+ * bg-secondary/30, bg-secondary/50  —  used for subtle header strips, badge bg etc.
+ * Even with --secondary at 87%, 30% opacity on white = 96% lightness = still faint.
+ * Remap to explicit slate values in light mode for better readability.
+ */
+html:not(.dark) .bg-secondary\/30 {
+  background-color: hsl(214 32% 93%) !important; /* muted-light */
+}
+html:not(.dark) .hover\:bg-secondary\/30:hover {
+  background-color: hsl(214 32% 90%) !important;
+}
+
+/*
+ * bg-black/5, bg-black/10  —  dark-mode-only overlays / glass panels.
+ * In light mode these appear nearly transparent (black at 5% on white = 97% lightness).
+ * Map to slate-100 / slate-200 equivalents for proper surface definition.
+ */
+html:not(.dark) .bg-black\/5 {
+  background-color: hsl(214 32% 93%) !important;
+}
+html:not(.dark) .bg-black\/10 {
+  background-color: hsl(214 32% 91%) !important;
+}
+html:not(.dark) .hover\:bg-black\/5:hover,
+html:not(.dark) .hover\:bg-black\/10:hover {
+  background-color: hsl(214 32% 89%) !important;
+}
+
+/* ── Yellow-400/10 rating badges — invisible in light mode ─────────────── */
+html:not(.dark) .bg-yellow-400\/10 {
+  background-color: hsl(48 100% 93%) !important; /* yellow-50 */
+}
+html:not(.dark) .bg-slate-400\/10 {
+  background-color: hsl(214 32% 93%) !important; /* neutral subtle */
+}
+
+/* ── Colored icon-badge containers (StatCard, feature icons, etc.) ──────
+   These are used in UserDashboard, VendorOverview, AdminDashboard, etc.
+   At 10% opacity on white, they are nearly invisible.
+   We map them to their named -50/-100 equivalents in light mode.         */
+html:not(.dark) .bg-green-500\/10  { background-color: hsl(142 72% 95%) !important; }  /* green-50  */
+html:not(.dark) .bg-blue-500\/10   { background-color: hsl(213 94% 95%) !important; }  /* blue-50   */
+html:not(.dark) .bg-yellow-500\/10 { background-color: hsl(47 96% 93%)  !important; }  /* yellow-50 */
+html:not(.dark) .bg-orange-500\/10 { background-color: hsl(33 100% 93%) !important; }  /* orange-50 */
+html:not(.dark) .bg-red-500\/10    { background-color: hsl(0 86% 96%)   !important; }  /* red-50    */
+html:not(.dark) .bg-purple-500\/10 { background-color: hsl(270 100% 96%)!important; }  /* purple-50 */
+html:not(.dark) .bg-emerald-500\/10{ background-color: hsl(152 72% 95%) !important; }  /* emerald-50*/
+html:not(.dark) .bg-teal-500\/10   { background-color: hsl(166 76% 93%) !important; }  /* teal-50   */
+html:not(.dark) .bg-indigo-500\/10 { background-color: hsl(239 100% 96%)!important; }  /* indigo-50 */
+html:not(.dark) .bg-cyan-500\/10   { background-color: hsl(183 85% 94%) !important; }  /* cyan-50   */
+html:not(.dark) .bg-pink-500\/10   { background-color: hsl(327 73% 96%) !important; }  /* pink-50   */
+html:not(.dark) .bg-rose-500\/10   { background-color: hsl(355 100% 96%)!important; }  /* rose-50   */
+html:not(.dark) .bg-amber-500\/10  { background-color: hsl(37 92% 93%)  !important; }  /* amber-50  */
+html:not(.dark) .bg-violet-500\/10 { background-color: hsl(250 100% 96%)!important; }  /* violet-50 */
+html:not(.dark) .bg-sky-500\/10    { background-color: hsl(204 100% 95%)!important; }  /* sky-50    */
+
+/* Also fix /20 variants used for slightly more prominent badges */
+html:not(.dark) .bg-green-500\/20  { background-color: hsl(142 72% 90%) !important; }
+html:not(.dark) .bg-blue-500\/20   { background-color: hsl(213 94% 90%) !important; }
+html:not(.dark) .bg-red-500\/20    { background-color: hsl(0 86% 92%)   !important; }
+html:not(.dark) .bg-purple-500\/20 { background-color: hsl(270 100% 92%)!important; }
+html:not(.dark) .bg-emerald-500\/20{ background-color: hsl(152 72% 90%) !important; }
+html:not(.dark) .bg-amber-500\/20  { background-color: hsl(37 92% 88%)  !important; }
+
+/* Hover states for colored /10 and /20 backgrounds */
+html:not(.dark) .hover\:bg-green-500\/10:hover,
+html:not(.dark) .hover\:bg-green-500\/20:hover  { background-color: hsl(142 72% 90%) !important; }
+html:not(.dark) .hover\:bg-blue-500\/10:hover   { background-color: hsl(213 94% 90%) !important; }
+html:not(.dark) .hover\:bg-red-500\/10:hover    { background-color: hsl(0 86% 92%)   !important; }
+html:not(.dark) .hover\:bg-purple-500\/10:hover { background-color: hsl(270 100% 92%)!important; }
+html:not(.dark) .hover\:bg-emerald-500\/10:hover{ background-color: hsl(152 72% 90%) !important; }
+html:not(.dark) .hover\:bg-amber-500\/10:hover  { background-color: hsl(37 92% 88%)  !important; }
+
 .safe-area-bottom {
   padding-bottom: env(safe-area-inset-bottom);
 }
+
 
 .no-scrollbar::-webkit-scrollbar {
   display: none;
@@ -130,7 +289,24 @@
   scrollbar-width: none;
 }
 
+/* Alias used in gallery thumbnail strips */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+
+/* Word-break helpers */
+.overflow-wrap-anywhere {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
 @keyframes shimmer {
+
   0% {
     transform: translateX(-100%);
   }

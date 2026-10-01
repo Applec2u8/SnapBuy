@@ -27,38 +27,38 @@ export const ProductGrid = ({
             className={`group bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm hover:shadow-xl transition-all hover:-translate-y-1 ${viewMode === 'list' ? 'flex items-center gap-4 p-2' : 'p-2 sm:p-2.5'}`}
           >
             <div className={`${viewMode === 'list' ? 'w-32 h-32' : 'aspect-[4/5]'} rounded-xl overflow-hidden bg-slate-50 dark:bg-slate-950 relative flex-shrink-0`}>
-                <ImageWithFallback
-                  src={product.images?.[0]}
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                  containerClassName="w-full h-full"
-                  alt={product.name}
-                />
-                
-                {/* Status Badge */}
-                {(() => {
-                  if (product.is_promoted) {
-                    return (
-                      <div className="absolute top-2 left-2 z-10 bg-yellow-500 text-white px-2 py-0.5 rounded-full text-[8px] font-black uppercase tracking-widest shadow-md flex items-center gap-1">
-                        <Star size={8} className="fill-white" /> Recommended
-                      </div>
-                    );
-                  }
-                  if (product.condition === 'used' || product.status === 'resell' || product.is_resell) {
-                    return (
-                      <div className="absolute top-2 left-2 z-10 bg-blue-500 text-white px-2 py-0.5 rounded-full text-[8px] font-black uppercase tracking-widest shadow-md">
-                        Resell
-                      </div>
-                    );
-                  }
-                  if (product.discount_price || product.discount_percentage || product.price < 500) {
-                    return (
-                      <div className="absolute top-2 left-2 z-10 bg-red-500 text-white px-2 py-0.5 rounded-full text-[8px] font-black uppercase tracking-widest shadow-md">
-                        Discounted
-                      </div>
-                    );
-                  }
-                  return null;
-                })()}
+              <ImageWithFallback
+                src={product.images?.[0]}
+                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                containerClassName="w-full h-full"
+                alt={product.name}
+              />
+
+              {/* Status Badge */}
+              {(() => {
+                if (product.is_promoted) {
+                  return (
+                    <div className="absolute top-2 left-2 z-10 bg-yellow-500 text-white px-2 py-0.5 rounded-full text-[8px] font-black uppercase tracking-widest shadow-md flex items-center gap-1">
+                      <Star size={8} className="fill-white" /> Recommended
+                    </div>
+                  );
+                }
+                if (product.condition === 'used' || product.status === 'resell' || product.is_resell) {
+                  return (
+                    <div className="absolute top-2 left-2 z-10 bg-blue-500 text-white px-2 py-0.5 rounded-full text-[8px] font-black uppercase tracking-widest shadow-md">
+                      Resell
+                    </div>
+                  );
+                }
+                if (product.discount_price || product.discount_percentage || product.price < 500) {
+                  return (
+                    <div className="absolute top-2 left-2 z-10 bg-red-500 text-white px-2 py-0.5 rounded-full text-[8px] font-black uppercase tracking-widest shadow-md">
+                      Discounted
+                    </div>
+                  );
+                }
+                return null;
+              })()}
             </div>
 
             <div className={`flex-1 min-w-0 ${viewMode === 'list' ? 'space-y-1.5 pr-1' : 'p-2.5 space-y-1'}`}>
@@ -74,10 +74,7 @@ export const ProductGrid = ({
                     <span className="text-[8px] font-black">{product.average_rating?.toFixed(1) || '0.0'}</span>
                     <span className="text-[7px] text-slate-400">({product.ratings_count || 0})</span>
                   </div>
-                  <div className="flex items-center gap-1 bg-slate-400/5 text-slate-400 px-1 py-0.5 rounded-md">
-                    <Eye size={8} />
-                    <span className="text-[8px] font-black">{product.view_count || 0}</span>
-                  </div>
+
                 </div>
               </div>
             </div>

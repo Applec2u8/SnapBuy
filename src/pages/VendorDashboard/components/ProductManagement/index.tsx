@@ -103,6 +103,30 @@ const ProductManagement: React.FC<ProductManagementProps> = ({
   const [editProductForm, setEditProductForm] = useState<any>({});
   const menuRef = useRef<HTMLDivElement>(null);
 
+  // Category searchable dropdown state
+  const [categorySearch, setCategorySearch] = useState('');
+  const [categoryDropdownOpen, setCategoryDropdownOpen] = useState(false);
+  const catDropdownRef = useRef<HTMLDivElement>(null);
+
+  // Close category dropdown on outside click
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (catDropdownRef.current && !catDropdownRef.current.contains(e.target as Node)) {
+        setCategoryDropdownOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
+  }, []);
+
+  const filteredCategories = categories?.filter(cat =>
+    cat.name.toLowerCase().includes(categorySearch.toLowerCase())
+  ) || [];
+
+  const selectedCatName = tableCategoryFilter
+    ? categories?.find(c => c.id === tableCategoryFilter)?.name || 'All Categories'
+    : 'All Categories';
+
   const openEditProduct = (product: any) => {
     setEditProductForm({
       name: product.name || '',
@@ -365,39 +389,45 @@ const ProductManagement: React.FC<ProductManagementProps> = ({
 
   return (
     <div id="product-management-top" className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden animate-fade-in text-left mb-10 scroll-mt-24 lg:scroll-mt-32">
-      <div className="p-6 border-b border-slate-200 dark:border-slate-800 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-        <div className="flex flex-col gap-2">
-          <div className="flex items-center gap-4">
-            <h3 className="font-black text-slate-900 dark:text-white uppercase tracking-tight">Active Inventory ({totalItems})</h3>
+      <div className="p-4 sm:p-6 border-b border-slate-200 dark:border-slate-800 flex flex-col gap-3">
+        {/* Row 1: Title + Badges + Action buttons */}
+        <div className="flex items-center justify-between gap-2 flex-wrap">
+          <div className="flex flex-col gap-1 min-w-0">
+            <h3 className="font-black text-slate-900 dark:text-white uppercase tracking-tight text-sm leading-tight">
+              Active Inventory ({totalItems})
+            </h3>
+            <div className="flex flex-row flex-wrap items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest">
+              <span className="inline-flex items-center bg-green-500/10 text-green-600 px-2 py-0.5 rounded-md whitespace-nowrap">{stats.public} Public</span>
+              <span className="inline-flex items-center bg-slate-100 dark:bg-slate-800 text-slate-500 px-2 py-0.5 rounded-md whitespace-nowrap">{stats.hidden} Hidden</span>
+              {shopLimit > 0 && (
+                <span className="inline-flex items-center bg-primary-50 dark:bg-primary-500/10 text-primary-600 dark:text-primary-400 px-2 py-0.5 rounded-md whitespace-nowrap">{totalItems}/{shopLimit} Quota</span>
+              )}
+            </div>
+          </div>
+          <div className="flex items-center gap-1.5 shrink-0">
             {setShowImportModal && showImportButton && (
               <button
                 onClick={() => setShowImportModal(true)}
-                className="flex items-center gap-2 bg-slate-900 hover:bg-slate-800 text-white px-3 py-1.5 rounded-xl text-[9px] font-black uppercase tracking-widest transition-all shadow-lg shadow-slate-900/20 active:scale-95"
+                className="flex items-center gap-1 bg-slate-900 hover:bg-slate-800 text-white px-2.5 py-1.5 rounded-xl text-[9px] font-black uppercase tracking-widest transition-all shadow-lg shadow-slate-900/20 active:scale-95 whitespace-nowrap"
               >
-                <UploadCloud size={14} /> Import
+                <UploadCloud size={12} /> Import
               </button>
             )}
             <button
               onClick={onRefresh}
               disabled={_loading}
-              className={`flex items-center gap-2 bg-white dark:bg-slate-800 text-slate-500 border border-slate-200 dark:border-slate-700 hover:text-primary-500 hover:border-primary-500 px-3 py-1.5 rounded-xl text-[9px] font-black uppercase tracking-widest transition-all shadow-sm ${typeof _loading !== 'undefined' && _loading ? 'animate-pulse' : ''}`}
+              className={`flex items-center gap-1 bg-white dark:bg-slate-800 text-slate-500 border border-slate-200 dark:border-slate-700 hover:text-primary-500 hover:border-primary-500 px-2.5 py-1.5 rounded-xl text-[9px] font-black uppercase tracking-widest transition-all shadow-sm whitespace-nowrap ${typeof _loading !== 'undefined' && _loading ? 'animate-pulse' : ''}`}
             >
-              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={typeof _loading !== 'undefined' && _loading ? 'animate-spin text-primary-500' : ''}><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={typeof _loading !== 'undefined' && _loading ? 'animate-spin text-primary-500' : ''}><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
               Refresh
             </button>
           </div>
-          <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest">
-            <span className="bg-green-500/10 text-green-600 px-2 py-1 rounded-md">{stats.public} Public</span>
-            <span className="bg-slate-100 dark:bg-slate-800 text-slate-500 px-2 py-1 rounded-md">{stats.hidden} Hidden</span>
-            {shopLimit > 0 && (
-              <span className="bg-primary-50 dark:bg-primary-500/10 text-primary-600 dark:text-primary-400 px-2 py-1 rounded-md">{totalItems}/{shopLimit} Quota</span>
-            )}
-          </div>
         </div>
 
-        <div className="flex flex-col gap-2.5 w-full md:w-auto">
-          {/* Row 1: Search */}
-          <div className="relative group w-full">
+        {/* Row 2: Filters */}
+        <div className="flex flex-col gap-2">
+          {/* Search products */}
+          <div className="relative group">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-primary-500 transition-colors" size={16} />
             <input
               type="text"
@@ -408,10 +438,10 @@ const ProductManagement: React.FC<ProductManagementProps> = ({
             />
           </div>
 
-          {/* Row 2: Dropdowns */}
-          <div className="md:flex grid md:grid-cols-2 gap-2 w-full">
+          {/* Status + Promo row */}
+          <div className="grid grid-cols-2 gap-2">
             <select
-              className="flex-1 px-3 py-2.5 bg-slate-50 dark:bg-slate-800 border-none rounded-2xl text-[10px] font-black uppercase tracking-widest focus:ring-2 focus:ring-primary-500 outline-none transition-all text-slate-900 dark:text-white"
+              className="px-3 py-2.5 bg-slate-50 dark:bg-slate-800 border-none rounded-2xl text-[10px] font-black uppercase tracking-widest focus:ring-2 focus:ring-primary-500 outline-none transition-all text-slate-900 dark:text-white"
               value={tableStatusFilter || ''}
               onChange={(e) => setTableStatusFilter && setTableStatusFilter(e.target.value)}
             >
@@ -421,7 +451,7 @@ const ProductManagement: React.FC<ProductManagementProps> = ({
             </select>
 
             <select
-              className="flex-1 px-3 py-2.5 bg-slate-50 dark:bg-slate-800 border-none rounded-2xl text-[10px] font-black uppercase tracking-widest focus:ring-2 focus:ring-primary-500 outline-none transition-all text-slate-900 dark:text-white"
+              className="px-3 py-2.5 bg-slate-50 dark:bg-slate-800 border-none rounded-2xl text-[10px] font-black uppercase tracking-widest focus:ring-2 focus:ring-primary-500 outline-none transition-all text-slate-900 dark:text-white"
               value={tablePromoteFilter || ''}
               onChange={(e) => setTablePromoteFilter && setTablePromoteFilter(e.target.value)}
             >
@@ -429,17 +459,61 @@ const ProductManagement: React.FC<ProductManagementProps> = ({
               <option value="promoted">Boost Active</option>
               <option value="not_promoted">Not Boosting</option>
             </select>
+          </div>
 
-            <select
-              className="flex-1 px-3 py-2.5 col-span-2 bg-slate-50 dark:bg-slate-800 border-none rounded-2xl text-[10px] font-black uppercase tracking-widest focus:ring-2 focus:ring-primary-500 outline-none transition-all text-slate-900 dark:text-white"
-              value={tableCategoryFilter}
-              onChange={(e) => setTableCategoryFilter(e.target.value)}
+          {/* Category searchable dropdown */}
+          <div className="relative" ref={catDropdownRef}>
+            <button
+              type="button"
+              onClick={() => { setCategoryDropdownOpen(v => !v); setCategorySearch(''); }}
+              className="w-full flex items-center justify-between px-3 py-2.5 bg-slate-50 dark:bg-slate-800 rounded-2xl text-[10px] font-black uppercase tracking-widest text-slate-900 dark:text-white transition-all focus:ring-2 focus:ring-primary-500"
             >
-              <option value="">All Categories</option>
-              {categories?.map(cat => (
-                <option key={cat.id} value={cat.id}>{cat.name}</option>
-              ))}
-            </select>
+              <span className="truncate text-left">{selectedCatName}</span>
+              <ChevronDown size={14} className={`ml-2 shrink-0 transition-transform ${categoryDropdownOpen ? 'rotate-180' : ''}`} />
+            </button>
+
+            {categoryDropdownOpen && (
+              <div className="absolute z-50 left-0 right-0 top-full mt-1 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl shadow-2xl overflow-hidden animate-fade-in">
+                {/* Search inside dropdown */}
+                <div className="p-2 border-b border-slate-100 dark:border-slate-700">
+                  <div className="relative">
+                    <Search size={13} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-400" />
+                    <input
+                      autoFocus
+                      type="text"
+                      placeholder="Search category..."
+                      value={categorySearch}
+                      onChange={(e) => setCategorySearch(e.target.value)}
+                      className="w-full pl-8 pr-3 py-1.5 text-xs bg-slate-50 dark:bg-slate-700 rounded-xl outline-none text-slate-900 dark:text-white placeholder:text-slate-400"
+                    />
+                  </div>
+                </div>
+                {/* Options list */}
+                <div className="max-h-52 overflow-y-auto py-1">
+                  <button
+                    type="button"
+                    onClick={() => { setTableCategoryFilter(''); setCategoryDropdownOpen(false); }}
+                    className={`w-full text-left px-4 py-2 text-xs font-bold uppercase tracking-widest transition-colors ${ !tableCategoryFilter ? 'bg-primary-500/10 text-primary-600 dark:text-primary-400' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700'}`}
+                  >
+                    All Categories
+                  </button>
+                  {filteredCategories.length === 0 ? (
+                    <div className="px-4 py-3 text-xs text-slate-400 text-center">No categories found</div>
+                  ) : (
+                    filteredCategories.map(cat => (
+                      <button
+                        key={cat.id}
+                        type="button"
+                        onClick={() => { setTableCategoryFilter(cat.id); setCategoryDropdownOpen(false); }}
+                        className={`w-full text-left px-4 py-2 text-xs font-bold uppercase tracking-widest transition-colors ${ tableCategoryFilter === cat.id ? 'bg-primary-500/10 text-primary-600 dark:text-primary-400' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700'}`}
+                      >
+                        {cat.name}
+                      </button>
+                    ))
+                  )}
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>

@@ -36,9 +36,9 @@ export const ProductTabs = ({
         >
           {t('product_description')}
           {activeTab === 'description' && (
-            <motion.div 
+            <motion.div
               layoutId="activeTab"
-              className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-primary-500 to-purple-600" 
+              className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-primary-500 to-purple-600"
             />
           )}
         </button>
@@ -48,9 +48,9 @@ export const ProductTabs = ({
         >
           {t('reviews')} ({reviews.length})
           {activeTab === 'reviews' && (
-            <motion.div 
+            <motion.div
               layoutId="activeTab"
-              className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-primary-500 to-purple-600" 
+              className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-primary-500 to-purple-600"
             />
           )}
         </button>
@@ -65,8 +65,8 @@ export const ProductTabs = ({
             </div>
 
             <div className={`relative bg-white dark:bg-slate-900/40 backdrop-blur-sm rounded-2xl border border-slate-200 dark:border-slate-800 transition-all duration-700 overflow-hidden ${!isDescriptionExpanded ? 'max-h-[300px]' : 'max-h-[5000px] shadow-xl'}`}>
-              <div className={`p-5 sm:p-12 leading-relaxed text-slate-600 dark:text-slate-300 whitespace-pre-wrap font-medium text-xs sm:text-base ${!isDescriptionExpanded ? 'pb-20' : 'pb-16'}`}>
-                {product.description || "No tactical data available for this asset."}
+              <div className={`p-5 sm:p-12 leading-relaxed text-slate-600 dark:text-slate-300 whitespace-pre-wrap font-medium text-xs sm:text-base [word-break:break-all] ${!isDescriptionExpanded ? 'pb-20' : 'pb-16'}`}>
+                {product.description || "No information available for this product."}
               </div>
 
               {product.description?.length > 500 && (
@@ -116,11 +116,11 @@ export const ProductTabs = ({
                     <div key={star} className="flex items-center gap-4 group">
                       <span className="text-[11px] font-black w-4 text-slate-400 group-hover:text-slate-900 dark:group-hover:text-white transition-colors">{star}</span>
                       <div className="flex-1 h-2 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
-                        <motion.div 
+                        <motion.div
                           initial={{ width: 0 }}
                           animate={{ width: star === 5 ? '95%' : '0%' }}
                           transition={{ duration: 1, ease: "easeOut" }}
-                          className="h-full bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full" 
+                          className="h-full bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full"
                         />
                       </div>
                       <span className="text-[10px] font-black text-slate-400 w-8">{star === 5 ? '95%' : '0%'}</span>
@@ -152,9 +152,9 @@ export const ProductTabs = ({
               {reviews.length > 0 ? (
                 <div className="space-y-8">
                   {reviews.map((review) => (
-                    <motion.div 
+                    <motion.div
                       layout
-                      key={review.id} 
+                      key={review.id}
                       className="p-6 sm:p-8 bg-white dark:bg-slate-900/40 backdrop-blur-sm rounded-2xl border border-slate-200 dark:border-slate-800 space-y-6 shadow-lg hover:shadow-xl transition-shadow"
                     >
                       <div className="flex justify-between items-start">
@@ -183,7 +183,7 @@ export const ProductTabs = ({
                           ))}
                         </div>
                       </div>
-                      
+
                       <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed font-medium italic">"{review.comment}"</p>
 
                       {review.images?.length > 0 && (
@@ -216,7 +216,7 @@ export const ProductTabs = ({
                           })}
                         </div>
                       )}
-                      
+
                     </motion.div>
                   ))}
                 </div>

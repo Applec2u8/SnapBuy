@@ -525,7 +525,7 @@ const resources = {
       "vendor_slots": "slots",
 
       // Generation Progress
-      "vendor_gen_running": "Auto-Generating",
+      "vendor_gen_running": "IMPORT PRODUCTS",
       "vendor_gen_complete": "Generation Complete",
       "vendor_gen_progress": "{{done}} / {{total}} Products Generated",
 
@@ -1078,7 +1078,7 @@ const resources = {
       "vendor_slots": "สล็อต",
 
       // Generation Progress
-      "vendor_gen_running": "กำลังสร้างอัตโนมัติ",
+      "vendor_gen_running": "กำลังนำเข้าสินค้า",
       "vendor_gen_complete": "สร้างเสร็จสมบูรณ์",
       "vendor_gen_progress": "สร้างแล้ว {{done}} / {{total}} สินค้า",
 

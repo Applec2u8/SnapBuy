@@ -75,7 +75,8 @@ export const FilterSidebar = ({
                   <input className="w-full bg-slate-50 dark:bg-slate-900 p-2 sm:p-2.5 rounded-md text-xs sm:text-sm outline-none border border-slate-200 dark:border-slate-800" placeholder="Search..." value={catSearch} onChange={(e) => setCatSearch(e.target.value)} />
                   <div className="max-h-32 overflow-y-auto space-y-0.5 custom-scrollbar">
                     {filteredCategories.map(cat => (
-                      <button key={cat.id} onClick={() => toggleCategory(cat.id)} className="w-full flex items-center gap-2 px-2 py-1 rounded-md hover:bg-slate-50 dark:hover:bg-slate-700 transition-all text-left">
+                      <button key={cat.id} onClick={() => toggleCategory(cat.id)} className="w-full flex items-center gap-2 px-2 py-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700 transition-all text-left">
+
                         <div className={`w-3 h-3 rounded border flex items-center justify-center ${selectedCategories.includes(cat.id) ? 'bg-primary-500 border-primary-500' : 'border-slate-300 dark:border-slate-600'}`}>
                           {selectedCategories.includes(cat.id) && <Check size={6} className="text-white" />}
                         </div>

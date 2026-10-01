@@ -61,17 +61,18 @@ const StatCard = ({ icon, label, value, sub, color = 'primary' }: {
   sub?: string; color?: string;
 }) => {
   const colorMap: Record<string, string> = {
-    primary: 'bg-primary-500/10 text-primary-500',
-    green: 'bg-green-500/10 text-green-500',
-    blue: 'bg-blue-500/10 text-blue-500',
-    yellow: 'bg-yellow-500/10 text-yellow-500',
-    purple: 'bg-purple-500/10 text-purple-500',
-    orange: 'bg-orange-500/10 text-orange-500',
-    red: 'bg-red-500/10 text-red-500',
+    primary: 'bg-primary-50 dark:bg-primary-500/10 text-primary-500',
+    green:   'bg-green-50  dark:bg-green-500/10  text-green-500',
+    blue:    'bg-blue-50   dark:bg-blue-500/10   text-blue-500',
+    yellow:  'bg-yellow-50 dark:bg-yellow-500/10 text-yellow-500',
+    purple:  'bg-purple-50 dark:bg-purple-500/10 text-purple-500',
+    orange:  'bg-orange-50 dark:bg-orange-500/10 text-orange-500',
+    red:     'bg-red-50    dark:bg-red-500/10    text-red-500',
   };
   return (
     <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-4 flex items-center gap-4">
       <div className={`w-11 h-11 rounded-xl flex items-center justify-center shrink-0 ${colorMap[color] || colorMap.primary}`}>
+
         {icon}
       </div>
       <div className="min-w-0 flex-1">

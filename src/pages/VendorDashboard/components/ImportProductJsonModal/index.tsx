@@ -1,8 +1,9 @@
 import React, { useCallback, useEffect, useState } from 'react';
 // portal removed to avoid runtime hook-order issues
-import { X, UploadCloud, AlertTriangle, Search, CheckSquare, Square, Layers, Image, Clock } from 'lucide-react';
+import { X, UploadCloud, AlertTriangle, Search, CheckSquare, Square, Layers, Image, Clock, Zap } from 'lucide-react';
 import { supabase } from '../../../../lib/supabase';
 import { useTranslation } from 'react-i18next';
+import { getImportProvider, type ImportProvider } from '../../../../lib/importProviderService';
 
 interface ApiKeyStatus {
   id: string;
@@ -11,12 +12,16 @@ interface ApiKeyStatus {
   last_used_at: string | null;
 }
 
-function useApiQuotaStatus(show: boolean) {
+function useApiQuotaStatus(show: boolean, activeProvider: ImportProvider) {
   const [keys, setKeys] = useState<ApiKeyStatus[]>([]);
   const [loading, setLoading] = useState(false);
 
   const fetchKeys = useCallback(async () => {
-    if (!show) return;
+    // Poll Unsplash keys when the active provider is Unsplash OR Hybrid
+    if (!show || (activeProvider !== 'unsplash' && activeProvider !== 'hybrid')) {
+      setKeys([]);
+      return;
+    }
     setLoading(true);
     try {
       const { data } = await supabase
@@ -30,7 +35,7 @@ function useApiQuotaStatus(show: boolean) {
     } finally {
       setLoading(false);
     }
-  }, [show]);
+  }, [show, activeProvider]);
 
   useEffect(() => {
     fetchKeys();
@@ -59,10 +64,30 @@ function useApiQuotaStatus(show: boolean) {
   }
 
   // Each product needs 7 images (1 API call of count=7)
-  // const imagesPerProduct = 1; // 1 API call per product
   const maxProductsFromQuota = totalRemaining; // 1 quota = 1 product (count=7 uses 1 call)
 
   return { totalRemaining, totalLimit, cooldownMins, maxProductsFromQuota, loading };
+}
+
+// ─── Hook to load active provider ──────────────────────────────────────────────────────────
+function useActiveProvider(show: boolean): { activeProvider: ImportProvider; providerLoading: boolean } {
+  const [activeProvider, setActiveProvider] = useState<ImportProvider>('unsplash');
+  const [providerLoading, setProviderLoading] = useState(true);
+
+  useEffect(() => {
+    if (!show) return;
+    let cancelled = false;
+    setProviderLoading(true);
+    getImportProvider().then((p) => {
+      if (!cancelled) {
+        setActiveProvider(p);
+        setProviderLoading(false);
+      }
+    });
+    return () => { cancelled = true; };
+  }, [show]);
+
+  return { activeProvider, providerLoading };
 }
 
 interface ImportProductJsonModalProps {
@@ -117,7 +142,10 @@ const ImportProductJsonModal: React.FC<ImportProductJsonModalProps> = ({
     return () => window.removeEventListener('keydown', handleEscape);
   }, [setShow]);
 
-  const { totalRemaining, totalLimit, cooldownMins } = useApiQuotaStatus(show);
+  const { activeProvider, providerLoading } = useActiveProvider(show);
+  const isDummyJsonOnly = activeProvider === 'dummyjson';
+  const isHybrid = activeProvider === 'hybrid';
+  const { totalRemaining, totalLimit, cooldownMins } = useApiQuotaStatus(show, activeProvider);
   const { t } = useTranslation();
 
   const [categorySearch, setCategorySearch] = useState('');
@@ -130,8 +158,9 @@ const ImportProductJsonModal: React.FC<ImportProductJsonModalProps> = ({
   // Derived values (computed before early return so they're available in the clamp effect below)
   const totalToGenerate = selectedCategoryIds.length * generateCount;
   const maxPerCategory = Math.max(1, Math.floor(availableSlots / Math.max(1, selectedCategoryIds.length)));
-  const isQuotaBlocked = totalRemaining === 0 && totalLimit > 0;
-  const exceedsApiQuota = totalToGenerate > totalRemaining && totalLimit > 0;
+  // Quota checks only apply when using pure Unsplash; DummyJSON and Hybrid bypass key limits
+  const isQuotaBlocked = !isDummyJsonOnly && !isHybrid && totalRemaining === 0 && totalLimit > 0;
+  const exceedsApiQuota = !isDummyJsonOnly && !isHybrid && totalToGenerate > totalRemaining && totalLimit > 0;
 
   // ⚠️ This hook MUST stay above the early return to comply with React's Rules of Hooks
   useEffect(() => {
@@ -197,8 +226,35 @@ const ImportProductJsonModal: React.FC<ImportProductJsonModalProps> = ({
           </button>
         </div>
 
-        {/* ── API QUOTA STATUS BANNER ── */}
-        {totalLimit > 0 && (
+        {/* ── PROVIDER BADGE ── */}
+        {providerLoading ? (
+          <div className="px-6 py-2 flex items-center gap-2 border-b border-slate-100 dark:border-slate-800/60">
+            <div className="w-3 h-3 rounded-full bg-slate-200 dark:bg-slate-700 animate-pulse" />
+            <span className="text-[10px] text-slate-400 font-bold uppercase tracking-widest animate-pulse">Loading provider...</span>
+          </div>
+        ) : (
+          <div className={`px-6 py-2 flex items-center gap-2 border-b flex-shrink-0 ${
+            isDummyJsonOnly
+              ? 'bg-emerald-50 dark:bg-emerald-900/20 border-emerald-200 dark:border-emerald-900/40'
+              : isHybrid
+                ? 'bg-violet-50 dark:bg-violet-900/20 border-violet-200 dark:border-violet-900/40'
+                : 'bg-amber-50 dark:bg-amber-900/20 border-amber-200 dark:border-amber-900/40'
+          }`}>
+            {isDummyJsonOnly ? <Zap size={12} className="text-emerald-500" /> : isHybrid ? <Layers size={12} className="text-violet-500" /> : <Image size={12} className="text-amber-500" />}
+            <p className={`text-[10px] font-black uppercase tracking-widest ${
+              isDummyJsonOnly ? 'text-emerald-600 dark:text-emerald-400' : isHybrid ? 'text-violet-600 dark:text-violet-400' : 'text-amber-600 dark:text-amber-400'
+            }`}>
+              {isDummyJsonOnly
+                ? 'DummyJSON — No API keys · No rate limits · Real product data'
+                : isHybrid
+                  ? 'Hybrid — DummyJSON data + Unsplash images · Best of both'
+                  : 'Unsplash — Requires API keys · 50 req/hr limit'}
+            </p>
+          </div>
+        )}
+
+        {/* ── API QUOTA STATUS BANNER (Unsplash only) ── */}
+        {!isDummyJsonOnly && !isHybrid && totalLimit > 0 && (
           <div className={`px-6 py-3 flex items-center gap-3 border-b flex-shrink-0 ${isQuotaBlocked
             ? 'bg-amber-50 dark:bg-amber-900/20 border-amber-200 dark:border-amber-900/40'
             : exceedsApiQuota

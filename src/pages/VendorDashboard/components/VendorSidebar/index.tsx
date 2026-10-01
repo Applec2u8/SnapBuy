@@ -205,7 +205,7 @@ const VendorSidebar = ({
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 0.1 }}
               onClick={() => setShowShopSwitcher(!showShopSwitcher)}
-              className="bg-primary-500/5 dark:bg-primary-500/10 rounded-2xl p-4 border border-primary-500/10 cursor-pointer hover:bg-primary-500/10 transition-colors group"
+              className="bg-primary-50 dark:bg-primary-500/10 rounded-2xl p-4 border border-primary-200 dark:border-primary-500/20 cursor-pointer hover:bg-primary-100 dark:hover:bg-primary-500/20 transition-colors group"
             >
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 bg-primary-500 text-white rounded-xl flex items-center justify-center shadow-md overflow-hidden flex-shrink-0">
@@ -236,7 +236,7 @@ const VendorSidebar = ({
                           setShop(s);
                           setShowShopSwitcher(false);
                         }}
-                        className={`w-full flex items-center gap-3 px-4 py-3 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors text-left ${shop?.id === s.id ? 'bg-primary-500/5' : ''}`}
+                        className={`w-full flex items-center gap-3 px-4 py-3 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors text-left ${shop?.id === s.id ? 'bg-primary-50 dark:bg-primary-500/10' : ''}`}
                       >
                         <div className="w-8 h-8 bg-slate-100 dark:bg-slate-700 rounded-lg flex-shrink-0 overflow-hidden flex items-center justify-center">
                           {s.logo_url ? <img src={s.logo_url} className="w-full h-full object-cover" /> : <Store size={14} className="text-slate-400" />}
@@ -248,7 +248,7 @@ const VendorSidebar = ({
                   <div className="border-t border-slate-200 dark:border-slate-700 p-2">
                      <button 
                       onClick={() => navigate('/become-seller')}
-                      className="w-full flex items-center justify-center gap-2 py-2 text-[10px] font-black uppercase tracking-widest text-primary-500 hover:bg-primary-500/5 rounded-xl transition-colors"
+                      className="w-full flex items-center justify-center gap-2 py-2 text-[10px] font-black uppercase tracking-widest text-primary-500 hover:bg-primary-50 dark:hover:bg-primary-500/10 rounded-xl transition-colors"
                      >
                        <Plus size={14} /> {t('add_shop', 'Add New Shop')}
                      </button>

@@ -28,7 +28,7 @@ export const ProductInfo = ({
   useTranslation();
 
   return (
-    <div className="space-y-5 lg:sticky lg:top-24">
+    <div className="space-y-5 lg:sticky lg:top-24 min-w-0">
       <div className="space-y-4">
         <div className="space-y-2">
           <div className="flex flex-wrap items-center gap-2">
@@ -41,7 +41,7 @@ export const ProductInfo = ({
               Instant Delivery
             </span>
           </div>
-          <h1 className="text-xl sm:text-3xl lg:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tight leading-tight drop-shadow-sm">{product.name}</h1>
+          <h1 className="text-xl sm:text-3xl lg:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tight leading-tight drop-shadow-sm [word-break:break-all]">{product.name}</h1>
         </div>
 
         <div className="flex flex-wrap items-center gap-3 sm:gap-4">
@@ -62,8 +62,8 @@ export const ProductInfo = ({
         </div>
       </div>
 
-      <div className="relative group">
-        <div className="absolute -inset-1 bg-gradient-to-r from-primary-500 to-purple-600 rounded-2xl blur opacity-10 group-hover:opacity-20 transition duration-1000 group-hover:duration-200"></div>
+      <div className="relative group overflow-hidden rounded-2xl">
+        <div className="absolute inset-0 bg-gradient-to-r from-primary-500 to-purple-600 rounded-2xl blur-sm opacity-10 group-hover:opacity-20 transition duration-1000 group-hover:duration-200"></div>
         <div className="relative p-5 sm:p-6 bg-white dark:bg-slate-900/40 backdrop-blur-2xl rounded-2xl border border-slate-200 dark:border-slate-800/50 shadow-xl transition-all">
           {selectedVariant ? (
             <div className="space-y-2">
@@ -192,7 +192,7 @@ export const ProductInfo = ({
             <Store size={18} />
           </div>
           <div>
-            <h4 className="font-black text-slate-900 dark:text-white text-sm sm:text-base tracking-tight uppercase">{product.shops?.name}</h4>
+            <h4 className="font-black text-slate-900 dark:text-white text-sm sm:text-base tracking-tight uppercase truncate">{product.shops?.name}</h4>
             <p className="text-[10px] sm:text-xs font-black text-primary-500 uppercase tracking-[0.2em] mt-0.5 flex items-center gap-1">
               Verified Partner
             </p>

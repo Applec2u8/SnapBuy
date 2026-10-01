@@ -35,6 +35,15 @@ export const useProductDetail = () => {
 
   useEffect(() => {
     if (id) {
+      // Force scroll to top instantly when navigating to a new product
+      window.scrollTo({ top: 0, behavior: 'instant' });
+      
+      // Clear previous product state to prevent stale rendering and trigger skeleton
+      setLoading(true);
+      setProduct(null);
+      setActiveImage('');
+      setSelectedVariant(null);
+      
       fetchProduct();
       fetchReviews();
     }

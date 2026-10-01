@@ -425,9 +425,9 @@ const ProductManagement: React.FC<ProductManagementProps> = ({
         </div>
 
         {/* Row 2: Filters */}
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col md:flex-row md:items-center gap-2 w-full">
           {/* Search products */}
-          <div className="relative group">
+          <div className="relative group md:flex-1 md:max-w-xs">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-primary-500 transition-colors" size={16} />
             <input
               type="text"
@@ -438,8 +438,10 @@ const ProductManagement: React.FC<ProductManagementProps> = ({
             />
           </div>
 
-          {/* Status + Promo row */}
-          <div className="grid grid-cols-2 gap-2">
+          {/* Filter Controls Group */}
+          <div className="flex flex-col sm:flex-row md:ml-auto gap-2">
+            {/* Status + Promo row */}
+            <div className="grid grid-cols-2 sm:flex sm:items-center gap-2">
             <select
               className="px-3 py-2.5 bg-slate-50 dark:bg-slate-800 border-none rounded-2xl text-[10px] font-black uppercase tracking-widest focus:ring-2 focus:ring-primary-500 outline-none transition-all text-slate-900 dark:text-white"
               value={tableStatusFilter || ''}
@@ -461,8 +463,8 @@ const ProductManagement: React.FC<ProductManagementProps> = ({
             </select>
           </div>
 
-          {/* Category searchable dropdown */}
-          <div className="relative" ref={catDropdownRef}>
+            {/* Category searchable dropdown */}
+            <div className="relative sm:w-48" ref={catDropdownRef}>
             <button
               type="button"
               onClick={() => { setCategoryDropdownOpen(v => !v); setCategorySearch(''); }}
@@ -516,6 +518,7 @@ const ProductManagement: React.FC<ProductManagementProps> = ({
             )}
           </div>
         </div>
+      </div>
       </div>
 
       <div className="overflow-x-auto overflow-y-visible">

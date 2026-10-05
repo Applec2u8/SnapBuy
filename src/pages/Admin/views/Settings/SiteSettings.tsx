@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { supabase } from '../../../../lib/supabase';
-import { Settings2, Save, Loader2, CheckCircle2, RefreshCcw, Key, Plus, Trash2, Power, Search, Mail, Database, Image, Zap, Layers } from 'lucide-react';
+import { Settings2, Save, Loader2, CheckCircle2, RefreshCcw, Key, Plus, Trash2, Power, Search, Mail, Database, Image, Zap, Layers, ShieldCheck } from 'lucide-react';
 import { logAdminAction } from '../../../../lib/auditLog';
 import { motion, AnimatePresence } from 'framer-motion';
 import { toast } from 'sonner';
@@ -482,6 +482,128 @@ const ProviderSwitcherCard: React.FC = () => {
 };
 
 
+// ─── Force Select All Guarantee Payments Toggle Card ─────────────────────────
+const ForceSelectAllGuaranteeCard: React.FC = () => {
+  const [enabled, setEnabled] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const { requirePin, pinModal } = useAdminPin();
+
+  const SETTING_KEY = 'force_select_all_guarantee';
+
+  const fetchSetting = useCallback(async () => {
+    setLoading(true);
+    try {
+      const { data } = await supabase
+        .from('site_settings')
+        .select('value')
+        .eq('key', SETTING_KEY)
+        .maybeSingle();
+      setEnabled(data?.value === 'true');
+    } catch (err: any) {
+      console.warn('Failed to load force_select_all_guarantee:', err.message);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => { fetchSetting(); }, [fetchSetting]);
+
+  const handleToggle = async (next: boolean) => {
+    setSaving(true);
+    try {
+      const { error } = await supabase
+        .from('site_settings')
+        .upsert(
+          { key: SETTING_KEY, value: String(next), description: 'Force all pending guarantee items to be pre-selected; hides the Select All toggle for vendors.', updated_at: new Date().toISOString() },
+          { onConflict: 'key' }
+        );
+      if (error) throw error;
+      setEnabled(next);
+      toast.success(`Force Select All Guarantee Payments: ${next ? 'ENABLED' : 'DISABLED'}`);
+      await logAdminAction('update_site_settings', 'settings', undefined, `force_select_all_guarantee set to: ${next}`);
+    } catch (err: any) {
+      toast.error('Failed to update setting: ' + err.message);
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  return (
+    <>
+      <AnimatePresence>{pinModal}</AnimatePresence>
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden"
+      >
+        {/* Header */}
+        <div className="px-5 py-4 border-b border-slate-100 dark:border-slate-800 flex items-center gap-3">
+          <div className="w-8 h-8 rounded-xl bg-emerald-50 dark:bg-emerald-500/10 flex items-center justify-center flex-shrink-0">
+            <ShieldCheck size={15} className="text-emerald-500" />
+          </div>
+          <div className="flex-1">
+            <p className="font-black text-xs text-slate-900 dark:text-white uppercase tracking-tight">
+              Guarantee Payments · Force Select All
+            </p>
+            <p className="text-[10px] text-slate-400 mt-0.5">
+              When ON — all pending guarantee items are auto-selected and the "Select All" checkbox is hidden from vendors
+            </p>
+          </div>
+          {loading && <Loader2 size={14} className="animate-spin text-slate-400 ml-auto" />}
+        </div>
+
+        {/* Toggle row */}
+        <div className="px-5 py-5 flex items-center justify-between gap-4">
+          <div>
+            <p className="text-sm font-black text-slate-800 dark:text-white uppercase tracking-tight">
+              Force Select All Guarantee Payments
+            </p>
+            <p className="text-xs text-slate-400 mt-1 max-w-md leading-relaxed">
+              Vendors will see all pending items pre-checked and cannot uncheck them individually. The "Select All" toggle will be completely hidden.
+            </p>
+          </div>
+
+          {/* Toggle switch */}
+          <button
+            id="toggle-force-select-all-guarantee"
+            disabled={loading || saving}
+            onClick={() => requirePin(() => handleToggle(!enabled))}
+            className={`relative inline-flex items-center flex-shrink-0 h-7 w-14 rounded-full border-2 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 disabled:opacity-60 disabled:cursor-not-allowed ${
+              enabled
+                ? 'bg-emerald-500 border-emerald-500'
+                : 'bg-slate-200 dark:bg-slate-700 border-slate-300 dark:border-slate-600'
+            }`}
+            role="switch"
+            aria-checked={enabled}
+            title={enabled ? 'Click to disable' : 'Click to enable'}
+          >
+            <span
+              className={`inline-block h-5 w-5 rounded-full bg-white shadow-md transform transition-transform duration-300 ${
+                enabled ? 'translate-x-7' : 'translate-x-0.5'
+              }`}
+            />
+            {saving && (
+              <span className="absolute inset-0 flex items-center justify-center">
+                <Loader2 size={12} className="animate-spin text-white" />
+              </span>
+            )}
+          </button>
+        </div>
+
+        {/* Status bar */}
+        <div className={`px-5 py-3 border-t border-slate-100 dark:border-slate-800 flex items-center gap-2 transition-colors ${enabled ? 'bg-emerald-50 dark:bg-emerald-500/10' : 'bg-slate-50 dark:bg-slate-800/50'}`}>
+          <span className={`w-2 h-2 rounded-full flex-shrink-0 ${enabled ? 'bg-emerald-500' : 'bg-slate-400'}`} />
+          <p className={`text-[10px] font-bold uppercase tracking-widest ${enabled ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-500'}`}>
+            {loading ? 'Loading...' : enabled ? 'ACTIVE — Vendors cannot deselect guarantee items' : 'INACTIVE — Vendors have full manual control'}
+          </p>
+        </div>
+      </motion.div>
+    </>
+  );
+};
+
+
 const ApiKeysManager: React.FC = () => {
   const { t } = useTranslation();
   const [keys, setKeys] = useState<ApiKey[]>([]);
@@ -905,9 +1027,12 @@ export const SiteSettings: React.FC = () => {
             );
           })()}
 
+          {/* === Force Select All Guarantee Payments Toggle === */}
+          <ForceSelectAllGuaranteeCard />
+
           {/* === Other Settings (large cards) === */}
           {settings
-            .filter(s => !['token_exchange_rate_usd_per_token', 'gen_price_cheap_min', 'gen_price_cheap_max', 'gen_price_expensive_min', 'gen_price_expensive_max', 'gen_cheap_ratio'].includes(s.key))
+            .filter(s => !['token_exchange_rate_usd_per_token', 'gen_price_cheap_min', 'gen_price_cheap_max', 'gen_price_expensive_min', 'gen_price_expensive_max', 'gen_cheap_ratio', 'force_select_all_guarantee'].includes(s.key))
             .map((setting, i) => {
               const meta = settingsMeta[setting.key];
               const isDirty = localValues[setting.key] !== setting.value;

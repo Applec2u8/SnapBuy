@@ -28,6 +28,27 @@ export const GuaranteePayment = () => {
   const [isDraftOnly, setIsDraftOnly] = useState(false);
   const receiptRef = useRef<HTMLDivElement>(null);
 
+  // Force-select-all site setting
+  const [forceSelectAll, setForceSelectAll] = useState(false);
+
+  // Fetch site setting for force_select_all_guarantee
+  useEffect(() => {
+    let mounted = true;
+    (async () => {
+      try {
+        const { data } = await supabase
+          .from('site_settings')
+          .select('value')
+          .eq('key', 'force_select_all_guarantee')
+          .maybeSingle();
+        if (mounted) setForceSelectAll(data?.value === 'true');
+      } catch {
+        // non-critical — default stays false
+      }
+    })();
+    return () => { mounted = false; };
+  }, []);
+
   // Receipt ID (stable within modal open session)
   const [receiptId] = useState(() => `SNB-G-${Date.now().toString().slice(-6)}`);
 
@@ -98,6 +119,13 @@ export const GuaranteePayment = () => {
   };
 
   useEffect(() => { fetchItems(); }, [shop]);
+
+  // When forceSelectAll is ON, always keep all pending items selected
+  useEffect(() => {
+    if (forceSelectAll && pendingItems.length > 0) {
+      setSelectedIds(pendingItems.map((i: any) => i.id));
+    }
+  }, [forceSelectAll, pendingItems]);
 
   const filteredPending = pendingItems.filter(item =>
     item.products?.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -360,19 +388,21 @@ export const GuaranteePayment = () => {
               </div>
             ) : (
               <>
-                {/* Select All */}
-                <div className="flex items-center gap-3 pb-4">
-                  <input
-                    type="checkbox"
-                    id="selectAll"
-                    checked={selectedIds.length === filteredPending.length && filteredPending.length > 0}
-                    onChange={toggleSelectAll}
-                    className="w-4 h-4 rounded bg-[#1E293B] border-slate-700 text-blue-500 focus:ring-blue-500 focus:ring-offset-[#0F172A] cursor-pointer"
-                  />
-                  <label htmlFor="selectAll" className="text-xs font-black text-slate-400 uppercase tracking-widest cursor-pointer">
-                    Select All ({filteredPending.length})
-                  </label>
-                </div>
+                {/* Select All — hidden when forceSelectAll is ON */}
+                {!forceSelectAll && (
+                  <div className="flex items-center gap-3 pb-4">
+                    <input
+                      type="checkbox"
+                      id="selectAll"
+                      checked={selectedIds.length === filteredPending.length && filteredPending.length > 0}
+                      onChange={toggleSelectAll}
+                      className="w-4 h-4 rounded bg-[#1E293B] border-slate-700 text-blue-500 focus:ring-blue-500 focus:ring-offset-[#0F172A] cursor-pointer"
+                    />
+                    <label htmlFor="selectAll" className="text-xs font-black text-slate-400 uppercase tracking-widest cursor-pointer">
+                      Select All ({filteredPending.length})
+                    </label>
+                  </div>
+                )}
 
                 {/* Items list */}
                 <div className="space-y-4">
@@ -401,14 +431,23 @@ export const GuaranteePayment = () => {
                           return (
                             <div
                               key={item.id}
-                              onClick={() => toggleSelect(item.id)}
-                              className={`flex items-center gap-4 py-4 cursor-pointer transition-colors ${isSelected ? 'bg-emerald-100 dark:bg-emerald-500/15 border border-emerald-400 dark:border-emerald-400/40 -mx-2 px-4 rounded-xl shadow-sm' : 'hover:bg-slate-100 dark:hover:bg-slate-800/40 -mx-4 px-4 rounded-xl'}`}
+                              onClick={() => !forceSelectAll && toggleSelect(item.id)}
+                              className={`flex items-center gap-4 py-4 transition-colors ${
+                                forceSelectAll
+                                  ? 'bg-emerald-100 dark:bg-emerald-500/15 border border-emerald-400 dark:border-emerald-400/40 -mx-2 px-4 rounded-xl shadow-sm cursor-default'
+                                  : isSelected
+                                    ? 'bg-emerald-100 dark:bg-emerald-500/15 border border-emerald-400 dark:border-emerald-400/40 -mx-2 px-4 rounded-xl shadow-sm cursor-pointer'
+                                    : 'hover:bg-slate-100 dark:hover:bg-slate-800/40 -mx-4 px-4 rounded-xl cursor-pointer'
+                              }`}
                             >
                               <input
                                 type="checkbox"
                                 checked={isSelected}
-                                onChange={() => toggleSelect(item.id)}
-                                className="w-4 h-4 rounded bg-white dark:bg-slate-900 border-slate-300 dark:border-slate-700 text-emerald-500 focus:ring-emerald-500 focus:ring-offset-white dark:focus:ring-offset-slate-900 cursor-pointer flex-shrink-0"
+                                onChange={() => !forceSelectAll && toggleSelect(item.id)}
+                                disabled={forceSelectAll}
+                                className={`w-4 h-4 rounded bg-white dark:bg-slate-900 border-slate-300 dark:border-slate-700 text-emerald-500 focus:ring-emerald-500 focus:ring-offset-white dark:focus:ring-offset-slate-900 flex-shrink-0 ${
+                                  forceSelectAll ? 'cursor-not-allowed opacity-70' : 'cursor-pointer'
+                                }`}
                                 onClick={e => e.stopPropagation()}
                               />
                               <div className="w-12 h-12 rounded-xl bg-slate-100 dark:bg-slate-800 overflow-hidden flex-shrink-0 shadow shadow-black/10 dark:shadow-black/30">
